@@ -1,0 +1,245 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PageHero from '../components/PageHero.astro';
+import { company, whatsappHref } from '../data/site';
+
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: company.name,
+  telephone: company.phone,
+  email: company.email,
+  address: { '@type': 'PostalAddress', streetAddress: 'Al-Hamd Garden', addressLocality: 'Lahore', addressCountry: 'PK' },
+};
+---
+
+<Base
+  title="Contact and Book a Demo"
+  description="Book a demo of BizCare software, or reach us on WhatsApp or by phone at +92 301 1155505, or by email at info@bizcare.pk."
+  schema={schema}>
+  <PageHero
+    label="Contact"
+    title="Book a Demo"
+    line="Tell us a little about your business. We will get back to you on WhatsApp or by phone."
+  />
+
+  <section class="section top">
+    <div class="wrap layout">
+      <form class="form card" novalidate data-form>
+        <div class="fields">
+          <div class="field">
+            <label for="f-name">Your Name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="e-name" />
+            <p class="error" id="e-name" hidden>Please enter your name.</p>
+          </div>
+          <div class="field">
+            <label for="f-phone">Phone or WhatsApp</label>
+            <input
+              id="f-phone"
+              name="phone"
+              type="tel"
+              inputmode="tel"
+              autocomplete="tel"
+              placeholder="0300 1234567"
+              required
+              aria-describedby="e-phone"
+            />
+            <p class="error" id="e-phone" hidden>Please enter a phone number we can reach.</p>
+          </div>
+          <div class="field">
+            <label for="f-business">Business Name <span class="opt">Optional</span></label>
+            <input id="f-business" name="business" type="text" autocomplete="organization" />
+          </div>
+          <div class="field">
+            <label for="f-city">City <span class="opt">Optional</span></label>
+            <input id="f-city" name="city" type="text" autocomplete="address-level2" />
+          </div>
+          <div class="field wide">
+            <label for="f-product">What Are You Interested In?</label>
+            <div class="select">
+              <select id="f-product" name="product">
+                <option value="">Not sure yet</option>
+                <optgroup label="Business Software">
+                  {products.map((p) => <option value={p.id}>{`${p.data.name}, for ${p.data.industry}`}</option>)}
+                </optgroup>
+                <optgroup label="Apps">
+                  {apps.map((a) => <option value={a.id}>{a.data.name}</option>)}
+                  <option value="custom-app">An app for my customers</option>
+                </optgroup>
+                <optgroup label="Services">
+                  {services.map((s) => <option value={s.id}>{s.data.name}</option>)}
+                </optgroup>
+              </select>
+              <Icon name="caret-down" size={16} class="caret" />
+            </div>
+          </div>
+          <div class="field wide">
+            <label for="f-message">Message <span class="opt">Optional</span></label>
+            <textarea id="f-message" name="message" rows="4" placeholder="How your business works today, how many branches or users, anything you would like to see."></textarea>
+          </div>
+        </div>
+
+        <div class="send">
+          <p class="small muted">Choose how to send. Your message opens ready to go, and you press send.</p>
+          <div class="btn-row">
+            <button class="btn btn-primary" type="submit" value="whatsapp" data-send>
+              <Icon name="whatsapp-logo" /> Send on WhatsApp
+            </button>
+            <button class="btn btn-quiet" type="submit" value="email" data-send>
+              <Icon name="envelope-simple" /> Send by Email
+            </button>
+          </div>
+          <p class="done small" role="status" hidden data-done></p>
+        </div>
+      </form>
+
+      <aside class="ways" aria-label="Other ways to reach us">
+        <a class="way card" href={whatsappHref('Hello BizCare.')} target="_blank" rel="noopener">
+          <span class="tile wa-tile"><Icon name="whatsapp-logo" size={22} /></span>
+          <span><span class="wt">WhatsApp</span><span class="wv num">{company.phone}</span></span>
+        </a>
+        <a class="way card" href={company.phoneHref}>
+          <span class="tile"><Icon name="phone" size={22} /></span>
+          <span><span class="wt">Call</span><span class="wv num">{company.phone}</span></span>
+        </a>
+        <a class="way card" href={`mailto:${company.email}`}>
+          <span class="tile"><Icon name="envelope-simple" size={22} /></span>
+          <span><span class="wt">Email</span><span class="wv">{company.email}</span></span>
+        </a>
+        <a class="way card" href={company.mapsHref} target="_blank" rel="noopener">
+          <span class="tile"><Icon name="map-pin" size={22} /></span>
+          <span><span class="wt">Office</span><span class="wv">{company.address}</span></span>
+        </a>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .top { padding-top: 0; }
+  .layout { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: 32px; align-items: start; }
+
+  .form { padding: 32px; display: grid; gap: 28px; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .field { display: grid; gap: 8px; align-content: start; }
+  .wide { grid-column: 1 / -1; }
+  label { font-size: 0.9375rem; font-weight: 700; }
+  .opt { margin-left: 6px; font-weight: 600; color: var(--ink-3); font-size: 0.8125rem; }
+  input, select, textarea {
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 14px;
+    border: 1px solid var(--line-strong);
+    border-radius: 12px;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 1rem;
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+  textarea { resize: vertical; min-height: 120px; line-height: 1.5; }
+  input::placeholder, textarea::placeholder { color: var(--ink-3); }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+  [aria-invalid='true'] { border-color: var(--danger); }
+  .error { font-size: 0.875rem; font-weight: 650; color: var(--danger); }
+  .select { position: relative; }
+  select { appearance: none; padding-right: 40px; cursor: pointer; }
+  .select :global(.caret) { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--ink-3); }
+
+  .send { display: grid; gap: 14px; padding-top: 24px; border-top: 1px solid var(--line); }
+  .done {
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: var(--accent-tint);
+    color: var(--accent-ink);
+    font-weight: 650;
+  }
+
+  .ways { display: grid; gap: 12px; }
+  .way { display: flex; align-items: center; gap: 14px; padding: 18px; transition: border-color 0.2s var(--ease); }
+  .way:hover { border-color: var(--line-strong); }
+  .wt { display: block; font-size: 0.8125rem; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; }
+  .wv { display: block; font-weight: 700; line-height: 1.35; }
+  .wa-tile { background: color-mix(in srgb, var(--whatsapp) 14%, transparent); color: var(--whatsapp); }
+
+  @media (max-width: 960px) {
+    .layout { grid-template-columns: minmax(0, 1fr); }
+    .ways { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .form { padding: 22px 18px; }
+    .fields { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .ways { grid-template-columns: minmax(0, 1fr); }
+    .send .btn-row { flex-direction: column; }
+    .send .btn { width: 100%; }
+  }
+</style>
+
+<script>
+  import { company } from '../data/site';
+
+  const form = document.querySelector<HTMLFormElement>('[data-form]')!;
+  const done = form.querySelector<HTMLElement>('[data-done]')!;
+  const product = form.elements.namedItem('product') as HTMLSelectElement;
+
+  // Coming from a product page: that product is already chosen.
+  const wanted = new URLSearchParams(location.search).get('product');
+  if (wanted && [...product.options].some((o) => o.value === wanted)) product.value = wanted;
+
+  const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement;
+  const value = (name: string) => field(name).value.trim();
+
+  const check = (name: string, ok: boolean) => {
+    const input = field(name);
+    input.setAttribute('aria-invalid', String(!ok));
+    document.getElementById(`e-${name}`)!.hidden = ok;
+    return ok;
+  };
+  const validPhone = (s: string) => /^\+?[\d\s-]{10,16}$/.test(s) && s.replace(/\D/g, '').length >= 10;
+
+  ['name', 'phone'].forEach((name) =>
+    field(name).addEventListener('input', () => {
+      if (field(name).getAttribute('aria-invalid') === 'true') {
+        check(name, name === 'phone' ? validPhone(value(name)) : value(name).length > 0);
+      }
+    }),
+  );
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const okName = check('name', value('name').length > 0);
+    const okPhone = check('phone', validPhone(value('phone')));
+    if (!okName || !okPhone) {
+      field(okName ? 'phone' : 'name').focus();
+      return;
+    }
+
+    const interest = product.value ? product.selectedOptions[0].text : 'Not sure yet';
+    const lines = ['Hello BizCare, I would like a demo.', '', `Name: ${value('name')}`, `Phone: ${value('phone')}`];
+    if (value('business')) lines.push(`Business: ${value('business')}`);
+    if (value('city')) lines.push(`City: ${value('city')}`);
+    lines.push(`Interested in: ${interest}`);
+    if (value('message')) lines.push('', value('message'));
+    const text = lines.join('\n');
+
+    const via = (e.submitter as HTMLButtonElement | null)?.value ?? 'whatsapp';
+    if (via === 'email') {
+      const subject = `Demo request: ${interest}`;
+      location.href = `mailto:${company.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+      done.textContent = 'Your email app should open with the message written. Press send there.';
+    } else {
+      window.open(`https://wa.me/${company.whatsapp}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+      done.textContent = 'WhatsApp should open with your message written. Press send there.';
+    }
+    done.hidden = false;
+  });
+</script>

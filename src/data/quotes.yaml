@@ -1,0 +1,43 @@
+# The names, roles and businesses are the ones on the current bizcare.pk.
+# The words are drafted by us (28 Oct 2026). Replace each `text` with the
+# client's own words and set `sample: false`. The live build refuses samples.
+- id: rana-shahid
+  name: Rana Shahid
+  role: CEO and Founder
+  business: Akhtar Flour Mills
+  town: Gujranwala
+  product: bizcare-erp
+  text: Every evening I see the day's sales, stock and cash on one screen. I no longer wait for the registers.
+  sample: true
+- id: usman-bhatti
+  name: Usman Bhatti
+  role: CEO and Founder
+  business: Al-Hassan Flour Mills
+  town: Kasur
+  product: bizcare-erp
+  text: Our customers get their bill on WhatsApp the moment it is made. Payments come in faster, and nobody argues over balances.
+  sample: true
+- id: mukhtar-hussain
+  name: Mukhtar Hussain
+  role: Manager
+  business: Mukhtar Flour Mills
+  town: Islamabad
+  product: bizcare-erp
+  text: Wheat in, flour out, and every bag and part in between. It is all in one place, and the support team picks up when we call.
+  sample: true
+- id: malik-haseeb
+  name: Malik Haseeb
+  role: CEO and Founder
+  business: Malik Flour Mills
+  town: Haripur
+  product: bizcare-erp
+  text: The BizCare team set it up the way our mill works and trained our staff. We have run on it ever since.
+  sample: true
+- id: umair-zaman
+  name: Umair Zaman
+  role: Accountant
+  business: Hoti Flour Mills
+  town: Mardan
+  product: bizcare-erp
+  text: Ledgers, vouchers and closing used to take days. Now the accounts are ready whenever the owner asks.
+  sample: true

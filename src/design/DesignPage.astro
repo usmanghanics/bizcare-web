@@ -1,0 +1,129 @@
+---
+/**
+ * The design system on one page, for review on a phone and a laptop.
+ * Preview builds only: the live build leaves it out (astro.config.mjs).
+ */
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import Frame from '../components/Frame.astro';
+import Icon from '../components/Icon.astro';
+import Logo from '../components/Logo.astro';
+import NumberStrip from '../components/NumberStrip.astro';
+import QuoteCard from '../components/QuoteCard.astro';
+import Sample from '../components/Sample.astro';
+import SectionHead from '../components/SectionHead.astro';
+import WhatsAppMessage from '../components/WhatsAppMessage.astro';
+
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
+const quote = (await getCollection('quotes'))[0];
+const colours = [
+  ['--page', 'Page'],
+  ['--band', 'Band'],
+  ['--surface', 'Surface'],
+  ['--ink', 'Text'],
+  ['--ink-2', 'Secondary Text'],
+  ['--ink-3', 'Tertiary Text'],
+  ['--line', 'Hairline'],
+  ['--accent', 'Accent'],
+  ['--accent-ink', 'Accent Text'],
+  ['--accent-tint', 'Accent Tint'],
+  ['--whatsapp', 'WhatsApp'],
+];
+const tints = [...products.map((p) => [p.data.tint, p.data.name]), ...apps.map((a) => [a.data.tint, a.data.name])];
+---
+
+<Base title="Design System" description="The BizCare website's colours, type and components." noindex>
+  <section class="section">
+    <div class="wrap stack">
+      <SectionHead level={1} label="Preview Only" title="Design System" line="Every colour, type size and component the site uses, in the current theme. Switch the theme in the top bar to check both." />
+
+      <h2 class="h3">Logo</h2>
+      <div class="row card pad">
+        <Logo height={40} />
+        <Logo variant="mark" height={56} />
+        <Logo height={24} />
+      </div>
+
+      <h2 class="h3">Colours</h2>
+      <ul class="swatches">
+        {
+          colours.map(([v, name]) => (
+            <li class="card">
+              <span class="chip" style={`background: var(${v})`} />
+              <span class="small"><b>{name}</b><br /><code>{v}</code></span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2 class="h3">Product and App Tints</h2>
+      <ul class="tints">
+        {
+          tints.map(([t, name]) => (
+            <li class:list={['card', `tint-${t}`]}>
+              <span class="tile"><Icon name="check" /></span>
+              <span class="small"><b>{name}</b><br /><code>{t}</code></span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2 class="h3">Type</h2>
+      <div class="card pad stack-sm">
+        <span class="label">Label</span>
+        <p class="display">Display Headline</p>
+        <p class="h2">Section Headline</p>
+        <p class="h3">Card Title</p>
+        <p class="lede">A lede line under a headline, in secondary text.</p>
+        <p>Body text at 17 pixels with a line height of 1.6, for paragraphs and lists.</p>
+        <p class="small muted">Small text for captions and supporting details.</p>
+      </div>
+
+      <h2 class="h3">Buttons and Tags</h2>
+      <div class="row card pad">
+        <a class="btn btn-primary" href="#">Book a Demo</a>
+        <a class="btn btn-quiet" href="#">See Products</a>
+        <a class="btn btn-quiet" href="#"><Icon name="whatsapp-logo" class="wa" /> WhatsApp</a>
+        <a class="btn btn-primary btn-sm" href="#">Small</a>
+        <span class="pill">Pill</span>
+        <Sample />
+        <a class="link" href="#">Text Link <Icon name="arrow-right" size={16} /></a>
+      </div>
+
+      <h2 class="h3">Frames</h2>
+      <div class="frames">
+        <Frame kind="window" src={products[0].data.screen.src} alt={products[0].data.screen.alt} title={products[0].data.screen.title} />
+        <Frame kind="browser" src={products[3].data.screen.src} alt={products[3].data.screen.alt} title={products[3].data.screen.title} />
+        <Frame kind="phone" src={apps[0].data.screens[0].src} alt={apps[0].data.screens[0].alt} sizes="220px" class="phone" />
+      </div>
+
+      <h2 class="h3">Message Example</h2>
+      <WhatsAppMessage />
+
+      <h2 class="h3">Quote</h2>
+      <div class="grid grid-3"><QuoteCard quote={quote} /></div>
+
+      <h2 class="h3">Questions</h2>
+      <Faq items={[{ q: 'A question?', a: 'Its answer, in one or two plain sentences.' }, { q: 'Another question?', a: 'Another answer.' }]} />
+    </div>
+  </section>
+  <NumberStrip />
+  <div class="section"></div>
+</Base>
+
+<style>
+  .stack { display: grid; gap: 20px; }
+  .stack > :global(.h3) { margin-top: 28px; }
+  .stack-sm { display: grid; gap: 12px; }
+  .pad { padding: 24px; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+  .row :global(.wa) { color: var(--whatsapp); }
+  .swatches, .tints { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+  .swatches li, .tints li { display: flex; align-items: center; gap: 12px; padding: 12px; }
+  .chip { width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--line); flex: none; }
+  code { font-size: 0.8125rem; color: var(--ink-3); }
+  .frames { display: grid; grid-template-columns: 1fr 1fr 220px; gap: 20px; align-items: start; }
+  @media (max-width: 960px) { .frames { grid-template-columns: 1fr; } .frames :global(.phone) { width: 220px; } }
+</style>

@@ -1,0 +1,243 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import AppCard from '../components/AppCard.astro';
+import ClientMap from '../components/ClientMap.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Frame from '../components/Frame.astro';
+import Icon from '../components/Icon.astro';
+import NumberStrip from '../components/NumberStrip.astro';
+import ProductSwitch from '../components/ProductSwitch.astro';
+import QuoteCard from '../components/QuoteCard.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Steps from '../components/Steps.astro';
+import WhatsAppMessage from '../components/WhatsAppMessage.astro';
+import WhatsAppPanel from '../components/WhatsAppPanel.astro';
+import { company } from '../data/site';
+import { u } from '../lib/url';
+
+const erp = (await getEntry('products', 'bizcare-erp'))!;
+const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
+const quotes = await Promise.all(
+  ['rana-shahid', 'usman-bhatti', 'mukhtar-hussain'].map(async (id) => (await getEntry('quotes', id))!),
+);
+const clients = await getCollection('clients');
+const regions = await getCollection('regions');
+const recent = [...clients].sort((a, b) => b.data.since.localeCompare(a.data.since)).slice(0, 5);
+const cloud = clients.filter((c) => c.data.edition === 'cloud').length;
+const month = (iso: string) =>
+  new Date(iso).toLocaleDateString('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: company.name,
+  alternateName: 'BizCare',
+  url: new URL(u('/'), Astro.site).href,
+  logo: new URL(u('/apple-touch-icon.png'), Astro.site).href,
+  email: company.email,
+  telephone: company.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Al-Hamd Garden',
+    addressLocality: 'Lahore',
+    addressCountry: 'PK',
+  },
+};
+---
+
+<Base
+  title="BizCare | Business Software Built for Pakistan"
+  fullTitle
+  description="ERP and point of sale software for flour mills, shops, restaurants, travel agencies, workshops and internet providers, with WhatsApp alerts built in. Trusted by 300+ businesses across Pakistan."
+  schema={schema}>
+  <!-- 1. Hero -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="label">Business Software, Lahore</span>
+        <h1 class="display">Business Software Built for Pakistan</h1>
+        <p class="lede">
+          ERP and point of sale for flour mills, shops, restaurants, travel agencies, workshops and internet providers.
+          With WhatsApp alerts built in.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn-quiet" href={u('/products/')}>See Products</a>
+          <a class="btn btn-primary" href={u('/contact/')}>Book a Demo</a>
+        </div>
+        <p class="trust small">
+          <Icon name="seal-check" size={20} />
+          Trusted by 300+ businesses in 70+ cities
+        </p>
+      </div>
+      <div class="hero-visual">
+        <Frame
+          kind="window"
+          src={erp.data.screen.src}
+          alt={erp.data.screen.alt}
+          title={erp.data.screen.title}
+          sizes="(max-width: 960px) 100vw, 720px"
+          priority
+        />
+        <WhatsAppMessage class="hero-msg" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Numbers -->
+  <NumberStrip />
+
+  <!-- 3. Pick your business -->
+  <section class="section" aria-labelledby="pick-title">
+    <div class="wrap">
+      <SectionHead
+        id="pick-title"
+        center
+        label="Pick Your Business"
+        title="Software Made for the Work You Do"
+        line="Each product is built around one kind of business. Choose yours."
+      />
+      <ProductSwitch />
+    </div>
+  </section>
+
+  <!-- 4. WhatsApp alerts -->
+  <WhatsAppPanel />
+
+  <!-- 5. Clients across Pakistan -->
+  <section class="section" aria-labelledby="clients-title">
+    <div class="wrap clients-grid">
+      <ClientMap />
+      <div class="clients-copy">
+        <SectionHead
+          id="clients-title"
+          label="Clients Across Pakistan"
+          title="From Peshawar to Turbat"
+          line="Flour mills in every province run on BizCare. These are some of our 300+ clients."
+        />
+        <ul class="facts reveal">
+          <li><span class="num big">{clients.length}</span><span class="muted small">Named clients</span></li>
+          <li><span class="num big">{regions.length}</span><span class="muted small">Regions</span></li>
+          <li><span class="num big">{cloud}</span><span class="muted small">On Cloud ERP</span></li>
+        </ul>
+        <div class="recent reveal">
+          <p class="label">Recently Joined</p>
+          <ul>
+            {
+              recent.map((c) => (
+                <li>
+                  <span>
+                    <span class="rname">{c.data.name}</span>
+                    <span class="rtown">{c.data.town}</span>
+                  </span>
+                  <span class="rdate num">{month(c.data.since)}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <a class="link reveal" href={u('/clients/')}>See All Clients <Icon name="arrow-right" size={16} /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Quotes -->
+  <section class="section band" aria-labelledby="quotes-title">
+    <div class="wrap">
+      <SectionHead id="quotes-title" center label="What Clients Say" title="In Their Own Words" />
+      <div class="grid grid-3">
+        {quotes.map((q) => <QuoteCard quote={q} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Apps -->
+  <section class="section" aria-labelledby="apps-title">
+    <div class="wrap">
+      <SectionHead
+        id="apps-title"
+        center
+        label="Apps We Build"
+        title="Apps for Our Clients, and One of Our Own"
+        line="Makki AutoCare and Madadgar Kisan serve our clients' customers. BizCareers is our own jobs app."
+      />
+      <div class="grid grid-3">
+        {apps.map((a) => <AppCard app={a} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. How we work -->
+  <section class="section band" aria-labelledby="how-title">
+    <div class="wrap">
+      <SectionHead id="how-title" center label="How We Work" title="From First Call to Every Day After" />
+      <Steps />
+    </div>
+  </section>
+
+  <!-- 9. Closing -->
+  <CtaBand />
+</Base>
+
+<style>
+  .hero { padding: 40px 0 72px; }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 56px;
+    align-items: center;
+  }
+  .hero-copy { display: grid; gap: 22px; justify-items: start; }
+  .hero-copy .display { max-width: 12ch; }
+  .trust { display: inline-flex; align-items: center; gap: 8px; font-weight: 650; color: var(--ink-2); }
+  .trust :global(svg) { color: var(--accent); }
+  .hero-visual { position: relative; padding: 0 0 40px 40px; }
+  .hero-visual :global(.hero-msg) { position: absolute; left: 0; bottom: 0; }
+
+  .clients-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: center;
+  }
+  .clients-grid :global(.map) { max-width: 520px; justify-self: center; }
+  .clients-copy { display: grid; gap: 28px; }
+  .clients-copy :global(.head + *) { margin-top: 0; }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .facts li { display: grid; gap: 2px; padding: 16px 0; }
+  .facts li + li { padding-left: 20px; border-left: 1px solid var(--line); }
+  .big { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+  .recent { display: grid; gap: 10px; }
+  .recent ul { display: grid; }
+  .recent li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .recent li:last-child { border-bottom: 0; }
+  .rname { display: block; font-weight: 700; line-height: 1.35; }
+  .rtown { display: block; font-size: 0.875rem; color: var(--ink-2); }
+  .rdate { flex: none; font-size: 0.875rem; font-weight: 700; color: var(--ink-2); }
+
+  @media (max-width: 960px) {
+    .hero { padding-top: 24px; }
+    .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+    .hero-copy .display { max-width: 14ch; }
+    .hero-visual { padding: 0 0 56px; }
+    .hero-visual :global(.hero-msg) { left: 16px; }
+    .clients-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  }
+  @media (max-width: 480px) {
+    .hero-visual :global(.hero-msg) { left: 12px; width: 250px; }
+    .btn-row { width: 100%; }
+    .hero-copy .btn-row .btn { flex: 1 1 0; }
+  }
+</style>

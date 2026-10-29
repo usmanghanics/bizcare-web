@@ -1,0 +1,65 @@
+# Words from the current bizcare.pk product and services pages, made plainer.
+name: BizCare ERP
+order: 1
+industry: Flour Mills
+icon: factory
+tint: teal
+tagline: Purchase, production, stock, sales and accounts for flour mills.
+headline: The Flour Mill Software 200+ Mills Run On
+line: Wheat purchase, production, stock, sales, accounts and payroll in one place, with WhatsApp alerts for your customers.
+proof: Trusted by 200+ flour mills across Pakistan
+screen:
+  src: ../../assets/screens/bizcare-erp.jpg
+  alt: The BizCare ERP dashboard for a flour mill, with cash in hand, receiving, payments, total stock and a sales chart
+  frame: window
+  title: BizCare ERP
+highlights:
+  - Raw material and production, recorded as they happen
+  - Stock and product weight you can trust
+  - Accounts, profit and loss and cash flow, always up to date
+fixes:
+  - icon: package
+    problem: Stock you cannot trust
+    answer: Stock and product weight are tracked as they move, so the count on screen matches the floor.
+  - icon: notebook
+    problem: Accounts that take days
+    answer: Ledgers, vouchers, profit and loss and cash flow stay up to date with every entry.
+  - icon: whatsapp-logo
+    problem: Customers chasing balances
+    answer: Invoices, payment due notices, receipts and bank transfers reach your customers on WhatsApp.
+features:
+  - icon: factory
+    title: Mill and Stock
+    items:
+      - Raw material and wheat purchase
+      - Production output, recorded in real time
+      - Stock and product weight
+      - Warehouses, bags and parts
+  - icon: receipt
+    title: Sales and Accounts
+    items:
+      - Sales and purchases by date
+      - Automatic invoicing and billing
+      - Vouchers, ledgers and closing
+      - Profit and loss and cash flow
+  - icon: users-three
+    title: People and Control
+    items:
+      - Employee records, attendance and salaries
+      - Access rights for each user
+      - Production and sales reports
+      - SMS and WhatsApp alerts
+editions:
+  - name: Cloud ERP
+    line: Your records are kept in secure cloud storage.
+  - name: Desktop ERP
+    line: The software runs on your own computers at the mill.
+faq:
+  - q: Who uses BizCare ERP?
+    a: More than 200 flour mills across Pakistan, from Peshawar and Swat to Quetta, Turbat and Sindh.
+  - q: Can it send messages to my customers?
+    a: Yes. Invoices, payment due notices, receipts and bank transfers can go to your customers on WhatsApp, and updates and reminders by SMS.
+  - q: Does it handle payroll too?
+    a: Yes. Employee records, attendance and salaries are part of the software.
+  - q: How do I see it working?
+    a: Book a demo or message us on WhatsApp, and we will show you the software.

@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { u } from '../lib/url';
+---
+
+<Base title="Page Not Found" description="This page could not be found." noindex>
+  <section class="section">
+    <div class="wrap lost">
+      <span class="label">Error 404</span>
+      <h1 class="display">This Page Is Not Here</h1>
+      <p class="lede">The link may be old, or the page may have moved. These will get you back on track.</p>
+      <div class="btn-row">
+        <a class="btn btn-quiet" href={u('/')}><Icon name="house" /> Home</a>
+        <a class="btn btn-quiet" href={u('/products/')}>Products</a>
+        <a class="btn btn-primary" href={u('/contact/')}>Contact Us</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lost { display: grid; gap: 18px; justify-items: center; text-align: center; padding-block: 40px; }
+  .lost .lede { max-width: 520px; }
+  .btn-row { justify-content: center; }
+</style>

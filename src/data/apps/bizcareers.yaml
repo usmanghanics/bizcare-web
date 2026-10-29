@@ -1,0 +1,33 @@
+# BizCare's own jobs app. Words from the app and its landing page.
+name: BizCareers
+order: 1
+kind: own
+icon: briefcase
+tint: teal
+status: soon
+tagline: Jobs and hiring across Pakistan, with a match score on every application.
+headline: Find Work. Hire the Right Person.
+line: BizCare's own jobs app for Pakistan. Job seekers see how well they fit each job, and employers get applicants ranked by fit.
+platforms: [Android]
+links:
+  site: https://usmanghanics.github.io/BizCareers/
+features:
+  - icon: target
+    title: A Match Score on Every Job
+    line: Worked out from what the job asks for and what the profile says. It sorts applications and never rejects anyone.
+  - icon: seal-check
+    title: Verified People
+    line: The verified badge means BizCare staff checked the person's CNIC.
+  - icon: shield-check
+    title: Real Jobs Only
+    line: A job may never ask applicants for money. Jobs that do are removed.
+  - icon: users
+    title: One Account, Both Sides
+    line: Look for work and hire from the same account by switching profiles.
+screens:
+  - src: ../../assets/apps/bizcareers/seeker-home.png
+    alt: The BizCareers home screen for a job seeker, with best matches and their match scores
+  - src: ../../assets/apps/bizcareers/job-detail.png
+    alt: A job in BizCareers, with pay, job type, experience and how well the applicant matches
+  - src: ../../assets/apps/bizcareers/applicants.png
+    alt: The employer's applicant list in BizCareers, ranked by match score

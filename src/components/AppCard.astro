@@ -1,0 +1,62 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Frame from './Frame.astro';
+import Icon from './Icon.astro';
+import { u } from '../lib/url';
+
+interface Props {
+  app: CollectionEntry<'apps'>;
+}
+const { app } = Astro.props;
+const a = app.data;
+const status = a.status === 'live' ? 'Live on Google Play' : 'Coming Soon';
+---
+
+<a class:list={['app card reveal', `tint-${a.tint}`]} href={u(`/apps/${app.id}/`)}>
+  <div class="stage">
+    <Frame kind="phone" src={a.screens[0].src} alt={a.screens[0].alt} sizes="220px" class="phone" />
+  </div>
+  <div class="body">
+    <div class="row">
+      <span class="tile">
+        <Icon name={a.icon} size={22} />
+      </span>
+      <span class:list={['pill', { live: a.status === 'live' }]}>
+        <span class="dot" aria-hidden="true"></span>
+        {status}
+      </span>
+    </div>
+    <h3 class="h3">{a.name}</h3>
+    <p class="who">{a.kind === 'own' ? 'BizCare’s own app' : `Built for ${a.client}`}</p>
+    <p class="muted">{a.tagline}</p>
+    <span class="link">See the App <Icon name="arrow-right" size={16} /></span>
+  </div>
+</a>
+
+<style>
+  .app {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+    transition: border-color 0.2s var(--ease);
+  }
+  .app:hover { border-color: var(--line-strong); }
+  .stage {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 300px;
+    padding-top: 32px;
+    overflow: hidden;
+    background: var(--t-bg);
+  }
+  .stage :global(.phone) { width: 210px; flex: none; }
+  .body { display: grid; gap: 8px; align-content: start; flex: 1; padding: 24px; }
+  .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .who { font-size: 0.875rem; font-weight: 700; color: var(--t-fg); }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-3); }
+  .pill.live .dot { background: var(--whatsapp); }
+  .link { margin-top: 8px; }
+  .app:hover .link :global(svg) { transform: translateX(3px); }
+</style>

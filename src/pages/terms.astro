@@ -1,0 +1,52 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { company } from '../data/site';
+import type { IconName } from '../lib/icons';
+
+const parts: { icon: IconName; head: string; body: string }[] = [
+  {
+    icon: 'globe',
+    head: 'Using This Website',
+    body: `This website tells you about the software, apps and services of ${company.name}. You may read it, share its links and contact us through it.`,
+  },
+  {
+    icon: 'image',
+    head: 'Our Content',
+    body: 'The words, pictures and screens on this site belong to BizCare or are shown with permission. Please ask us before copying them.',
+  },
+  {
+    icon: 'info',
+    head: 'Product Information',
+    body: 'We describe our products as accurately as we can. Features can differ between editions and change over time. What we agree in a demo and in writing is what counts.',
+  },
+  {
+    icon: 'coins',
+    head: 'Prices',
+    body: 'This website does not list prices. We give each business a quote after we understand what it needs.',
+  },
+  {
+    icon: 'link',
+    head: 'Links to Other Sites',
+    body: 'We link to sites such as WhatsApp, Google Maps and Google Play. We are not responsible for their content.',
+  },
+  {
+    icon: 'scales',
+    head: 'The Law',
+    body: 'These terms follow the laws of Pakistan. Any dispute is decided by the courts in Lahore.',
+  },
+  {
+    icon: 'clock',
+    head: 'Changes',
+    body: 'If these terms change, the new version will be on this page with a new date.',
+  },
+];
+---
+
+<LegalPage
+  title="Terms of Use"
+  description="The terms for using the BizCare website."
+  line="The rules for using this website, in plain words."
+  updated="29 October 2026"
+  parts={parts}
+  other={{ href: '/privacy/', label: 'Privacy Policy' }}
+/>

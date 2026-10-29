@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import AppCard from '../../components/AppCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import PageHero from '../../components/PageHero.astro';
+
+const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title="Apps"
+  description="Phone apps by BizCare: BizCareers, our own jobs app, Makki AutoCare for Makki Oil Store and Madadgar Kisan for Chaudhary Trading Company.">
+  <PageHero
+    label="Apps"
+    title="Apps for Our Clients, and One of Our Own"
+    line="Makki AutoCare and Madadgar Kisan serve our clients' customers. BizCareers is our own jobs app."
+  />
+  <section class="section top">
+    <div class="wrap">
+      <div class="grid grid-3">
+        {apps.map((a) => <AppCard app={a} />)}
+      </div>
+    </div>
+  </section>
+  <CtaBand
+    title="Want an App for Your Customers?"
+    line="If your business runs on BizCare, your customers can see their records in an app of your own."
+    message="Hello BizCare, I would like to talk about an app for my customers."
+  />
+</Base>
+
+<style>
+  .top { padding-top: 0; }
+</style>

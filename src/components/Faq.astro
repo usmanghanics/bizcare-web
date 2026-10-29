@@ -1,0 +1,43 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  items: { q: string; a: string }[];
+}
+const { items } = Astro.props;
+---
+
+<div class="faq reveal">
+  {
+    items.map((item) => (
+      <details class="item">
+        <summary>
+          <span>{item.q}</span>
+          <Icon name="plus" size={18} class="sign" />
+        </summary>
+        <p class="muted">{item.a}</p>
+      </details>
+    ))
+  }
+</div>
+
+<style>
+  .faq { border-top: 1px solid var(--line); }
+  .item { border-bottom: 1px solid var(--line); }
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    min-height: 64px;
+    padding: 14px 0;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary :global(.sign) { flex: none; color: var(--ink-3); transition: transform 0.25s var(--ease); }
+  .item[open] summary :global(.sign) { transform: rotate(45deg); }
+  .item p { padding: 0 40px 22px 0; max-width: 720px; }
+</style>

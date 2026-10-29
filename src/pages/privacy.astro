@@ -1,0 +1,57 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { company } from '../data/site';
+import type { IconName } from '../lib/icons';
+
+const parts: { icon: IconName; head: string; body: string }[] = [
+  {
+    icon: 'building-office',
+    head: 'Who We Are',
+    body: `This website belongs to ${company.name}, ${company.address}. This policy covers the website only. Each of our apps has its own privacy policy.`,
+  },
+  {
+    icon: 'lock',
+    head: 'What This Website Collects',
+    body: 'Nothing about you by itself. There are no accounts, no cookies, and no tracking or advertising scripts.',
+  },
+  {
+    icon: 'paper-plane-tilt',
+    head: 'The Book a Demo Form',
+    body: 'The form does not send anything to us on its own. It writes your message into WhatsApp or your email app, and you decide whether to send it. Once you send it, we see it like any other WhatsApp message or email, and use it only to reply to you.',
+  },
+  {
+    icon: 'moon',
+    head: 'Your Theme Choice',
+    body: 'If you switch to the dark theme, your browser remembers that choice on your device. It is never sent to us.',
+  },
+  {
+    icon: 'globe',
+    head: 'Server Logs',
+    body: 'Like every website, the server that hosts this site may keep short technical logs, such as the address a request came from and the page asked for, to keep the site running and safe.',
+  },
+  {
+    icon: 'link',
+    head: 'Other Sites',
+    body: 'Links to WhatsApp, Google Maps, Google Play and our apps take you to their own sites, which have their own privacy policies.',
+  },
+  {
+    icon: 'device-mobile',
+    head: 'Our Apps',
+    body: 'The apps we build, such as BizCareers, explain what they keep in their own privacy policies, shown in each app and on its own website.',
+  },
+  {
+    icon: 'clock',
+    head: 'Changes',
+    body: 'If this policy changes, the new version will be on this page with a new date.',
+  },
+];
+---
+
+<LegalPage
+  title="Privacy Policy"
+  description="What the BizCare website collects about you, which is almost nothing, and how the Book a Demo form works."
+  line="What this website keeps about you, in plain words."
+  updated="29 October 2026"
+  parts={parts}
+  other={{ href: '/terms/', label: 'Terms of Use' }}
+/>

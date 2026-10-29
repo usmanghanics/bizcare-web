@@ -1,0 +1,31 @@
+# From the current bizcare.pk team section. Titles to be confirmed by the CTO.
+- id: rao-zeeshan
+  name: Rao Zeeshan
+  role: Chief Executive Officer
+  photo: ../assets/team/rao-zeeshan.jpg
+  order: 1
+- id: salman-nasir
+  name: Salman Nasir
+  role: Business Development Manager
+  photo: ../assets/team/salman-nasir.jpg
+  order: 2
+- id: ghufran-ali
+  name: Hafiz Ghufran Ali
+  role: IT Specialist
+  photo: ../assets/team/ghufran-ali.jpg
+  order: 3
+- id: farhan-waseem
+  name: Mirza Farhan Waseem
+  role: Marketing Manager
+  photo: ../assets/team/farhan-waseem.jpg
+  order: 4
+- id: abid-mirza
+  name: Abid Mirza
+  role: Customer Support Executive
+  photo: ../assets/team/abid-mirza.jpg
+  order: 5
+- id: waqar-jamil
+  name: Waqar Jamil
+  role: Network Engineer
+  photo: ../assets/team/waqar-jamil.jpg
+  order: 6

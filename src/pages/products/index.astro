@@ -1,0 +1,133 @@
+---
+import { getCollection } from 'astro:content';
+import { Picture } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import AppCard from '../../components/AppCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import { u } from '../../lib/url';
+
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title="Products"
+  description="BizCare ERP for flour mills, BizPOS for retail, Restro for restaurants, BizWay for travel agencies, OilMate for workshops and RecovrPro for internet and cable, plus apps and WhatsApp messaging.">
+  <PageHero
+    label="Products"
+    title="One Product for Each Kind of Business"
+    line="Pick the one made for your work. Every product sends WhatsApp alerts to your customers."
+  />
+
+  <section class="section top" aria-labelledby="software-title">
+    <div class="wrap">
+      <h2 class="visually-hidden" id="software-title">Business Software</h2>
+      <div class="grid grid-3">
+        {
+          products.map((p, i) => (
+            <a class:list={['product card reveal', `tint-${p.data.tint}`]} href={u(`/products/${p.id}/`)}>
+              <div class="shot">
+                <Picture
+                  src={p.data.screen.src}
+                  alt=""
+                  formats={['avif', 'webp']}
+                  widths={[400, 600, 800]}
+                  sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 380px"
+                  quality={70}
+                  loading={i < 3 ? 'eager' : 'lazy'}
+                  decoding="async"
+                />
+              </div>
+              <div class="body">
+                <div class="row">
+                  <span class="tile">
+                    <Icon name={p.data.icon} size={22} />
+                  </span>
+                  <span class="pill">{p.data.industry}</span>
+                </div>
+                <h3 class="h3">{p.data.name}</h3>
+                <p class="muted">{p.data.tagline}</p>
+                <span class="link">
+                  See {p.data.name} <Icon name="arrow-right" size={16} />
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section band" aria-labelledby="apps-title">
+    <div class="wrap">
+      <SectionHead id="apps-title" label="Apps" title="Apps for Phones" line="For our clients' customers, and BizCareers, our own jobs app." />
+      <div class="grid grid-3">
+        {apps.map((a) => <AppCard app={a} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="services-title">
+    <div class="wrap">
+      <SectionHead id="services-title" label="Services" title="Help Beyond the Software" />
+      <div class="grid grid-2">
+        {
+          services.map((s) => (
+            <a class="service card reveal" href={u(`/services/${s.id}/`)}>
+              <span class="tile tile-lg">
+                <Icon name={s.data.icon} size={26} />
+              </span>
+              <div>
+                <h3 class="h3">{s.data.name}</h3>
+                <p class="muted">{s.data.tagline}</p>
+              </div>
+              <Icon name="arrow-right" size={20} class="go" />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .top { padding-top: 0; }
+  .product { display: flex; flex-direction: column; overflow: hidden; transition: border-color 0.2s var(--ease); }
+  .product:hover { border-color: var(--line-strong); }
+  .shot {
+    aspect-ratio: 16 / 10;
+    padding: 22px 22px 0;
+    background: var(--t-bg);
+    overflow: hidden;
+  }
+  .shot :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+    border-radius: 10px 10px 0 0;
+    border: 1px solid var(--line);
+    border-bottom: 0;
+  }
+  .body { display: grid; gap: 8px; align-content: start; flex: 1; padding: 24px; }
+  .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .link { margin-top: 6px; }
+  .product:hover .link :global(svg) { transform: translateX(3px); }
+
+  .service {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 28px;
+    transition: border-color 0.2s var(--ease);
+  }
+  .service:hover { border-color: var(--line-strong); }
+  .service > div { flex: 1; display: grid; gap: 4px; }
+  .service :global(.go) { flex: none; color: var(--accent-ink); }
+</style>

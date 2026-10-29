@@ -1,0 +1,20 @@
+---
+/** A small label, a headline and one line under it. */
+interface Props {
+  label?: string;
+  title: string;
+  line?: string;
+  center?: boolean;
+  level?: 1 | 2;
+  id?: string;
+}
+const { label, title, line, center = false, level = 2, id } = Astro.props;
+const Heading = level === 1 ? 'h1' : 'h2';
+---
+
+<div class:list={['head', 'reveal', { 'head-center': center }]}>
+  {label && <span class="label">{label}</span>}
+  <Heading class:list={[level === 1 ? 'display' : 'h2']} id={id}>{title}</Heading>
+  {line && <p class="lede">{line}</p>}
+  <slot />
+</div>

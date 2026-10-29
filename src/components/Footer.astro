@@ -1,0 +1,127 @@
+---
+import { getCollection } from 'astro:content';
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { company, whatsappHref } from '../data/site';
+import { u } from '../lib/url';
+
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div class="about">
+        <a href={u('/')} aria-label="BizCare, home"><Logo height={30} /></a>
+        <p class="muted small">Business software built in Lahore for flour mills, shops, restaurants, travel agencies, workshops and internet providers across Pakistan.</p>
+        <ul class="contact small">
+          <li>
+            <a href={whatsappHref()} target="_blank" rel="noopener"><Icon name="whatsapp-logo" size={18} class="wa" /> WhatsApp {company.phone}</a>
+          </li>
+          <li><a href={company.phoneHref}><Icon name="phone" size={18} /> {company.phone}</a></li>
+          <li><a href={`mailto:${company.email}`}><Icon name="envelope-simple" size={18} /> {company.email}</a></li>
+          <li>
+            <a href={company.mapsHref} target="_blank" rel="noopener"><Icon name="map-pin" size={18} /> {company.address}</a>
+          </li>
+        </ul>
+      </div>
+
+      <nav aria-label="Products">
+        <p class="col-title">Business Software</p>
+        <ul class="col-links">
+          {products.map((p) => <li><a href={u(`/products/${p.id}/`)}>{p.data.name}</a></li>)}
+        </ul>
+      </nav>
+
+      <nav aria-label="Apps and services">
+        <p class="col-title">Apps</p>
+        <ul class="col-links">
+          {apps.map((a) => <li><a href={u(`/apps/${a.id}/`)}>{a.data.name}</a></li>)}
+        </ul>
+        <p class="col-title gap">Services</p>
+        <ul class="col-links">
+          {services.map((s) => <li><a href={u(`/services/${s.id}/`)}>{s.data.name}</a></li>)}
+        </ul>
+      </nav>
+
+      <nav aria-label="Company">
+        <p class="col-title">Company</p>
+        <ul class="col-links">
+          <li><a href={u('/about/')}>About</a></li>
+          <li><a href={u('/clients/')}>Clients</a></li>
+          <li><a href={u('/careers/')}>Careers</a></li>
+          <li><a href={u('/contact/')}>Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="base tiny">
+      <p>© {year} {company.name}</p>
+      <ul>
+        <li><a href={u('/privacy/')}>Privacy</a></li>
+        <li><a href={u('/terms/')}>Terms</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 72px 0 28px;
+    border-top: 1px solid var(--line);
+    background: var(--page);
+  }
+  .cols {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 40px;
+  }
+  .about { display: grid; gap: 18px; align-content: start; max-width: 380px; }
+  .contact { display: grid; gap: 10px; }
+  .contact a { display: inline-flex; align-items: flex-start; gap: 10px; color: var(--ink-2); }
+  .contact a:hover { color: var(--ink); }
+  .contact :global(svg) { margin-top: 3px; flex: none; }
+  .contact :global(.wa) { color: var(--whatsapp); }
+  .col-title {
+    margin-bottom: 14px;
+    font-size: 0.75rem;
+    font-weight: 750;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .col-title.gap { margin-top: 28px; }
+  .col-links { display: grid; gap: 4px; }
+  .col-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+  .col-links a:hover { color: var(--ink); }
+  .base {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 56px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-3);
+  }
+  .base ul { display: flex; gap: 20px; }
+  .base a:hover { color: var(--ink); }
+  @media (max-width: 960px) {
+    .cols { grid-template-columns: 1fr 1fr; }
+    .about { grid-column: 1 / -1; max-width: none; }
+  }
+  @media (max-width: 480px) {
+    .cols { grid-template-columns: 1fr 1fr; gap: 32px 20px; }
+    .base a { display: inline-flex; min-height: 32px; align-items: center; }
+  }
+</style>

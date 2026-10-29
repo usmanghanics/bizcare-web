@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from './Icon.astro';
+import type { IconName } from '../lib/icons';
+import { company } from '../data/site';
+import { u } from '../lib/url';
+
+/** Terms or Privacy for the website: one card, one short part per promise. */
+interface Props {
+  title: string;
+  description: string;
+  line: string;
+  updated: string;
+  parts: { icon: IconName; head: string; body: string }[];
+  other: { href: string; label: string };
+}
+const { title, description, line, updated, parts, other } = Astro.props;
+---
+
+<Base title={title} description={description}>
+  <section class="section legal">
+    <div class="wrap narrow">
+      <header class="top">
+        <span class="label">Website</span>
+        <h1 class="display">{title}</h1>
+        <p class="lede">{line}</p>
+        <p class="meta small"><span class="pill">Draft for Review</span> Updated {updated}</p>
+      </header>
+      <ol class="parts card">
+        {
+          parts.map((p) => (
+            <li>
+              <h2 class="phead">
+                <span class="tile tile-sm">
+                  <Icon name={p.icon} size={18} />
+                </span>
+                {p.head}
+              </h2>
+              <p class="muted" set:html={p.body} />
+            </li>
+          ))
+        }
+      </ol>
+      <p class="foot small muted">
+        Read the <a class="underline" href={u(other.href)}>{other.label}</a> too. Questions? Email
+        <a class="underline" href={`mailto:${company.email}`}>{company.email}</a>.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal { padding-top: 40px; }
+  .narrow { max-width: calc(800px + 2 * var(--gutter)); }
+  .top { display: grid; gap: 14px; margin-bottom: 36px; }
+  .display { font-size: clamp(2.25rem, 1.7rem + 2vw, 3.25rem); }
+  .meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; color: var(--ink-3); }
+  .parts { display: grid; }
+  .parts li { display: grid; gap: 8px; padding: 24px 28px; }
+  .parts li + li { border-top: 1px solid var(--line); }
+  .phead { display: flex; align-items: center; gap: 12px; font-size: 1.125rem; font-weight: 750; letter-spacing: -0.01em; }
+  .parts p { padding-left: 48px; }
+  .foot { margin-top: 24px; }
+  @media (max-width: 560px) {
+    .parts li { padding: 20px; }
+    .parts p { padding-left: 0; }
+  }
+</style>

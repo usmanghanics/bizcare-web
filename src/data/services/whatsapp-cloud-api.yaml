@@ -1,0 +1,28 @@
+# Words from the current bizcare.pk services page, made plainer.
+name: WhatsApp Cloud API
+order: 1
+icon: whatsapp-logo
+tagline: Receipts, confirmations and alerts sent on WhatsApp, automatically.
+headline: Send Receipts and Alerts on WhatsApp, Automatically
+line: We connect your software to WhatsApp Cloud API, so receipts, order confirmations and account updates go out on their own.
+features:
+  - icon: cloud
+    title: Nothing to Host
+    line: WhatsApp Cloud API runs on Meta's servers, so there is no server for you to keep running.
+  - icon: receipt
+    title: Automatic Messages
+    line: Sales receipts, order confirmations and cashbook entries, sent the moment they happen.
+  - icon: note
+    title: Message Templates
+    line: Reusable templates for standard messages, approved by Meta.
+  - icon: chats
+    title: Two-Way Chat
+    line: Real-time messages with customers and staff, for alerts and updates.
+  - icon: image
+    title: Media Too
+    line: Messages can carry pictures and documents, not only text.
+faq:
+  - q: Is this the same messaging BizCare's software uses?
+    a: Yes. The WhatsApp alerts in BizCare ERP, BizWay, RecovrPro, OilMate, BizPOS and Restro work this way.
+  - q: Do message templates need approval?
+    a: Yes. Meta approves each template before it can be sent.

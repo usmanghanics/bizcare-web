@@ -1,0 +1,55 @@
+# Words from the current bizcare.pk projects section, made plainer.
+name: OilMate
+order: 5
+industry: Workshops
+icon: drop
+tint: orange
+tagline: Invoices, stock and service reminders for oil change workshops.
+headline: Bring Every Car Back for Its Next Oil Change
+line: OilMate tracks each customer's visits and your oil and filter stock, and reminds customers when their next change is due.
+screen:
+  src: ../../assets/screens/oilmate.jpg
+  alt: The OilMate sale invoice screen, with vehicle details, readings and oil change history
+  frame: window
+  title: OilMate
+highlights:
+  - Reminders when the next oil change is due
+  - Oil brands, filters and accessories in stock
+  - Quick invoices with the car's full history
+fixes:
+  - icon: bell
+    problem: Customers forget to come back
+    answer: Customers get a reminder by SMS when their next oil change is due.
+  - icon: package
+    problem: Stock that does not add up
+    answer: Oil brands, filters and accessories are tracked with every sale.
+  - icon: timer
+    problem: Slow billing at the counter
+    answer: Quick invoices, with the vehicle, its readings and its oil change history on one screen.
+features:
+  - icon: receipt
+    title: At the Counter
+    items:
+      - Quick invoicing and billing
+      - Vehicle, reading and oil change history
+      - Customer history for better advice
+  - icon: package
+    title: Stock
+    items:
+      - Oil brands, filters and accessories
+      - Stock usage and sales reports
+  - icon: users
+    title: Customers
+    items:
+      - Automatic service reminders by SMS
+      - WhatsApp invoices and receipts
+      - Profit reports for the owner
+faq:
+  - q: Who is OilMate for?
+    a: Oil change shops and auto service centres, from a single workshop to a chain of branches.
+  - q: Can my customers see their records on their phone?
+    a: Yes, with an app of your own. Makki AutoCare, which we built for Makki Oil Store, shows each customer their OilMate records.
+  - q: How are customers reminded?
+    a: OilMate sends an SMS when the next oil change is due, and invoices and receipts can go out on WhatsApp.
+apps:
+  - makki-autocare

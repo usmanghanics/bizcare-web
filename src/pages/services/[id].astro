@@ -1,0 +1,109 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Faq from '../../components/Faq.astro';
+import Icon from '../../components/Icon.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import WhatsAppMessage from '../../components/WhatsAppMessage.astro';
+import { whatsappHref } from '../../data/site';
+import { u } from '../../lib/url';
+
+export const getStaticPaths = (async () => {
+  const services = await getCollection('services');
+  return services.map((service) => ({ params: { id: service.id }, props: { service } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  service: CollectionEntry<'services'>;
+}
+const { service } = Astro.props;
+const s = service.data;
+const others = (await getCollection('services')).filter((x) => x.id !== service.id);
+const whatsapp = service.id === 'whatsapp-cloud-api';
+---
+
+<Base title={s.name} description={`${s.name}: ${s.tagline} ${s.line}`}>
+  <PageHero label="Service" title={s.headline} line={s.line}>
+    <div class="btn-row">
+      <a class="btn btn-quiet" href={whatsappHref(`Hello BizCare, I would like to know more about ${s.name}.`)} target="_blank" rel="noopener">
+        <Icon name="whatsapp-logo" class="wa" /> Ask on WhatsApp
+      </a>
+      <a class="btn btn-primary" href={u(`/contact/?product=${service.id}`)}>Talk to Us</a>
+    </div>
+  </PageHero>
+
+  <section class="section band" aria-labelledby="features-title">
+    <div class:list={['wrap', { split: whatsapp }]}>
+      <div>
+        <SectionHead id="features-title" label="What You Get" title={`${s.name} With BizCare`} />
+        <div class:list={['grid', whatsapp ? 'grid-2' : s.features.length % 3 === 0 ? 'grid-3' : 'grid-2']}>
+          {
+            s.features.map((f) => (
+              <article class="feature card reveal">
+                <span class="tile">
+                  <Icon name={f.icon} size={22} />
+                </span>
+                <h3 class="h3">{f.title}</h3>
+                <p class="muted">{f.line}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+      {whatsapp && <WhatsAppMessage class="example reveal" />}
+    </div>
+  </section>
+
+  {
+    s.faq.length > 0 && (
+      <section class="section" aria-labelledby="faq-title">
+        <div class="wrap faq-grid">
+          <SectionHead id="faq-title" label="Questions" title="Good to Know" />
+          <Faq items={s.faq} />
+        </div>
+      </section>
+    )
+  }
+
+  <section class:list={['section', { band: s.faq.length > 0 }]}>
+    <div class="wrap">
+      {
+        others.map((o) => (
+          <a class="other card reveal" href={u(`/services/${o.id}/`)}>
+            <span class="tile tile-lg">
+              <Icon name={o.data.icon} size={26} />
+            </span>
+            <span class="otext">
+              <span class="label">Also From BizCare</span>
+              <span class="h3">{o.data.name}</span>
+              <span class="muted small">{o.data.tagline}</span>
+            </span>
+            <Icon name="arrow-right" size={20} class="go" />
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <CtaBand title={`Talk to Us About ${s.name}`} product={service.id} message={`Hello BizCare, I would like to know more about ${s.name}.`} />
+</Base>
+
+<style>
+  .btn-row :global(.wa) { color: var(--whatsapp); }
+  .feature { display: grid; gap: 10px; align-content: start; padding: 28px; }
+  .feature .tile { margin-bottom: 6px; }
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; align-items: end; }
+  .split :global(.example) { margin-bottom: 4px; }
+  .faq-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 56px; align-items: start; }
+  .faq-grid :global(.head + *) { margin-top: 0; }
+  .other { display: flex; align-items: center; gap: 18px; padding: 24px; transition: border-color 0.2s var(--ease); }
+  .other:hover { border-color: var(--line-strong); }
+  .otext { flex: 1; display: grid; gap: 4px; }
+  .other :global(.go) { flex: none; color: var(--accent-ink); }
+  @media (max-width: 960px) {
+    .split, .faq-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  }
+</style>

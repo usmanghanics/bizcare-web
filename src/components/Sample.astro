@@ -1,0 +1,11 @@
+---
+import { LIVE } from '../lib/env';
+
+/** A small tag on drafted or stand-in content. The live build refuses samples, so it never shows there. */
+interface Props {
+  when?: boolean;
+}
+const { when = true } = Astro.props;
+---
+
+{when && !LIVE && <span class="sample-tag" title="Drafted content, replaced before launch">Sample</span>}

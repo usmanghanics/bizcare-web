@@ -1,0 +1,53 @@
+# Words from the current bizcare.pk projects section, made plainer.
+name: BizWay
+order: 4
+industry: Travel and Visa
+icon: airplane-tilt
+tint: blue
+tagline: Visa files, clients, invoices and payments for travel agencies.
+headline: Every Visa File, From Documents to Approval
+line: BizWay keeps clients, documents, applications and invoices together for travel agencies and visa centres.
+screen:
+  src: ../../assets/screens/bizway.jpg
+  alt: The BizWay dashboard in a web browser, with leads, cash, banks, sales, assets and liabilities
+  frame: browser
+  title: bizway.bizcare.pk
+highlights:
+  - Every visa application tracked to approval
+  - Passports, visas and permits kept securely
+  - Invoices and financial reports built in
+fixes:
+  - icon: file-text
+    problem: Files lost between desks
+    answer: Each application is tracked from documents to approval, so anyone with access can see where it stands.
+  - icon: bell
+    problem: Clients calling for updates
+    answer: Clients and agents get reminders and updates automatically, on WhatsApp too.
+  - icon: coins
+    problem: Payments hard to follow
+    answer: Invoicing and financial reports are built in, so every payment is accounted for.
+features:
+  - icon: airplane-tilt
+    title: Applications
+    items:
+      - End to end visa application tracking
+      - Approvals and status for every file
+      - Reminders for clients and agents
+  - icon: identification-card
+    title: Documents
+    items:
+      - Secure records for passports, visas and travel permits
+      - Client records and documentation
+  - icon: users
+    title: Money and Team
+    items:
+      - Integrated invoicing and financial reports
+      - Several agencies in one system
+      - Role-based access for each person
+faq:
+  - q: Who is BizWay for?
+    a: Travel agencies and visa processing centres, from a single office to several agencies.
+  - q: Does it work in a web browser?
+    a: Yes. BizWay runs in the browser, so your team can use it from any computer.
+  - q: Can clients get updates on WhatsApp?
+    a: Yes. Invoices, payment due notices, receipts and bank transfers can go out on WhatsApp.

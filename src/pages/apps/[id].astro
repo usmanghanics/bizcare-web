@@ -1,0 +1,218 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Frame from '../../components/Frame.astro';
+import Icon from '../../components/Icon.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import { u } from '../../lib/url';
+
+export const getStaticPaths = (async () => {
+  const apps = await getCollection('apps');
+  return apps.map((app) => ({ params: { id: app.id }, props: { app } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  app: CollectionEntry<'apps'>;
+}
+const { app } = Astro.props;
+const a = app.data;
+const product = a.poweredBy ? await getEntry(a.poweredBy) : undefined;
+const live = a.status === 'live';
+const others = (await getCollection('apps')).filter((x) => x.id !== app.id).sort((x, y) => x.data.order - y.data.order);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'MobileApplication',
+  name: a.name,
+  operatingSystem: a.platforms.join(', '),
+  applicationCategory: 'BusinessApplication',
+  description: a.line,
+  ...(a.links.play ? { installUrl: a.links.play } : {}),
+  publisher: { '@type': 'Organization', name: 'BizCare Software Solutions (Pvt.) Ltd.' },
+};
+---
+
+<Base title={a.name} description={`${a.name}: ${a.tagline}`} image={`/og/apps/${app.id}.png`} schema={schema}>
+  <section class:list={['hero', `tint-${a.tint}`]}>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <a class="crumb" href={u('/products/#apps-title')}>
+          <span class="tile tile-sm"><Icon name={a.icon} size={18} /></span>
+          <span><b>{a.name}</b> {a.kind === 'own' ? 'by BizCare' : `for ${a.client}`}</span>
+        </a>
+        <h1 class="display">{a.headline}</h1>
+        <p class="lede">{a.line}</p>
+        <div class="btn-row">
+          {
+            a.links.play && (
+              <a class="btn btn-primary" href={a.links.play} target="_blank" rel="noopener">
+                <Icon name="google-play-logo" /> Get It on Google Play
+              </a>
+            )
+          }
+          {
+            a.links.site && (
+              <a class="btn btn-quiet" href={a.links.site} target="_blank" rel="noopener">
+                Visit {a.name} <Icon name="arrow-up-right" size={16} />
+              </a>
+            )
+          }
+        </div>
+        <ul class="facts small">
+          <li class:list={['status', { live }]}><span class="dot" aria-hidden="true"></span>{live ? 'Live on Google Play' : 'Coming Soon'}</li>
+          <li><Icon name="device-mobile" size={18} /> {a.platforms.join(', ')}</li>
+        </ul>
+      </div>
+      <div class="phones" aria-label={`${a.name} screens`}>
+        {
+          a.screens.map((s, i) => (
+            <Frame kind="phone" src={s.src} alt={s.alt} sizes="(max-width: 640px) 46vw, 230px" priority={i === 0} class={`phone p${i}`} />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section band" aria-labelledby="does-title">
+    <div class="wrap">
+      <SectionHead id="does-title" label="What It Does" title={`Inside ${a.name}`} />
+      <div class:list={['grid', a.features.length % 3 === 0 ? 'grid-3' : 'grid-2']}>
+        {
+          a.features.map((f) => (
+            <article class:list={['feature card reveal', `tint-${a.tint}`]}>
+              <span class="tile">
+                <Icon name={f.icon} size={22} />
+              </span>
+              <h3 class="h3">{f.title}</h3>
+              <p class="muted">{f.line}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    product && (
+      <section class="section" aria-labelledby="behind-title">
+        <div class="wrap behind">
+          <div class="behind-copy">
+            <SectionHead
+              id="behind-title"
+              label="The Software Behind It"
+              title={`Powered by ${product.data.name}`}
+              line={`${a.client} runs ${product.data.name}, BizCare's software for ${product.data.industry.toLowerCase()}. The app shows each customer the records it keeps.`}
+            />
+            <a class="link reveal" href={u(`/products/${product.id}/`)}>
+              See {product.data.name} <Icon name="arrow-right" size={16} />
+            </a>
+          </div>
+          <Frame
+            kind={product.data.screen.frame}
+            src={product.data.screen.src}
+            alt={product.data.screen.alt}
+            title={product.data.screen.title}
+            sizes="(max-width: 960px) 100vw, 640px"
+          />
+        </div>
+      </section>
+    )
+  }
+
+  <section class:list={['section', { band: !!product }]} aria-labelledby="more-title">
+    <div class="wrap">
+      <SectionHead id="more-title" label="More Apps" title="Other Apps We Build" />
+      <div class="grid grid-2 others">
+        {
+          others.map((o) => (
+            <a class:list={['other card reveal', `tint-${o.data.tint}`]} href={u(`/apps/${o.id}/`)}>
+              <span class="tile tile-lg">
+                <Icon name={o.data.icon} size={26} />
+              </span>
+              <span class="otext">
+                <span class="h3">{o.data.name}</span>
+                <span class="muted small">{o.data.tagline}</span>
+              </span>
+              <Icon name="arrow-right" size={20} class="go" />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Want an App for Your Customers?"
+    line="If your business runs on BizCare, your customers can see their records in an app of your own."
+    message="Hello BizCare, I would like to talk about an app for my customers."
+  />
+</Base>
+
+<style>
+  .hero { padding: 40px 0 72px; overflow: hidden; }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: center;
+  }
+  .hero-copy { display: grid; gap: 22px; justify-items: start; }
+  .crumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 14px 4px 4px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+  }
+  .crumb b { color: var(--ink); }
+  .crumb .tile { border-radius: 50%; }
+  .hero .display { font-size: clamp(2.25rem, 1.5rem + 2.8vw, 3.5rem); }
+  .facts { display: flex; flex-wrap: wrap; gap: 10px 22px; color: var(--ink-2); font-weight: 650; }
+  .facts li { display: inline-flex; align-items: center; gap: 8px; }
+  .status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); }
+  .status.live .dot { background: var(--whatsapp); }
+
+  .phones {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 28px 0;
+    border-radius: var(--radius-lg);
+    background: var(--t-bg);
+  }
+  .phones :global(.phone) { width: 30%; max-width: 210px; flex: none; }
+  .phones :global(.p1) { margin-top: 36px; }
+  .phones :global(.p2) { margin-top: 72px; }
+
+  .feature { display: grid; gap: 10px; align-content: start; padding: 28px; }
+  .feature .tile { margin-bottom: 6px; }
+
+  .behind { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; align-items: center; }
+  .behind-copy { display: grid; gap: 24px; justify-items: start; }
+  .behind-copy :global(.head + *) { margin-top: 0; }
+
+  .other { display: flex; align-items: center; gap: 18px; padding: 24px; transition: border-color 0.2s var(--ease); }
+  .other:hover { border-color: var(--line-strong); }
+  .otext { flex: 1; display: grid; gap: 4px; }
+  .other :global(.go) { flex: none; color: var(--accent-ink); }
+
+  @media (max-width: 960px) {
+    .hero { padding: 24px 0 56px; }
+    .hero-grid, .behind { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  }
+  @media (max-width: 560px) {
+    .phones { gap: 10px; padding: 20px 0; }
+    .phones :global(.phone) { width: 31%; }
+    .phones :global(.p1) { margin-top: 24px; }
+    .phones :global(.p2) { margin-top: 48px; }
+    .hero .btn-row { width: 100%; }
+    .hero .btn-row .btn { flex: 1 1 auto; }
+  }
+</style>

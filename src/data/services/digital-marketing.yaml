@@ -1,0 +1,23 @@
+# Words from the current bizcare.pk services page, made plainer.
+name: Digital Marketing
+order: 2
+icon: megaphone
+tagline: Search, social media, email, content and ads that bring in customers.
+headline: Get Found Online by the Customers You Want
+line: Search, social media, email, content and paid ads, run for your business by the BizCare team.
+features:
+  - icon: magnifying-glass
+    title: Search
+    line: Website content improved so more people find you on Google.
+  - icon: share-network
+    title: Social Media
+    line: Your brand on Facebook, Instagram and X, with posts that get people talking.
+  - icon: envelope-simple
+    title: Email Campaigns
+    line: Targeted emails that turn interested people into customers.
+  - icon: video-camera
+    title: Content
+    line: Posts, blogs and videos made for the people you want to reach.
+  - icon: megaphone
+    title: Paid Ads
+    line: Ads on Google and social media to reach more people and sell more.

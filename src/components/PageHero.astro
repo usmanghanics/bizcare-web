@@ -1,0 +1,28 @@
+---
+/** The top of a plain page: label, headline, one line, then anything else. */
+interface Props {
+  label?: string;
+  title: string;
+  line?: string;
+  center?: boolean;
+}
+const { label, title, line, center = false } = Astro.props;
+---
+
+<section class="page-hero">
+  <div class:list={['wrap', 'inner', { center }]}>
+    {label && <span class="label">{label}</span>}
+    <h1 class="display">{title}</h1>
+    {line && <p class="lede">{line}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-hero { padding: 48px 0 56px; }
+  .inner { display: grid; gap: 18px; justify-items: start; }
+  .inner > :global(*) { max-width: 760px; }
+  .center { justify-items: center; text-align: center; }
+  .display { font-size: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem); }
+  @media (max-width: 720px) { .page-hero { padding: 28px 0 40px; } }
+</style>

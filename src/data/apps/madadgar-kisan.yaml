@@ -1,0 +1,38 @@
+# Built for Chaudhary Trading Company. Words from the app.
+name: Madadgar Kisan
+order: 3
+kind: client
+client: Chaudhary Trading Company
+icon: plant
+tint: forest
+status: soon
+tagline: Fertiliser orders from Chaudhary Trading Company's branches, in Urdu or English.
+headline: Fertiliser Orders From the Farm, in Urdu or English
+line: Built for Chaudhary Trading Company. Farmers see prices and branch stock, order for delivery or pickup, and book soil and water tests.
+platforms: [Android, iPhone, Web]
+features:
+  - icon: storefront
+    title: Prices and Branch Stock
+    line: Today's prices, and what is in stock at each branch.
+  - icon: truck
+    title: Delivery or Pickup
+    line: Order to the farm, or collect from the nearest branch.
+  - icon: wallet
+    title: Pay the Way You Like
+    line: Cash, JazzCash, EasyPaisa or bank transfer.
+  - icon: flask
+    title: Soil and Water Tests
+    line: Book a test and see the result in the app.
+  - icon: translate
+    title: Urdu and English
+    line: The whole app in either language.
+  - icon: desktop
+    title: Admin Website
+    line: The company runs orders, stock and prices from its own website.
+screens:
+  - src: ../../assets/apps/madadgar-kisan/home.png
+    alt: The Madadgar Kisan home screen with fertiliser types, featured products and lab tests
+  - src: ../../assets/apps/madadgar-kisan/shop.png
+    alt: The Madadgar Kisan shop, with fertilisers, prices and pack sizes
+  - src: ../../assets/apps/madadgar-kisan/tests.png
+    alt: Soil and water test booking in Madadgar Kisan

@@ -1,0 +1,167 @@
+---
+import { getCollection } from 'astro:content';
+
+/**
+ * Where the named clients are: one dot per region, placed by its real
+ * latitude and longitude and sized by how many clients it has. No border is
+ * drawn, only the cities. On the Clients page the dots filter the list.
+ */
+interface Props {
+  interactive?: boolean;
+}
+const { interactive = false } = Astro.props;
+
+const regions = (await getCollection('regions')).sort((a, b) => a.data.order - b.data.order);
+const clients = await getCollection('clients');
+const count = (id: string) => clients.filter((c) => c.data.region.id === id).length;
+
+// Plain equirectangular projection, narrowed for latitude 30.
+const box = { west: 66.0, east: 76.9, south: 25.2, north: 35.4 };
+const k = Math.cos((30 * Math.PI) / 180);
+const width = (box.east - box.west) * k;
+const height = box.north - box.south;
+const place = (lat: number, lon: number) => ({
+  x: (((lon - box.west) * k) / width) * 100,
+  y: ((box.north - lat) / height) * 100,
+});
+
+// Which side of its dot each name sits, so the Punjab cluster stays readable.
+const left = new Set(['peshawar', 'faisalabad', 'di-khan', 'multan']);
+const above = new Set(['gujrat']);
+const aboveLeft = new Set(['sargodha']);
+// On a narrow map only the outer regions keep their names. The rest are too close together.
+const inner = new Set(['gujrat', 'gujranwala', 'sargodha', 'faisalabad', 'sahiwal', 'multan']);
+const short: Record<string, string> = {
+  malakand: 'Malakand',
+  islamabad: 'Islamabad',
+  gujranwala: 'Gujranwala',
+  lahore: 'Lahore',
+  sargodha: 'Sargodha',
+  faisalabad: 'Faisalabad',
+  sahiwal: 'Sahiwal',
+  'di-khan': 'DI Khan',
+  bahawalpur: 'Bahawalpur',
+};
+
+const dots = regions
+  .map((r, i) => {
+    const n = count(r.id);
+    return { id: r.id, name: r.data.name, label: short[r.id] ?? r.data.name, n, i, ...place(r.data.lat, r.data.lon) };
+  })
+  .filter((d) => d.n > 0);
+const size = (n: number) => Math.round(12 + Math.sqrt(n) * 4.2);
+const Dot = interactive ? 'button' : 'span';
+---
+
+<div class="map reveal" style={`aspect-ratio: ${width.toFixed(3)} / ${height.toFixed(3)}`} data-map>
+  {
+    dots.map((d) => (
+      <Dot
+        class:list={['dot', { left: left.has(d.id), above: above.has(d.id), 'above-left': aboveLeft.has(d.id), inner: inner.has(d.id) }]}
+        style={`left:${d.x.toFixed(2)}%;top:${d.y.toFixed(2)}%;--s:${size(d.n)}px;--i:${d.i}`}
+        type={interactive ? 'button' : undefined}
+        data-region={d.id}
+        aria-label={interactive ? `${d.name}, ${d.n} clients` : undefined}
+        aria-pressed={interactive ? 'false' : undefined}
+        aria-hidden={interactive ? undefined : 'true'}>
+        <span class="disc" />
+        <span class="name">
+          {d.label}
+          <span class="n num">{d.n}</span>
+        </span>
+      </Dot>
+    ))
+  }
+</div>
+
+<style>
+  .map {
+    position: relative;
+    width: 100%;
+    border-radius: var(--radius);
+    background-color: var(--surface);
+    background-image: radial-gradient(circle, var(--line-strong) 1px, transparent 1.4px);
+    background-size: 14px 14px;
+    background-position: 7px 7px;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    container-type: inline-size;
+  }
+  .dot {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ink);
+  }
+  .disc {
+    position: absolute;
+    left: calc(var(--s) / -2);
+    top: calc(var(--s) / -2);
+    width: var(--s);
+    height: var(--s);
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--accent) 22%, transparent);
+    box-shadow: inset 0 0 0 1.5px var(--accent);
+    transition: background-color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .disc::after {
+    content: '';
+    position: absolute;
+    inset: calc(50% - 3px);
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .name {
+    position: absolute;
+    top: -9px;
+    left: calc(var(--s) / 2 + 6px);
+    display: inline-flex;
+    gap: 5px;
+    padding: 0 4px;
+    border-radius: 4px;
+    background: var(--surface);
+    font-size: 0.75rem;
+    font-weight: 750;
+    line-height: 18px;
+    white-space: nowrap;
+  }
+  .left .name { left: auto; right: calc(var(--s) / 2 + 6px); }
+  .above .name { left: 0; top: calc(var(--s) / -2 - 22px); transform: translateX(-50%); }
+  .above-left .name { left: 0; top: calc(var(--s) / -2 - 22px); transform: translateX(-88%); }
+  .n { color: var(--ink-3); font-weight: 700; }
+
+  button.dot { cursor: pointer; }
+  button.dot::before {
+    content: '';
+    position: absolute;
+    left: -22px;
+    top: -22px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+  }
+  button.dot:hover .disc { transform: scale(1.12); }
+  .dot[aria-pressed='true'] .disc { background: var(--accent); }
+  .dot[aria-pressed='true'] .disc::after { background: var(--on-accent); }
+  .dot[aria-pressed='true'] .name { background: var(--ink); color: var(--page); }
+  .dot[aria-pressed='true'] .n { color: inherit; opacity: 0.75; }
+  button.dot:focus-visible { outline: none; }
+  button.dot:focus-visible .disc { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* The dots arrive city by city, once the map is on screen. */
+  .dot {
+    transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+    transition-delay: calc(var(--i) * 55ms);
+  }
+  .map:global(.pending) .dot { opacity: 0; transform: scale(0.6); }
+  @container (max-width: 460px) {
+    .disc { width: calc(var(--s) * 0.7); height: calc(var(--s) * 0.7); left: calc(var(--s) * -0.35); top: calc(var(--s) * -0.35); }
+    .name { left: calc(var(--s) * 0.35 + 5px); font-size: 0.6875rem; line-height: 16px; top: -8px; }
+    .left .name { right: calc(var(--s) * 0.35 + 5px); }
+    .inner .name { display: none; }
+  }
+</style>

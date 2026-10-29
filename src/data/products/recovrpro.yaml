@@ -1,0 +1,53 @@
+# Words from the current bizcare.pk projects section, made plainer.
+name: RecovrPro
+order: 6
+industry: Internet and Cable
+icon: wifi-high
+tint: purple
+tagline: Billing, renewals and recovery for internet, cable and subscription businesses.
+headline: Monthly Bills and Recovery, Handled for You
+line: For internet, cable and other subscription businesses. RecovrPro renews, bills and reminds, monthly or yearly.
+screen:
+  src: ../../assets/screens/recovrpro.jpg
+  alt: The RecovrPro dashboard in a web browser, with total customers, total recovery, invoices and expenses
+  frame: browser
+  title: recovrpro.bizcare.pk
+highlights:
+  - Renewals and bills created automatically
+  - Received and pending recovery for every customer
+  - Service requests tracked to the technician
+fixes:
+  - icon: arrows-clockwise
+    problem: Renewals missed
+    answer: Monthly and yearly renewals and bills are created automatically, on time.
+  - icon: hand-coins
+    problem: Recovery left to memory
+    answer: Received and pending recovery are tracked for every customer, and reminders go out on WhatsApp.
+  - icon: wrench
+    problem: Service requests lost
+    answer: Every service request and job is tracked, along with the technician who handles it.
+features:
+  - icon: receipt
+    title: Billing
+    items:
+      - Automatic renewals and billing
+      - Invoices, payments and recovery
+      - Monthly or yearly plans
+  - icon: user-circle
+    title: Customers
+    items:
+      - Customer records with service history
+      - Service requests and job tracking
+      - Reports on customers and recovery
+  - icon: users
+    title: Team
+    items:
+      - Role-based access for staff and technicians
+      - WhatsApp notices for bills, dues and receipts
+faq:
+  - q: Who is RecovrPro for?
+    a: Internet providers, cable operators and any business that bills customers every month or every year.
+  - q: Does it work in a web browser?
+    a: Yes. RecovrPro runs in the browser, so your office and your team can use it from any computer.
+  - q: Can customers get their bills on WhatsApp?
+    a: Yes. Invoices, payment due notices, receipts and bank transfers can go out on WhatsApp.

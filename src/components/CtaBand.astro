@@ -1,0 +1,62 @@
+---
+import Icon from './Icon.astro';
+import { company, whatsappHref } from '../data/site';
+import { u } from '../lib/url';
+
+interface Props {
+  title?: string;
+  line?: string;
+  /** Product to pre-select on the demo form. */
+  product?: string;
+  /** Message written for the visitor on WhatsApp. */
+  message?: string;
+}
+const {
+  title = 'See BizCare on Your Own Business',
+  line = 'Tell us what you run, and we will show you the software that fits.',
+  product,
+  message = 'Hello BizCare, I would like a demo.',
+} = Astro.props;
+const demo = u(product ? `/contact/?product=${product}` : '/contact/');
+---
+
+<section class="section">
+  <div class="wrap">
+    <div class="cta reveal">
+      <div class="text">
+        <h2 class="h2">{title}</h2>
+        <p class="lede">{line}</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn-quiet" href={company.phoneHref}><Icon name="phone" /> Call</a>
+        <a class="btn btn-quiet" href={whatsappHref(message)} target="_blank" rel="noopener">
+          <Icon name="whatsapp-logo" class="wa" /> WhatsApp
+        </a>
+        <a class="btn btn-primary" href={demo}>Book a Demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 48px;
+    border-radius: var(--radius-lg);
+    background: var(--accent-tint);
+  }
+  .text { display: grid; gap: 10px; max-width: 560px; }
+  .cta :global(.wa) { color: var(--whatsapp); }
+  @media (max-width: 960px) {
+    .cta { flex-direction: column; align-items: flex-start; padding: 36px 28px; }
+  }
+  @media (max-width: 480px) {
+    .cta { padding: 32px 20px; }
+    .btn-row { width: 100%; }
+    .btn-row .btn { flex: 1 1 auto; }
+    .btn-row .btn-primary { flex-basis: 100%; order: -1; }
+  }
+</style>

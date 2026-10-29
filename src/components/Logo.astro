@@ -1,0 +1,42 @@
+---
+import { gap, mark, word } from '../lib/logo';
+
+interface Props {
+  /** The "b" mark alone, or the mark beside the bizcare wordmark. */
+  variant?: 'lockup' | 'mark';
+  /** Height of the mark in pixels. */
+  height?: number;
+  class?: string;
+}
+
+const { variant = 'lockup', height = 32, class: className } = Astro.props;
+const width = variant === 'mark' ? mark.width : mark.width + gap + word.width;
+---
+
+<svg
+  class:list={['logo', className]}
+  viewBox={`0 0 ${width} ${mark.height}`}
+  height={height}
+  width={(width / mark.height) * height}
+  role="img"
+  aria-label="BizCare"
+  focusable="false">
+  <path fill="currentColor" d={mark.d}></path>
+  <circle class="logo-dot" cx={mark.dot.cx} cy={mark.dot.cy} r={mark.dot.r}></circle>
+  {
+    variant === 'lockup' && (
+      <path
+        fill="currentColor"
+        fill-rule="evenodd"
+        transform={`translate(${mark.width + gap} ${mark.height - word.height})`}
+        d={word.d}
+      />
+    )
+  }
+</svg>
+
+<style>
+  .logo { display: block; color: var(--ink); }
+  .logo-dot { fill: #017e84; }
+  :global([data-theme='dark']) .logo-dot { fill: #2fa9af; }
+</style>

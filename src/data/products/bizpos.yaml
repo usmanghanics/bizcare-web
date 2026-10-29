@@ -1,0 +1,54 @@
+# Words from the current bizcare.pk projects section, made plainer.
+name: BizPOS
+order: 2
+industry: Retail
+icon: storefront
+tint: green
+tagline: Fast billing and live stock for supermarkets and retail shops.
+headline: Faster Checkout, Stock You Can Trust
+line: For supermarkets, clothing stores, electronics shops and every kind of retail. Barcode billing, live stock and customer records.
+screen:
+  src: ../../assets/screens/bizpos.jpg
+  alt: The BizPOS home screen for a crockery shop, with cash in hand, receiving, payments and total stock
+  frame: window
+  title: BizPOS
+highlights:
+  - Barcode billing at the counter
+  - Stock that updates with every sale
+  - Purchase history for every customer
+fixes:
+  - icon: barcode
+    problem: Long queues at the counter
+    answer: Barcode scanning and fast billing, with receipt printers and touchscreens.
+  - icon: package
+    problem: Running out without warning
+    answer: Stock updates with every sale, so shortages show before they happen.
+  - icon: users
+    problem: Customers you do not know
+    answer: Purchase history for each customer, so you can reward the ones who come back.
+features:
+  - icon: shopping-cart
+    title: Checkout
+    items:
+      - Barcode billing
+      - Receipt printers and touchscreens
+      - Several users at once
+  - icon: warehouse
+    title: Stock
+    items:
+      - Real-time stock tracking
+      - Warehouse transfers
+      - Purchases and suppliers
+  - icon: chart-bar
+    title: Insight
+    items:
+      - Sales and expense reports
+      - Customer history and loyalty rewards
+      - Role-based access for store staff
+faq:
+  - q: What kind of shop is BizPOS for?
+    a: Supermarkets, clothing stores, electronics shops and other retail businesses.
+  - q: Does it work with my barcode scanner and printer?
+    a: BizPOS works with barcode scanners, receipt printers and touchscreens.
+  - q: Can customers get their receipts on WhatsApp?
+    a: Yes. Invoices, payment due notices, receipts and bank transfers can go out on WhatsApp.

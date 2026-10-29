@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import PageHero from '../../components/PageHero.astro';
+import { u } from '../../lib/url';
+
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base title="Services" description="WhatsApp Cloud API messaging and digital marketing from BizCare.">
+  <PageHero label="Services" title="Help Beyond the Software" line="Automatic WhatsApp messages for your business, and marketing that brings customers in." />
+  <section class="section top">
+    <div class="wrap">
+      <div class="grid grid-2">
+        {
+          services.map((s) => (
+            <a class="service card reveal" href={u(`/services/${s.id}/`)}>
+              <span class="tile tile-lg">
+                <Icon name={s.data.icon} size={26} />
+              </span>
+              <div>
+                <h2 class="h3">{s.data.name}</h2>
+                <p class="muted">{s.data.tagline}</p>
+              </div>
+              <Icon name="arrow-right" size={20} class="go" />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .top { padding-top: 0; }
+  .service { display: flex; align-items: center; gap: 20px; padding: 28px; transition: border-color 0.2s var(--ease); }
+  .service:hover { border-color: var(--line-strong); }
+  .service > div { flex: 1; display: grid; gap: 4px; }
+  .service :global(.go) { flex: none; color: var(--accent-ink); }
+</style>

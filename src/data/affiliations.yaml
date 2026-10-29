@@ -1,0 +1,27 @@
+# Only the Pakistan Trade Portal listing is confirmed. The rest are stand-ins
+# until the CTO sends the real memberships and certificates.
+- id: pakistan-trade-portal
+  name: Pakistan Trade Portal
+  line: BizCare Flour Mills Software is listed on the Government of Pakistan's trade portal.
+  icon: globe
+  url: https://www.pakistantradeportal.gov.pk/product/bizcare-flour-mills-software-13536
+  order: 1
+  sample: false
+- id: secp
+  name: SECP
+  line: Registered as a private limited company.
+  icon: certificate
+  order: 2
+  sample: true
+- id: pseb
+  name: Pakistan Software Export Board
+  line: Registered software company.
+  icon: seal-check
+  order: 3
+  sample: true
+- id: pasha
+  name: P@SHA
+  line: Member of the Pakistan Software Houses Association.
+  icon: handshake
+  order: 4
+  sample: true

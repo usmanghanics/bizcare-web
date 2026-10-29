@@ -1,0 +1,79 @@
+---
+import Icon from './Icon.astro';
+
+/**
+ * An example of the invoice a customer receives on WhatsApp. Drawn in HTML,
+ * with made-up figures, to show what the alerts look like.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<div class:list={['msg card', className]} role="img" aria-label="Example: an invoice sent to a customer on WhatsApp">
+  <div class="msg-head" aria-hidden="true">
+    <span class="msg-icon"><Icon name="whatsapp-logo" size={18} /></span>
+    <span class="msg-who">
+      <span class="msg-title">Invoice Sent</span>
+      <span class="msg-sub">on WhatsApp, just now</span>
+    </span>
+  </div>
+  <div class="bubble" aria-hidden="true">
+    <p class="b-title">Invoice INV-2041</p>
+    <dl>
+      <div><dt>Fine Atta, 20 bags</dt><dd class="num">Rs 47,000</dd></div>
+      <div><dt>Previous balance</dt><dd class="num">Rs 12,500</dd></div>
+      <div class="total"><dt>Total due</dt><dd class="num">Rs 59,500</dd></div>
+    </dl>
+    <span class="b-time">10:42 <Icon name="check" size={12} /><Icon name="check" size={12} class="tick2" /></span>
+  </div>
+</div>
+
+<style>
+  .msg {
+    width: 280px;
+    padding: 14px;
+    box-shadow: var(--shadow-float);
+    display: grid;
+    gap: 12px;
+  }
+  .msg-head { display: flex; align-items: center; gap: 10px; }
+  .msg-icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--whatsapp) 14%, transparent);
+    color: var(--whatsapp);
+  }
+  .msg-title { display: block; font-size: 0.875rem; font-weight: 800; line-height: 1.2; }
+  .msg-sub { display: block; font-size: 0.75rem; color: var(--ink-2); }
+  .bubble {
+    position: relative;
+    padding: 12px 12px 22px;
+    border-radius: 4px 14px 14px 14px;
+    background: var(--surface-2);
+    font-size: 0.8125rem;
+  }
+  .b-title { font-weight: 800; margin-bottom: 6px; }
+  dl { margin: 0; display: grid; gap: 3px; }
+  dl div { display: flex; justify-content: space-between; gap: 12px; }
+  dt { color: var(--ink-2); }
+  dd { margin: 0; font-weight: 700; }
+  .total { margin-top: 4px; padding-top: 6px; border-top: 1px dashed var(--line-strong); }
+  .total dt { color: var(--ink); font-weight: 700; }
+  .b-time {
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.6875rem;
+    color: var(--ink-3);
+  }
+  .b-time :global(svg) { color: #34b7f1; }
+  .b-time :global(svg:first-of-type) { margin-left: 4px; }
+  .b-time :global(.tick2) { margin-left: -7px; }
+</style>

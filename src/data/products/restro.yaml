@@ -1,0 +1,54 @@
+# Words from the current bizcare.pk projects section, made plainer.
+name: Restro
+order: 3
+industry: Restaurants
+icon: fork-knife
+tint: amber
+tagline: Orders, tables, billing and stock for restaurants and cafés.
+headline: Dine-In, Takeaway and Delivery in One Place
+line: Restro runs orders, tables, reservations, billing and kitchen stock for restaurants, cafés and fast food.
+screen:
+  src: ../../assets/screens/restro.jpg
+  alt: The Restro dashboard in a web browser, with total orders, sales, purchases, expenses and a sales chart
+  frame: browser
+  title: bizcaresoftwaresolutions.com
+highlights:
+  - Dine-in, takeaway and delivery orders
+  - Tables and reservations
+  - Ingredient stock that updates with every order
+fixes:
+  - icon: clipboard-text
+    problem: Orders mixed up at rush hour
+    answer: Dine-in, takeaway and delivery orders are managed separately, with tables and reservations.
+  - icon: cooking-pot
+    problem: Ingredients run out mid-service
+    answer: Ingredient stock is tracked in real time, so shortages show early.
+  - icon: receipt
+    problem: Bills that do not match
+    answer: Automatic billing with several payment options, and sales reports by order type.
+features:
+  - icon: fork-knife
+    title: Orders and Tables
+    items:
+      - Dine-in, takeaway and delivery
+      - Tables and reservations
+      - Point of sale at the counter
+  - icon: cooking-pot
+    title: Kitchen
+    items:
+      - Foods and menu
+      - Ingredients and stock
+  - icon: chart-line
+    title: Business
+    items:
+      - Billing with several payment options
+      - Sales, purchase and expense reports
+      - Accounting and staff
+      - WhatsApp order confirmations, invoices and offers
+faq:
+  - q: Who is Restro for?
+    a: Fine dining restaurants, cafés and fast food outlets.
+  - q: Does it work in a web browser?
+    a: Yes. Restro runs in the browser, with a point of sale screen for the counter.
+  - q: Can it send messages to customers?
+    a: Yes. Order confirmations, invoices and offers can go to customers on WhatsApp.

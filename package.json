@@ -1,0 +1,24 @@
+{
+  "name": "bizcare-web",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "The new bizcare.pk company website",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "build:live": "BIZCARE_LIVE=1 astro build",
+    "preview": "astro preview",
+    "check": "astro check && astro build && node scripts/check.mjs"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "dependencies": {
+    "astro": "7.3.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "typescript": "6.0.3"
+  }
+}

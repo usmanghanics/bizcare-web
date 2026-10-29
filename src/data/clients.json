@@ -1,0 +1,1107 @@
+[
+  {
+    "id": "ahmad-nawaz-flour-mills-fort-abbas",
+    "name": "Ahmad Nawaz Flour Mills",
+    "town": "Fort Abbas, Bahawalnagar",
+    "region": "bahawalpur",
+    "edition": "desktop",
+    "since": "2023-11-15",
+    "photo": "../assets/clients/ahmad-nawaz-flour-mills-fort-abbas.jpg"
+  },
+  {
+    "id": "bahawalnagar-flour-mills-bahawalnagar",
+    "name": "Bahawalnagar Flour Mills",
+    "town": "Bahawalnagar",
+    "region": "bahawalpur",
+    "edition": "cloud",
+    "since": "2021-01-08",
+    "photo": "../assets/clients/bahawalnagar-flour-mills-bahawalnagar.jpg"
+  },
+  {
+    "id": "chaudhary-flour-mills-hasilpur",
+    "name": "Chaudhary Flour Mills",
+    "town": "Hasilpur, Bahawalpur",
+    "region": "bahawalpur",
+    "edition": "cloud",
+    "since": "2020-07-01",
+    "photo": "../assets/clients/chaudhary-flour-mills-hasilpur.jpg"
+  },
+  {
+    "id": "dawood-flour-mills-bahawalpur",
+    "name": "Dawood Flour Mills",
+    "town": "Bahawalpur",
+    "region": "bahawalpur",
+    "edition": "cloud",
+    "since": "2025-04-09",
+    "photo": "../assets/clients/dawood-flour-mills-bahawalpur.jpg"
+  },
+  {
+    "id": "fort-flour-mills-fort-abbas",
+    "name": "Fort Flour Mills",
+    "town": "Fort Abbas, Bahawalnagar",
+    "region": "bahawalpur",
+    "edition": "cloud",
+    "since": "2021-01-28",
+    "photo": "../assets/clients/fort-flour-mills-fort-abbas.jpg"
+  },
+  {
+    "id": "gulab-flour-mills-hasilpur",
+    "name": "Gulab Flour Mills",
+    "town": "Hasilpur, Bahawalpur",
+    "region": "bahawalpur",
+    "edition": "cloud",
+    "since": "2020-12-14",
+    "photo": "../assets/clients/gulab-flour-mills-hasilpur.jpg"
+  },
+  {
+    "id": "hm-flour-mills-chishtian",
+    "name": "HM Flour Mills",
+    "town": "Chishtian, Bahawalnagar",
+    "region": "bahawalpur",
+    "edition": "cloud",
+    "since": "2021-01-07",
+    "photo": "../assets/clients/hm-flour-mills-chishtian.jpg"
+  },
+  {
+    "id": "haji-muhammad-amin-flour-mills-rahim-yar-khan",
+    "name": "Haji Muhammad Amin Flour Mills",
+    "town": "Rahim Yar Khan",
+    "region": "bahawalpur",
+    "edition": "cloud",
+    "since": "2023-06-04",
+    "photo": "../assets/clients/haji-muhammad-amin-flour-mills-rahim-yar-khan.jpg"
+  },
+  {
+    "id": "neelum-flour-mills-lodharan",
+    "name": "Neelum Flour Mills",
+    "town": "Lodharan, Bahawalpur",
+    "region": "bahawalpur",
+    "edition": "cloud",
+    "since": "2025-04-11",
+    "photo": "../assets/clients/neelum-flour-mills-lodharan.jpg"
+  },
+  {
+    "id": "sd-flour-mills-fort-abbas",
+    "name": "SD Flour Mills",
+    "town": "Fort Abbas, Bahawalnagar",
+    "region": "bahawalpur",
+    "edition": "cloud",
+    "since": "2023-07-27",
+    "photo": "../assets/clients/sd-flour-mills-fort-abbas.jpg"
+  },
+  {
+    "id": "sharaf-din-flour-mills-fort-abbas",
+    "name": "Sharaf Din Flour Mills",
+    "town": "Fort Abbas, Bahawalnagar",
+    "region": "bahawalpur",
+    "edition": "cloud",
+    "since": "2021-01-04",
+    "photo": "../assets/clients/sharaf-din-flour-mills-fort-abbas.jpg"
+  },
+  {
+    "id": "shareef-flour-mills-hasilpur",
+    "name": "Shareef Flour Mills",
+    "town": "Hasilpur, Bahawalpur",
+    "region": "bahawalpur",
+    "edition": "cloud",
+    "since": "2020-12-14",
+    "photo": "../assets/clients/shareef-flour-mills-hasilpur.jpg"
+  },
+  {
+    "id": "chaman-flour-mills-pishin",
+    "name": "Chaman Flour Mills",
+    "town": "Pishin",
+    "region": "balochistan",
+    "edition": "cloud",
+    "since": "2022-09-20",
+    "photo": "../assets/clients/chaman-flour-mills-pishin.jpg"
+  },
+  {
+    "id": "darwaishabad-flour-mills-pishin",
+    "name": "Darwaishabad Flour Mills",
+    "town": "Pishin",
+    "region": "balochistan",
+    "edition": "cloud",
+    "since": "2023-01-01",
+    "photo": "../assets/clients/darwaishabad-flour-mills-pishin.jpg"
+  },
+  {
+    "id": "makran-flour-mills-turbat",
+    "name": "Makran Flour Mills",
+    "town": "Turbat",
+    "region": "balochistan",
+    "edition": "cloud",
+    "since": "2021-03-24",
+    "photo": "../assets/clients/makran-flour-mills-turbat.jpg"
+  },
+  {
+    "id": "pak-rozi-flour-mills-quetta",
+    "name": "Pak Rozi Flour Mills",
+    "town": "Quetta",
+    "region": "balochistan",
+    "edition": "cloud",
+    "since": "2022-07-17",
+    "photo": "../assets/clients/pak-rozi-flour-mills-quetta.jpg"
+  },
+  {
+    "id": "salam-flour-mills-quetta",
+    "name": "Salam Flour Mills",
+    "town": "Quetta",
+    "region": "balochistan",
+    "edition": "cloud",
+    "since": "2023-08-23",
+    "photo": "../assets/clients/salam-flour-mills-quetta.jpg"
+  },
+  {
+    "id": "al-hamd-flour-mills-dera-ismail-khan",
+    "name": "Al-Hamd Flour Mills",
+    "town": "Dera Ismail Khan",
+    "region": "di-khan",
+    "edition": "cloud",
+    "since": "2023-12-10",
+    "photo": "../assets/clients/al-hamd-flour-mills-dera-ismail-khan.jpg"
+  },
+  {
+    "id": "bahoo-flour-general-mills-dera-ismail-khan",
+    "name": "Bahoo Flour & General Mills",
+    "town": "Dera Ismail Khan",
+    "region": "di-khan",
+    "edition": "cloud",
+    "since": "2024-12-20",
+    "photo": "../assets/clients/bahoo-flour-general-mills-dera-ismail-khan.jpg"
+  },
+  {
+    "id": "damaan-flour-general-mills-dera-ismail-khan",
+    "name": "Damaan Flour & General Mills",
+    "town": "Dera Ismail Khan",
+    "region": "di-khan",
+    "edition": "cloud",
+    "since": "2023-05-14",
+    "photo": "../assets/clients/damaan-flour-general-mills-dera-ismail-khan.jpg"
+  },
+  {
+    "id": "makkah-flour-mills-dera-ismail-khan",
+    "name": "Makkah Flour Mills",
+    "town": "Dera Ismail Khan",
+    "region": "di-khan",
+    "edition": "cloud",
+    "since": "2024-06-08",
+    "photo": "../assets/clients/makkah-flour-mills-dera-ismail-khan.jpg"
+  },
+  {
+    "id": "mewa-flour-general-mills-dera-ismail-khan",
+    "name": "Mewa Flour & General Mills",
+    "town": "Dera Ismail Khan",
+    "region": "di-khan",
+    "edition": "cloud",
+    "since": "2024-05-18",
+    "photo": "../assets/clients/mewa-flour-general-mills-dera-ismail-khan.jpg"
+  },
+  {
+    "id": "al-habib-flour-mills-faisalabad",
+    "name": "Al-Habib Flour Mills",
+    "town": "Faisalabad",
+    "region": "faisalabad",
+    "edition": "cloud",
+    "since": "2024-05-26",
+    "photo": "../assets/clients/al-habib-flour-mills-faisalabad.jpg"
+  },
+  {
+    "id": "awais-flour-mills-faisalabad",
+    "name": "Awais Flour Mills",
+    "town": "Faisalabad",
+    "region": "faisalabad",
+    "edition": "cloud",
+    "since": "2024-06-25",
+    "photo": "../assets/clients/awais-flour-mills-faisalabad.jpg"
+  },
+  {
+    "id": "chiragh-flour-mills-toba-tek-singh",
+    "name": "Chiragh Flour Mills",
+    "town": "Toba Tek Singh, Faisalabad",
+    "region": "faisalabad",
+    "edition": "cloud",
+    "since": "2023-09-13",
+    "photo": "../assets/clients/chiragh-flour-mills-toba-tek-singh.jpg"
+  },
+  {
+    "id": "fawad-flour-general-mills-nankana-sahib",
+    "name": "Fawad Flour & General Mills",
+    "town": "Nankana Sahib",
+    "region": "faisalabad",
+    "edition": "cloud",
+    "since": "2023-12-31",
+    "photo": "../assets/clients/fawad-flour-general-mills-nankana-sahib.jpg"
+  },
+  {
+    "id": "husnain-flour-mills-faisalabad",
+    "name": "Husnain Flour Mills",
+    "town": "Faisalabad",
+    "region": "faisalabad",
+    "edition": "cloud",
+    "since": "2024-05-19",
+    "photo": "../assets/clients/husnain-flour-mills-faisalabad.jpg"
+  },
+  {
+    "id": "shahkot-flour-mills-shahkot",
+    "name": "Shahkot Flour Mills",
+    "town": "Shahkot, Nankana Sahib",
+    "region": "faisalabad",
+    "edition": "cloud",
+    "since": "2023-01-01",
+    "photo": "../assets/clients/shahkot-flour-mills-shahkot.jpg"
+  },
+  {
+    "id": "shahzad-flour-mills-nankana-sahib",
+    "name": "Shahzad Flour Mills",
+    "town": "Nankana Sahib",
+    "region": "faisalabad",
+    "edition": "cloud",
+    "since": "2023-12-31"
+  },
+  {
+    "id": "shorkot-flour-mills-shorkot",
+    "name": "Shorkot Flour Mills",
+    "town": "Shorkot, Faisalabad",
+    "region": "faisalabad",
+    "edition": "cloud",
+    "since": "2025-02-16",
+    "photo": "../assets/clients/shorkot-flour-mills-shorkot.jpg"
+  },
+  {
+    "id": "sudais-flour-mills-jhang",
+    "name": "Sudais Flour Mills",
+    "town": "Jhang, Faisalabad",
+    "region": "faisalabad",
+    "edition": "desktop",
+    "since": "2021-06-17",
+    "photo": "../assets/clients/sudais-flour-mills-jhang.jpg"
+  },
+  {
+    "id": "e-man-flour-mills-jhang",
+    "name": "e-Man Flour Mills",
+    "town": "Jhang, Faisalabad",
+    "region": "faisalabad",
+    "edition": "cloud",
+    "since": "2024-08-24",
+    "photo": "../assets/clients/e-man-flour-mills-jhang.jpg"
+  },
+  {
+    "id": "akhtar-flour-mills-gujranwala",
+    "name": "Akhtar Flour Mills",
+    "town": "Gujranwala",
+    "region": "gujranwala",
+    "edition": "cloud",
+    "since": "2021-10-29",
+    "photo": "../assets/clients/akhtar-flour-mills-gujranwala.jpg"
+  },
+  {
+    "id": "al-qadir-flour-mills-gujranwala",
+    "name": "Al-Qadir Flour Mills",
+    "town": "Gujranwala",
+    "region": "gujranwala",
+    "edition": "cloud",
+    "since": "2024-10-13",
+    "photo": "../assets/clients/al-qadir-flour-mills-gujranwala.jpg"
+  },
+  {
+    "id": "ali-ahmad-awan-flour-mills-sialkot",
+    "name": "Ali Ahmad Awan Flour Mills",
+    "town": "Sialkot",
+    "region": "gujranwala",
+    "edition": "cloud",
+    "since": "2023-05-22",
+    "photo": "../assets/clients/ali-ahmad-awan-flour-mills-sialkot.jpg"
+  },
+  {
+    "id": "ayra-flour-mills-nowshera-virkan",
+    "name": "Ayra Flour Mills",
+    "town": "Nowshera Virkan, Gujranwala",
+    "region": "gujranwala",
+    "edition": "cloud",
+    "since": "2025-01-05",
+    "photo": "../assets/clients/ayra-flour-mills-nowshera-virkan.jpg"
+  },
+  {
+    "id": "azam-flour-mills-siranwali",
+    "name": "Azam Flour Mills",
+    "town": "Siranwali, Sialkot",
+    "region": "gujranwala",
+    "edition": "cloud",
+    "since": "2023-09-10",
+    "photo": "../assets/clients/azam-flour-mills-siranwali.jpg"
+  },
+  {
+    "id": "barkat-flour-mills-sialkot",
+    "name": "Barkat Flour Mills",
+    "town": "Sialkot",
+    "region": "gujranwala",
+    "edition": "cloud",
+    "since": "2023-07-11",
+    "photo": "../assets/clients/barkat-flour-mills-sialkot.jpg"
+  },
+  {
+    "id": "canal-flour-and-general-mills-nowshera-virkan",
+    "name": "Canal Flour and General Mills",
+    "town": "Nowshera Virkan, Gujranwala",
+    "region": "gujranwala",
+    "edition": "cloud",
+    "since": "2022-08-27",
+    "photo": "../assets/clients/canal-flour-and-general-mills-nowshera-virkan.jpg"
+  },
+  {
+    "id": "chaudhary-flour-general-mills-sialkot",
+    "name": "Chaudhary Flour & General Mills",
+    "town": "Sialkot",
+    "region": "gujranwala",
+    "edition": "cloud",
+    "since": "2021-09-29",
+    "photo": "../assets/clients/chaudhary-flour-general-mills-sialkot.jpg"
+  },
+  {
+    "id": "hassan-aziz-flour-mills-kalaske",
+    "name": "Hassan Aziz Flour Mills",
+    "town": "Kalaske, Gujranwala",
+    "region": "gujranwala",
+    "edition": "cloud",
+    "since": "2021-08-25",
+    "photo": "../assets/clients/hassan-aziz-flour-mills-kalaske.jpg"
+  },
+  {
+    "id": "hudaibia-flour-general-mills-sialkot",
+    "name": "Hudaibia Flour & General Mills",
+    "town": "Sialkot",
+    "region": "gujranwala",
+    "edition": "desktop",
+    "since": "2021-02-04",
+    "photo": "../assets/clients/hudaibia-flour-general-mills-sialkot.jpg"
+  },
+  {
+    "id": "nasir-al-habib-flour-mills-sialkot",
+    "name": "Nasir Al-Habib Flour Mills",
+    "town": "Sialkot",
+    "region": "gujranwala",
+    "edition": "cloud",
+    "since": "2023-12-14",
+    "photo": "../assets/clients/nasir-al-habib-flour-mills-sialkot.jpg"
+  },
+  {
+    "id": "nowshera-virkan-flour-mills-nowshera-virkan",
+    "name": "Nowshera Virkan Flour Mills",
+    "town": "Nowshera Virkan, Gujranwala",
+    "region": "gujranwala",
+    "edition": "cloud",
+    "since": "2021-12-11",
+    "photo": "../assets/clients/nowshera-virkan-flour-mills-nowshera-virkan.jpg"
+  },
+  {
+    "id": "ahmad-flour-mills-hafizabad",
+    "name": "Ahmad Flour Mills",
+    "town": "Hafizabad, Gujrat",
+    "region": "gujrat",
+    "edition": "cloud",
+    "since": "2024-10-22",
+    "photo": "../assets/clients/ahmad-flour-mills-hafizabad.jpg"
+  },
+  {
+    "id": "azam-flour-mills-hafizabad",
+    "name": "Azam Flour Mills",
+    "town": "Hafizabad, Gujrat",
+    "region": "gujrat",
+    "edition": "cloud",
+    "since": "2023-05-28",
+    "photo": "../assets/clients/azam-flour-mills-hafizabad.jpg"
+  },
+  {
+    "id": "chenab-flour-mills-gujrat",
+    "name": "Chenab Flour Mills",
+    "town": "Gujrat",
+    "region": "gujrat",
+    "edition": "cloud",
+    "since": "2021-10-21",
+    "photo": "../assets/clients/chenab-flour-mills-gujrat.jpg"
+  },
+  {
+    "id": "fahad-flour-general-mills-phalia",
+    "name": "Fahad Flour & General Mills",
+    "town": "Phalia, Mandi Bahaudin",
+    "region": "gujrat",
+    "edition": "cloud",
+    "since": "2022-08-11",
+    "photo": "../assets/clients/fahad-flour-general-mills-phalia.jpg"
+  },
+  {
+    "id": "phalia-flour-general-mills-phalia",
+    "name": "Phalia Flour & General Mills",
+    "town": "Phalia, Mandi Bahaudin",
+    "region": "gujrat",
+    "edition": "desktop",
+    "since": "2022-08-12",
+    "photo": "../assets/clients/phalia-flour-general-mills-phalia.jpg"
+  },
+  {
+    "id": "al-madina-flour-mills-rawalpindi",
+    "name": "Al-Madina Flour Mills",
+    "town": "Rawalpindi",
+    "region": "islamabad",
+    "edition": "desktop",
+    "since": "2023-11-19",
+    "photo": "../assets/clients/al-madina-flour-mills-rawalpindi.jpg"
+  },
+  {
+    "id": "al-qamar-flour-mills-rawalpindi",
+    "name": "Al-Qamar Flour Mills",
+    "town": "Rawalpindi",
+    "region": "islamabad",
+    "edition": "cloud",
+    "since": "2023-11-12",
+    "photo": "../assets/clients/al-qamar-flour-mills-rawalpindi.jpg"
+  },
+  {
+    "id": "al-shareef-flour-mills-taxila",
+    "name": "Al-Shareef Flour Mills",
+    "town": "Taxila, Rawalpindi",
+    "region": "islamabad",
+    "edition": "cloud",
+    "since": "2024-01-07",
+    "photo": "../assets/clients/al-shareef-flour-mills-taxila.jpg"
+  },
+  {
+    "id": "chenab-flour-mills-hassan-abdal",
+    "name": "Chenab Flour Mills",
+    "town": "Hassan Abdal, Rawalpindi",
+    "region": "islamabad",
+    "edition": "cloud",
+    "since": "2024-11-03",
+    "photo": "../assets/clients/chenab-flour-mills-hassan-abdal.jpg"
+  },
+  {
+    "id": "jamil-flour-mills-rawat",
+    "name": "Jamil Flour Mills",
+    "town": "Rawat, Islamabad",
+    "region": "islamabad",
+    "edition": "desktop",
+    "since": "2021-06-15",
+    "photo": "../assets/clients/jamil-flour-mills-rawat.jpg"
+  },
+  {
+    "id": "modern-flour-and-general-mills-kharian",
+    "name": "Modern Flour and General Mills",
+    "town": "Kharian, Islamabad",
+    "region": "islamabad",
+    "edition": "cloud",
+    "since": "2020-12-31",
+    "photo": "../assets/clients/modern-flour-and-general-mills-kharian.jpg"
+  },
+  {
+    "id": "mukhtar-flour-mills-sector-i-9",
+    "name": "Mukhtar Flour Mills",
+    "town": "Sector I-9, Islamabad",
+    "region": "islamabad",
+    "edition": "cloud",
+    "since": "2022-11-12",
+    "photo": "../assets/clients/mukhtar-flour-mills-sector-i-9.jpg"
+  },
+  {
+    "id": "sitara-flour-mills-wah-cantt",
+    "name": "Sitara Flour Mills",
+    "town": "Wah Cantt, Rawalpindi",
+    "region": "islamabad",
+    "edition": "desktop",
+    "since": "2021-07-07",
+    "photo": "../assets/clients/sitara-flour-mills-wah-cantt.jpg"
+  },
+  {
+    "id": "sohawa-flour-and-general-mills-chakwal",
+    "name": "Sohawa Flour and General Mills",
+    "town": "Chakwal",
+    "region": "islamabad",
+    "edition": "desktop",
+    "since": "2022-07-08",
+    "photo": "../assets/clients/sohawa-flour-and-general-mills-chakwal.jpg"
+  },
+  {
+    "id": "sudais-flour-mills-rawat",
+    "name": "Sudais Flour Mills",
+    "town": "Rawat, Islamabad",
+    "region": "islamabad",
+    "edition": "desktop",
+    "since": "2023-07-16",
+    "photo": "../assets/clients/sudais-flour-mills-rawat.jpg"
+  },
+  {
+    "id": "sultan-zaman-flour-mills-rawat",
+    "name": "Sultan Zaman Flour Mills",
+    "town": "Rawat, Islamabad",
+    "region": "islamabad",
+    "edition": "desktop",
+    "since": "2022-11-11",
+    "photo": "../assets/clients/sultan-zaman-flour-mills-rawat.jpg"
+  },
+  {
+    "id": "two-star-flour-mills-taxila",
+    "name": "Two Star Flour Mills",
+    "town": "Taxila, Rawalpindi",
+    "region": "islamabad",
+    "edition": "desktop",
+    "since": "2021-07-07",
+    "photo": "../assets/clients/two-star-flour-mills-taxila.jpg"
+  },
+  {
+    "id": "zain-flour-mills-attock",
+    "name": "Zain Flour Mills",
+    "town": "Attock",
+    "region": "islamabad",
+    "edition": "desktop",
+    "since": "2022-09-26",
+    "photo": "../assets/clients/zain-flour-mills-attock.jpg"
+  },
+  {
+    "id": "ahmad-hashmi-flour-mills-sheikhupura",
+    "name": "Ahmad Hashmi Flour Mills",
+    "town": "Sheikhupura",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2022-09-13",
+    "photo": "../assets/clients/ahmad-hashmi-flour-mills-sheikhupura.jpg"
+  },
+  {
+    "id": "al-hamd-flour-mills-kot-abdul-malik",
+    "name": "Al-Hamd Flour Mills",
+    "town": "Kot Abdul Malik, Lahore",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2020-12-30",
+    "photo": "../assets/clients/al-hamd-flour-mills-kot-abdul-malik.jpg"
+  },
+  {
+    "id": "al-hassan-flour-mills-kasur",
+    "name": "Al-Hassan Flour Mills",
+    "town": "Kasur",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2021-03-06",
+    "photo": "../assets/clients/al-hassan-flour-mills-kasur.jpg"
+  },
+  {
+    "id": "al-majeed-flour-mills-bhai-pheru",
+    "name": "Al-Majeed Flour Mills",
+    "town": "Bhai Pheru, Kasur",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2021-07-12",
+    "photo": "../assets/clients/al-majeed-flour-mills-bhai-pheru.jpg"
+  },
+  {
+    "id": "al-wahab-flour-mills-phoolnagar",
+    "name": "Al-Wahab Flour Mills",
+    "town": "Phoolnagar, Lahore",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2021-02-17",
+    "photo": "../assets/clients/al-wahab-flour-mills-phoolnagar.jpg"
+  },
+  {
+    "id": "awami-flour-mills-lahore",
+    "name": "Awami Flour Mills",
+    "town": "Lahore",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2021-04-02",
+    "photo": "../assets/clients/awami-flour-mills-lahore.jpg"
+  },
+  {
+    "id": "great-falcon-flour-general-mills-narang-mandi",
+    "name": "Great Falcon Flour & General Mills",
+    "town": "Narang Mandi, Lahore",
+    "region": "lahore",
+    "edition": "cloud",
+    "since": "2024-11-03",
+    "photo": "../assets/clients/great-falcon-flour-general-mills-narang-mandi.jpg"
+  },
+  {
+    "id": "habib-flour-mills-shahdara",
+    "name": "Habib Flour Mills",
+    "town": "Shahdara, Lahore",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2021-02-18",
+    "photo": "../assets/clients/habib-flour-mills-shahdara.jpg"
+  },
+  {
+    "id": "haji-bashir-flour-mills-kasur",
+    "name": "Haji Bashir Flour Mills",
+    "town": "Kasur",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2021-04-22",
+    "photo": "../assets/clients/haji-bashir-flour-mills-kasur.jpg"
+  },
+  {
+    "id": "meeran-flour-mills-phoolnagar",
+    "name": "Meeran Flour Mills",
+    "town": "Phoolnagar, Lahore",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2021-02-08",
+    "photo": "../assets/clients/meeran-flour-mills-phoolnagar.jpg"
+  },
+  {
+    "id": "miller-and-baker-flour-mills-raiwind",
+    "name": "Miller and Baker Flour Mills",
+    "town": "Raiwind, Lahore",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2024-03-18"
+  },
+  {
+    "id": "national-flour-mills-kasur",
+    "name": "National Flour Mills",
+    "town": "Kasur",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2023-08-27",
+    "photo": "../assets/clients/national-flour-mills-kasur.jpg"
+  },
+  {
+    "id": "natural-flour-mills-manga-mandi",
+    "name": "Natural Flour Mills",
+    "town": "Manga Mandi, Lahore",
+    "region": "lahore",
+    "edition": "cloud",
+    "since": "2024-04-20",
+    "photo": "../assets/clients/natural-flour-mills-manga-mandi.jpg"
+  },
+  {
+    "id": "raiwind-flour-mills-raiwind",
+    "name": "Raiwind Flour Mills",
+    "town": "Raiwind, Lahore",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2022-05-04",
+    "photo": "../assets/clients/raiwind-flour-mills-raiwind.jpg"
+  },
+  {
+    "id": "sunehri-flour-mills-kala-shah-kaku",
+    "name": "Sunehri Flour Mills",
+    "town": "Kala Shah Kaku, Lahore",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2021-08-21",
+    "photo": "../assets/clients/sunehri-flour-mills-kala-shah-kaku.jpg"
+  },
+  {
+    "id": "tariq-nawaz-flour-mills-bhai-pheru",
+    "name": "Tariq Nawaz Flour Mills",
+    "town": "Bhai Pheru, Kasur",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2021-08-05",
+    "photo": "../assets/clients/tariq-nawaz-flour-mills-bhai-pheru.jpg"
+  },
+  {
+    "id": "united-flour-mills-allah-abad",
+    "name": "United Flour Mills",
+    "town": "Allah Abad, Kasur",
+    "region": "lahore",
+    "edition": "desktop",
+    "since": "2023-02-04",
+    "photo": "../assets/clients/united-flour-mills-allah-abad.jpg"
+  },
+  {
+    "id": "al-makka-flour-mills-swat",
+    "name": "Al-Makka Flour Mills",
+    "town": "Swat",
+    "region": "malakand",
+    "edition": "cloud",
+    "since": "2024-11-24",
+    "photo": "../assets/clients/al-makka-flour-mills-swat.jpg"
+  },
+  {
+    "id": "al-rehman-flour-mills-havelian",
+    "name": "Al-Rehman Flour Mills",
+    "town": "Havelian, Abbottabad",
+    "region": "malakand",
+    "edition": "cloud",
+    "since": "2021-12-15",
+    "photo": "../assets/clients/al-rehman-flour-mills-havelian.jpg"
+  },
+  {
+    "id": "chamla-flour-mills-buner",
+    "name": "Chamla Flour Mills",
+    "town": "Buner",
+    "region": "malakand",
+    "edition": "cloud",
+    "since": "2023-04-14",
+    "photo": "../assets/clients/chamla-flour-mills-buner.jpg"
+  },
+  {
+    "id": "javed-flour-mills-mansehra",
+    "name": "Javed Flour Mills",
+    "town": "Mansehra",
+    "region": "malakand",
+    "edition": "cloud",
+    "since": "2023-04-15",
+    "photo": "../assets/clients/javed-flour-mills-mansehra.jpg"
+  },
+  {
+    "id": "malakand-flour-mills-malakand",
+    "name": "Malakand Flour Mills",
+    "town": "Malakand",
+    "region": "malakand",
+    "edition": "cloud",
+    "since": "2023-02-08",
+    "photo": "../assets/clients/malakand-flour-mills-malakand.jpg"
+  },
+  {
+    "id": "malik-flour-mills-haripur",
+    "name": "Malik Flour Mills",
+    "town": "Haripur, KPK",
+    "region": "malakand",
+    "edition": "cloud",
+    "since": "2021-06-01",
+    "photo": "../assets/clients/malik-flour-mills-haripur.jpg"
+  },
+  {
+    "id": "marghuzar-flour-mills-mingora",
+    "name": "Marghuzar Flour Mills",
+    "town": "Mingora, Swat",
+    "region": "malakand",
+    "edition": "desktop",
+    "since": "2023-10-01",
+    "photo": "../assets/clients/marghuzar-flour-mills-mingora.jpg"
+  },
+  {
+    "id": "mughal-flour-mills-haripur",
+    "name": "Mughal Flour Mills",
+    "town": "Haripur",
+    "region": "malakand",
+    "edition": "desktop",
+    "since": "2021-12-18",
+    "photo": "../assets/clients/mughal-flour-mills-haripur.jpg"
+  },
+  {
+    "id": "sahil-flour-mills-bajaur",
+    "name": "Sahil Flour Mills",
+    "town": "Bajaur",
+    "region": "malakand",
+    "edition": "cloud",
+    "since": "2023-09-25",
+    "photo": "../assets/clients/sahil-flour-mills-bajaur.jpg"
+  },
+  {
+    "id": "sartaj-flour-mills-havelian",
+    "name": "Sartaj Flour Mills",
+    "town": "Havelian, Abbottabad",
+    "region": "malakand",
+    "edition": "desktop",
+    "since": "2021-06-14",
+    "photo": "../assets/clients/sartaj-flour-mills-havelian.jpg"
+  },
+  {
+    "id": "sheikh-flour-mills-mansehra",
+    "name": "Sheikh Flour Mills",
+    "town": "Mansehra",
+    "region": "malakand",
+    "edition": "cloud",
+    "since": "2023-04-30",
+    "photo": "../assets/clients/sheikh-flour-mills-mansehra.jpg"
+  },
+  {
+    "id": "abdullah-flour-mills-multan",
+    "name": "Abdullah Flour Mills",
+    "town": "Multan",
+    "region": "multan",
+    "edition": "desktop",
+    "since": "2021-07-07",
+    "photo": "../assets/clients/abdullah-flour-mills-multan.jpg"
+  },
+  {
+    "id": "bismillah-flour-mills-burewala",
+    "name": "Bismillah Flour Mills",
+    "town": "Burewala",
+    "region": "multan",
+    "edition": "cloud",
+    "since": "2023-09-03",
+    "photo": "../assets/clients/bismillah-flour-mills-burewala.jpg"
+  },
+  {
+    "id": "ittehad-flour-mills-multan",
+    "name": "Ittehad Flour Mills",
+    "town": "Multan",
+    "region": "multan",
+    "edition": "cloud",
+    "since": "2025-01-02",
+    "photo": "../assets/clients/ittehad-flour-mills-multan.jpg"
+  },
+  {
+    "id": "rafi-abdullah-flour-mills-kacha-khuh",
+    "name": "Rafi Abdullah Flour Mills",
+    "town": "Kacha Khuh, Khanewal",
+    "region": "multan",
+    "edition": "cloud",
+    "since": "2022-09-09",
+    "photo": "../assets/clients/rafi-abdullah-flour-mills-kacha-khuh.jpg"
+  },
+  {
+    "id": "ajwa-flour-mills-bannu",
+    "name": "Ajwa Flour Mills",
+    "town": "Bannu",
+    "region": "peshawar",
+    "edition": "cloud",
+    "since": "2023-03-11",
+    "photo": "../assets/clients/ajwa-flour-mills-bannu.jpg"
+  },
+  {
+    "id": "alam-flour-general-mills-charsadda",
+    "name": "Alam Flour & General Mills",
+    "town": "Charsadda",
+    "region": "peshawar",
+    "edition": "cloud",
+    "since": "2021-10-02",
+    "photo": "../assets/clients/alam-flour-general-mills-charsadda.jpg"
+  },
+  {
+    "id": "faiz-flour-mills-shabqadar",
+    "name": "Faiz Flour Mills",
+    "town": "Shabqadar, Peshawar",
+    "region": "peshawar",
+    "edition": "cloud",
+    "since": "2023-12-30",
+    "photo": "../assets/clients/faiz-flour-mills-shabqadar.jpg"
+  },
+  {
+    "id": "hoti-flour-mills-mardan",
+    "name": "Hoti Flour Mills",
+    "town": "Mardan",
+    "region": "peshawar",
+    "edition": "cloud",
+    "since": "2022-12-27",
+    "photo": "../assets/clients/hoti-flour-mills-mardan.jpg"
+  },
+  {
+    "id": "malak-flour-mills-lakki-marwat",
+    "name": "Malak Flour Mills",
+    "town": "Lakki Marwat, Bannu",
+    "region": "peshawar",
+    "edition": "cloud",
+    "since": "2022-07-24",
+    "photo": "../assets/clients/malak-flour-mills-lakki-marwat.jpg"
+  },
+  {
+    "id": "qadeer-flour-mills-nowshera",
+    "name": "Qadeer Flour Mills",
+    "town": "Nowshera",
+    "region": "peshawar",
+    "edition": "cloud",
+    "since": "2021-11-14",
+    "photo": "../assets/clients/qadeer-flour-mills-nowshera.jpg"
+  },
+  {
+    "id": "rehman-flour-and-general-mills-charsadda",
+    "name": "Rehman Flour and General Mills",
+    "town": "Charsadda",
+    "region": "peshawar",
+    "edition": "cloud",
+    "since": "2020-06-12",
+    "photo": "../assets/clients/rehman-flour-and-general-mills-charsadda.jpg"
+  },
+  {
+    "id": "rehmat-flour-mills-peshawar",
+    "name": "Rehmat Flour Mills",
+    "town": "Peshawar",
+    "region": "peshawar",
+    "edition": "cloud",
+    "since": "2020-12-07",
+    "photo": "../assets/clients/rehmat-flour-mills-peshawar.jpg"
+  },
+  {
+    "id": "saif-flour-mills-kohat",
+    "name": "Saif Flour Mills",
+    "town": "Kohat",
+    "region": "peshawar",
+    "edition": "cloud",
+    "since": "2023-12-13",
+    "photo": "../assets/clients/saif-flour-mills-kohat.jpg"
+  },
+  {
+    "id": "sardaryab-flour-mills-sardaryab",
+    "name": "Sardaryab Flour Mills",
+    "town": "Sardaryab, Charsadda",
+    "region": "peshawar",
+    "edition": "cloud",
+    "since": "2020-05-14",
+    "photo": "../assets/clients/sardaryab-flour-mills-sardaryab.jpg"
+  },
+  {
+    "id": "tamnzai-flour-mills-shabqadar",
+    "name": "Tamnzai Flour Mills",
+    "town": "Shabqadar, Peshawar",
+    "region": "peshawar",
+    "edition": "cloud",
+    "since": "2024-03-03",
+    "photo": "../assets/clients/tamnzai-flour-mills-shabqadar.jpg"
+  },
+  {
+    "id": "azan-flour-mills-haveli-lakha",
+    "name": "Azan Flour Mills",
+    "town": "Haveli Lakha, Pakpattan",
+    "region": "sahiwal",
+    "edition": "cloud",
+    "since": "2023-12-24",
+    "photo": "../assets/clients/azan-flour-mills-haveli-lakha.jpg"
+  },
+  {
+    "id": "rafi-flour-mills-okara",
+    "name": "Rafi Flour Mills",
+    "town": "Okara",
+    "region": "sahiwal",
+    "edition": "cloud",
+    "since": "2023-05-19",
+    "photo": "../assets/clients/rafi-flour-mills-okara.jpg"
+  },
+  {
+    "id": "shalimar-flour-mills-pakpattan",
+    "name": "Shalimar Flour Mills",
+    "town": "Pakpattan, Sahiwal",
+    "region": "sahiwal",
+    "edition": "desktop",
+    "since": "2021-09-21",
+    "photo": "../assets/clients/shalimar-flour-mills-pakpattan.jpg"
+  },
+  {
+    "id": "zahoor-flour-mills-sahiwal",
+    "name": "Zahoor Flour Mills",
+    "town": "Sahiwal",
+    "region": "sahiwal",
+    "edition": "desktop",
+    "since": "2023-05-15",
+    "photo": "../assets/clients/zahoor-flour-mills-sahiwal.jpg"
+  },
+  {
+    "id": "zeeshan-flour-mills-akhtarabad",
+    "name": "Zeeshan Flour Mills",
+    "town": "Akhtarabad, Okara",
+    "region": "sahiwal",
+    "edition": "cloud",
+    "since": "2021-09-07",
+    "photo": "../assets/clients/zeeshan-flour-mills-akhtarabad.jpg"
+  },
+  {
+    "id": "al-noor-flour-mills-bhakkar",
+    "name": "Al-Noor Flour Mills",
+    "town": "Bhakkar, Sargodha",
+    "region": "sargodha",
+    "edition": "desktop",
+    "since": "2022-07-07",
+    "photo": "../assets/clients/al-noor-flour-mills-bhakkar.jpg"
+  },
+  {
+    "id": "al-shahbaz-flour-mills-sargodha",
+    "name": "Al-Shahbaz Flour Mills",
+    "town": "Sargodha",
+    "region": "sargodha",
+    "edition": "cloud",
+    "since": "2022-11-20",
+    "photo": "../assets/clients/al-shahbaz-flour-mills-sargodha.jpg"
+  },
+  {
+    "id": "bajwa-flour-mills-sargodha",
+    "name": "Bajwa Flour Mills",
+    "town": "Sargodha",
+    "region": "sargodha",
+    "edition": "cloud",
+    "since": "2024-12-01",
+    "photo": "../assets/clients/bajwa-flour-mills-sargodha.jpg"
+  },
+  {
+    "id": "nawaz-flour-mills-bhakkar",
+    "name": "Nawaz Flour Mills",
+    "town": "Bhakkar, Sargodha",
+    "region": "sargodha",
+    "edition": "desktop",
+    "since": "2021-10-27",
+    "photo": "../assets/clients/nawaz-flour-mills-bhakkar.jpg"
+  },
+  {
+    "id": "sadar-flour-mills-mianwali",
+    "name": "Sadar Flour Mills",
+    "town": "Mianwali, Sargodha",
+    "region": "sargodha",
+    "edition": "desktop",
+    "since": "2022-10-17",
+    "photo": "../assets/clients/sadar-flour-mills-mianwali.jpg"
+  },
+  {
+    "id": "shah-jahan-flour-mills-sargodha",
+    "name": "Shah Jahan Flour Mills",
+    "town": "Sargodha",
+    "region": "sargodha",
+    "edition": "cloud",
+    "since": "2023-10-15",
+    "photo": "../assets/clients/shah-jahan-flour-mills-sargodha.jpg"
+  },
+  {
+    "id": "shandar-flour-mills-mianwali",
+    "name": "Shandar Flour Mills",
+    "town": "Mianwali, Sargodha",
+    "region": "sargodha",
+    "edition": "cloud",
+    "since": "2022-09-11",
+    "photo": "../assets/clients/shandar-flour-mills-mianwali.jpg"
+  },
+  {
+    "id": "al-hamza-flour-mills-mirpur-khas",
+    "name": "Al-Hamza Flour Mills",
+    "town": "Mirpur Khas",
+    "region": "sindh",
+    "edition": "cloud",
+    "since": "2021-05-22",
+    "photo": "../assets/clients/al-hamza-flour-mills-mirpur-khas.jpg"
+  },
+  {
+    "id": "indus-flour-mills-nawabshah",
+    "name": "Indus Flour Mills",
+    "town": "Nawabshah",
+    "region": "sindh",
+    "edition": "cloud",
+    "since": "2024-06-08",
+    "photo": "../assets/clients/indus-flour-mills-nawabshah.jpg"
+  },
+  {
+    "id": "kohinoor-flour-mills-kandhkot",
+    "name": "Kohinoor Flour Mills",
+    "town": "Kandhkot, Kashmore",
+    "region": "sindh",
+    "edition": "cloud",
+    "since": "2021-09-15",
+    "photo": "../assets/clients/kohinoor-flour-mills-kandhkot.jpg"
+  },
+  {
+    "id": "mehran-flour-mills-kandhkot",
+    "name": "Mehran Flour Mills",
+    "town": "Kandhkot, Kashmore",
+    "region": "sindh",
+    "edition": "cloud",
+    "since": "2021-06-25",
+    "photo": "../assets/clients/mehran-flour-mills-kandhkot.jpg"
+  },
+  {
+    "id": "new-sindh-flour-mills-dadu",
+    "name": "New Sindh Flour Mills",
+    "town": "Dadu",
+    "region": "sindh",
+    "edition": "cloud",
+    "since": "2024-06-23",
+    "photo": "../assets/clients/new-sindh-flour-mills-dadu.jpg"
+  },
+  {
+    "id": "sukkur-flour-mills-hyderabad",
+    "name": "Sukkur Flour Mills",
+    "town": "Hyderabad",
+    "region": "sindh",
+    "edition": "cloud",
+    "since": "2022-09-20",
+    "photo": "../assets/clients/sukkur-flour-mills-hyderabad.jpg"
+  }
+]
