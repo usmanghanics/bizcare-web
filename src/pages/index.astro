@@ -1,32 +1,24 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import AppCard from '../components/AppCard.astro';
-import ClientMap from '../components/ClientMap.astro';
 import CtaBand from '../components/CtaBand.astro';
-import Frame from '../components/Frame.astro';
+import HeroMosaic from '../components/HeroMosaic.astro';
 import Icon from '../components/Icon.astro';
-import NumberStrip from '../components/NumberStrip.astro';
-import ProductSwitch from '../components/ProductSwitch.astro';
-import QuoteCard from '../components/QuoteCard.astro';
+import NameMarquee from '../components/NameMarquee.astro';
+import ProductList from '../components/ProductList.astro';
+import RegionCards from '../components/RegionCards.astro';
 import SectionHead from '../components/SectionHead.astro';
+import Services from '../components/Services.astro';
+import Stats from '../components/Stats.astro';
 import Steps from '../components/Steps.astro';
-import WhatsAppMessage from '../components/WhatsAppMessage.astro';
-import WhatsAppPanel from '../components/WhatsAppPanel.astro';
+import Testimonials from '../components/Testimonials.astro';
+import WorkCard from '../components/WorkCard.astro';
 import { company } from '../data/site';
 import { u } from '../lib/url';
 
-const erp = (await getEntry('products', 'bizcare-erp'))!;
-const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
-const quotes = await Promise.all(
-  ['rana-shahid', 'usman-bhatti', 'mukhtar-hussain'].map(async (id) => (await getEntry('quotes', id))!),
-);
+const makki = (await getEntry('apps', 'makki-autocare'))!;
+const others = (await getCollection('apps')).filter((a) => a.id !== 'makki-autocare').sort((a, b) => a.data.order - b.data.order);
 const clients = await getCollection('clients');
-const regions = await getCollection('regions');
-const recent = [...clients].sort((a, b) => b.data.since.localeCompare(a.data.since)).slice(0, 5);
-const cloud = clients.filter((c) => c.data.edition === 'cloud').length;
-const month = (iso: string) =>
-  new Date(iso).toLocaleDateString('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' });
 
 const schema = {
   '@context': 'https://schema.org',
@@ -37,207 +29,165 @@ const schema = {
   logo: new URL(u('/apple-touch-icon.png'), Astro.site).href,
   email: company.email,
   telephone: company.phone,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'Al-Hamd Garden',
-    addressLocality: 'Lahore',
-    addressCountry: 'PK',
-  },
+  address: { '@type': 'PostalAddress', streetAddress: 'Al-Hamd Garden', addressLocality: 'Lahore', addressCountry: 'PK' },
 };
 ---
 
 <Base
-  title="BizCare | Business Software Built for Pakistan"
+  title="BizCare | Software That Runs Pakistan’s Businesses"
   fullTitle
-  description="ERP and point of sale software for flour mills, shops, restaurants, travel agencies, workshops and internet providers, with WhatsApp alerts built in. Trusted by 300+ businesses across Pakistan."
+  description="BizCare Software Solutions is a Lahore software house. ERP, point of sale and mobile apps for flour mills, retail, restaurants, travel agencies, workshops and internet providers. Trusted by 300+ businesses."
   schema={schema}>
-  <!-- 1. Hero -->
-  <section class="hero">
+  <!-- Hero -->
+  <section class="hero dark">
     <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <span class="label">Business Software, Lahore</span>
-        <h1 class="display">Business Software Built for Pakistan</h1>
+      <div class="copy">
+        <span class="eyebrow">Software House, Lahore</span>
+        <h1 class="mega">Software That Runs <span class="teal">Pakistan’s</span> Businesses</h1>
         <p class="lede">
-          ERP and point of sale for flour mills, shops, restaurants, travel agencies, workshops and internet providers.
-          With WhatsApp alerts built in.
+          ERP, point of sale and mobile apps for flour mills, retailers, restaurants, travel agencies, workshops and internet
+          providers.
         </p>
         <div class="btn-row">
-          <a class="btn btn-quiet" href={u('/products/')}>See Products</a>
-          <a class="btn btn-primary" href={u('/contact/')}>Book a Demo</a>
+          <a class="btn btn-teal" href={u('/contact/')}>Book a Demo <Icon name="arrow-right" size={18} /></a>
+          <a class="btn btn-line" href="#work">See Our Work</a>
         </div>
-        <p class="trust small">
-          <Icon name="seal-check" size={20} />
-          Trusted by 300+ businesses in 70+ cities
-        </p>
       </div>
-      <div class="hero-visual">
-        <Frame
-          kind="window"
-          src={erp.data.screen.src}
-          alt={erp.data.screen.alt}
-          title={erp.data.screen.title}
-          sizes="(max-width: 960px) 100vw, 720px"
-          priority
-        />
-        <WhatsAppMessage class="hero-msg" />
-      </div>
+      <HeroMosaic />
+    </div>
+    <div class="wrap proof">
+      <p class="proof-label">Trusted by <b>300+ businesses</b> in 70+ cities</p>
+      <NameMarquee />
     </div>
   </section>
 
-  <!-- 2. Numbers -->
-  <NumberStrip />
-
-  <!-- 3. Pick your business -->
-  <section class="section" aria-labelledby="pick-title">
+  <!-- Who we are -->
+  <section class="section" aria-labelledby="who-title">
     <div class="wrap">
-      <SectionHead
-        id="pick-title"
-        center
-        label="Pick Your Business"
-        title="Software Made for the Work You Do"
-        line="Each product is built around one kind of business. Choose yours."
-      />
-      <ProductSwitch />
+      <span class="eyebrow reveal" id="who-title">Who We Are</span>
+      <p class="statement reveal who">
+        BizCare is a software house in Lahore. For seven years we have built, installed and supported the software that
+        <span class="quiet">flour mills, shops, restaurants, travel agencies, workshops and internet providers across Pakistan run on every day.</span>
+      </p>
+      <div class="stats-gap"><Stats /></div>
+      <a class="link reveal about-link" href={u('/about/')}>More About BizCare <Icon name="arrow-right" size={18} /></a>
     </div>
   </section>
 
-  <!-- 4. WhatsApp alerts -->
-  <WhatsAppPanel />
-
-  <!-- 5. Clients across Pakistan -->
-  <section class="section" aria-labelledby="clients-title">
-    <div class="wrap clients-grid">
-      <ClientMap />
-      <div class="clients-copy">
+  <!-- What we build -->
+  <section class="section dark" aria-labelledby="build-title">
+    <div class="wrap">
+      <div class="head-row">
         <SectionHead
-          id="clients-title"
-          label="Clients Across Pakistan"
-          title="From Peshawar to Turbat"
-          line="Flour mills in every province run on BizCare. These are some of our 300+ clients."
+          id="build-title"
+          label="What We Build"
+          title="One Product for Each Kind of Business"
+          line="Every product sends invoices, reminders and receipts to your customers on WhatsApp."
         />
-        <ul class="facts reveal">
-          <li><span class="num big">{clients.length}</span><span class="muted small">Named clients</span></li>
-          <li><span class="num big">{regions.length}</span><span class="muted small">Regions</span></li>
-          <li><span class="num big">{cloud}</span><span class="muted small">On Cloud ERP</span></li>
-        </ul>
-        <div class="recent reveal">
-          <p class="label">Recently Joined</p>
-          <ul>
-            {
-              recent.map((c) => (
-                <li>
-                  <span>
-                    <span class="rname">{c.data.name}</span>
-                    <span class="rtown">{c.data.town}</span>
-                  </span>
-                  <span class="rdate num">{month(c.data.since)}</span>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-        <a class="link reveal" href={u('/clients/')}>See All Clients <Icon name="arrow-right" size={16} /></a>
+        <a class="btn btn-line reveal" href={u('/products/')}>All Products</a>
       </div>
+      <div class="head-gap"><ProductList /></div>
     </div>
   </section>
 
-  <!-- 6. Quotes -->
-  <section class="section band" aria-labelledby="quotes-title">
+  <!-- Our work -->
+  <section class="section" id="work" aria-labelledby="work-title">
     <div class="wrap">
-      <SectionHead id="quotes-title" center label="What Clients Say" title="In Their Own Words" />
-      <div class="grid grid-3">
-        {quotes.map((q) => <QuoteCard quote={q} />)}
+      <div class="head-row">
+        <SectionHead id="work-title" label="Our Work" title="Apps We Have Built" line="For our clients’ customers, and for Pakistan’s job market." />
+        <a class="btn btn-line reveal" href={u('/apps/')}>All Apps</a>
+      </div>
+      <div class="work head-gap">
+        <WorkCard app={makki} wide />
+        <div class="work-pair">
+          {others.map((a) => <WorkCard app={a} />)}
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 7. Apps -->
-  <section class="section" aria-labelledby="apps-title">
+  <!-- Across Pakistan -->
+  <section class="section soft" aria-labelledby="regions-title">
     <div class="wrap">
       <SectionHead
-        id="apps-title"
-        center
-        label="Apps We Build"
-        title="Apps for Our Clients, and One of Our Own"
-        line="Makki AutoCare and Madadgar Kisan serve our clients' customers. BizCareers is our own jobs app."
+        id="regions-title"
+        label="Clients Across Pakistan"
+        title="From Peshawar to Turbat"
+        line={`${clients.length} named clients in 14 regions, and 300+ businesses in all. Our team installs and trains at every one.`}
       />
-      <div class="grid grid-3">
-        {apps.map((a) => <AppCard app={a} />)}
-      </div>
+      <div class="head-gap"><RegionCards /></div>
     </div>
   </section>
 
-  <!-- 8. How we work -->
-  <section class="section band" aria-labelledby="how-title">
+  <!-- Services -->
+  <section class="section" aria-labelledby="services-title">
     <div class="wrap">
-      <SectionHead id="how-title" center label="How We Work" title="From First Call to Every Day After" />
-      <Steps />
+      <SectionHead id="services-title" label="Services" title="Everything Your Business Needs From Software" />
+      <div class="head-gap"><Services /></div>
     </div>
   </section>
 
-  <!-- 9. Closing -->
+  <!-- Testimonials -->
+  <section class="section dark" aria-labelledby="tst-title">
+    <div class="wrap">
+      <span class="eyebrow reveal" id="tst-title">What Clients Say</span>
+      <div class="tst-gap"><Testimonials /></div>
+    </div>
+  </section>
+
+  <!-- How we work -->
+  <section class="section" aria-labelledby="how-title">
+    <div class="wrap">
+      <SectionHead id="how-title" label="How We Work" title="From First Call to Every Day After" />
+      <div class="head-gap"><Steps /></div>
+    </div>
+  </section>
+
   <CtaBand />
 </Base>
 
 <style>
-  .hero { padding: 40px 0 72px; }
+  .hero { padding-top: calc(var(--bar) + 48px); overflow: hidden; }
   .hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: 56px;
-    align-items: center;
-  }
-  .hero-copy { display: grid; gap: 22px; justify-items: start; }
-  .hero-copy .display { max-width: 12ch; }
-  .trust { display: inline-flex; align-items: center; gap: 8px; font-weight: 650; color: var(--ink-2); }
-  .trust :global(svg) { color: var(--accent); }
-  .hero-visual { position: relative; padding: 0 0 40px 40px; }
-  .hero-visual :global(.hero-msg) { position: absolute; left: 0; bottom: 0; }
-
-  .clients-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 64px;
     align-items: center;
   }
-  .clients-grid :global(.map) { max-width: 520px; justify-self: center; }
-  .clients-copy { display: grid; gap: 28px; }
-  .clients-copy :global(.head + *) { margin-top: 0; }
-  .facts {
+  .copy { display: grid; gap: 30px; justify-items: start; padding-bottom: 40px; }
+  .copy .lede { max-width: 520px; }
+  .proof {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-  }
-  .facts li { display: grid; gap: 2px; padding: 16px 0; }
-  .facts li + li { padding-left: 20px; border-left: 1px solid var(--line); }
-  .big { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
-  .recent { display: grid; gap: 10px; }
-  .recent ul { display: grid; }
-  .recent li {
-    display: flex;
-    justify-content: space-between;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
-    gap: 16px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--line);
+    gap: 40px;
+    margin-top: 24px;
+    padding-top: 32px;
+    padding-bottom: 40px;
+    border-top: 1px solid #1f1f1f;
   }
-  .recent li:last-child { border-bottom: 0; }
-  .rname { display: block; font-weight: 700; line-height: 1.35; }
-  .rtown { display: block; font-size: 0.875rem; color: var(--ink-2); }
-  .rdate { flex: none; font-size: 0.875rem; font-weight: 700; color: var(--ink-2); }
+  .proof-label { font-size: 0.9375rem; color: var(--d-ink-2); white-space: nowrap; }
+  .proof-label b { color: var(--white); }
+
+  .who { margin-top: 28px; max-width: 1100px; }
+  .stats-gap { margin-top: 80px; }
+  .about-link { margin-top: 48px; }
+
+  .work { display: grid; gap: 24px; }
+  .work-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  .tst-gap { margin-top: 48px; }
 
   @media (max-width: 960px) {
-    .hero { padding-top: 24px; }
-    .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
-    .hero-copy .display { max-width: 14ch; }
-    .hero-visual { padding: 0 0 56px; }
-    .hero-visual :global(.hero-msg) { left: 16px; }
-    .clients-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+    .hero { padding-top: calc(var(--bar) + 40px); }
+    .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+    .copy { padding-bottom: 0; }
+    .proof { grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 40px; }
+    .work-pair { grid-template-columns: minmax(0, 1fr); }
+    .stats-gap { margin-top: 56px; }
   }
   @media (max-width: 480px) {
-    .hero-visual :global(.hero-msg) { left: 12px; width: 250px; }
-    .btn-row { width: 100%; }
-    .hero-copy .btn-row .btn { flex: 1 1 0; }
+    .copy .btn-row { width: 100%; }
+    .copy .btn-row .btn { flex: 1 1 auto; }
   }
 </style>

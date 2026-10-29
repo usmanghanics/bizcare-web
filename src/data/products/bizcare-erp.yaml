@@ -19,13 +19,13 @@ highlights:
   - Accounts, profit and loss and cash flow, always up to date
 fixes:
   - icon: package
-    problem: Stock you cannot trust
+    problem: Stock You Cannot Trust
     answer: Stock and product weight are tracked as they move, so the count on screen matches the floor.
   - icon: notebook
-    problem: Accounts that take days
+    problem: Accounts That Take Days
     answer: Ledgers, vouchers, profit and loss and cash flow stay up to date with every entry.
   - icon: whatsapp-logo
-    problem: Customers chasing balances
+    problem: Customers Chasing Balances
     answer: Invoices, payment due notices, receipts and bank transfers reach your customers on WhatsApp.
 features:
   - icon: factory

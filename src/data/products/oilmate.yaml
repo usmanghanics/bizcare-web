@@ -18,13 +18,13 @@ highlights:
   - Quick invoices with the car's full history
 fixes:
   - icon: bell
-    problem: Customers forget to come back
+    problem: Customers Forget to Come Back
     answer: Customers get a reminder by SMS when their next oil change is due.
   - icon: package
-    problem: Stock that does not add up
+    problem: Stock That Does Not Add up
     answer: Oil brands, filters and accessories are tracked with every sale.
   - icon: timer
-    problem: Slow billing at the counter
+    problem: Slow Billing at the Counter
     answer: Quick invoices, with the vehicle, its readings and its oil change history on one screen.
 features:
   - icon: receipt

@@ -18,13 +18,13 @@ highlights:
   - Invoices and financial reports built in
 fixes:
   - icon: file-text
-    problem: Files lost between desks
+    problem: Files Lost Between Desks
     answer: Each application is tracked from documents to approval, so anyone with access can see where it stands.
   - icon: bell
-    problem: Clients calling for updates
+    problem: Clients Calling for Updates
     answer: Clients and agents get reminders and updates automatically, on WhatsApp too.
   - icon: coins
-    problem: Payments hard to follow
+    problem: Payments Hard to Follow
     answer: Invoicing and financial reports are built in, so every payment is accounted for.
 features:
   - icon: airplane-tilt

@@ -18,13 +18,13 @@ highlights:
   - Ingredient stock that updates with every order
 fixes:
   - icon: clipboard-text
-    problem: Orders mixed up at rush hour
+    problem: Orders Mixed up at Rush Hour
     answer: Dine-in, takeaway and delivery orders are managed separately, with tables and reservations.
   - icon: cooking-pot
-    problem: Ingredients run out mid-service
+    problem: Ingredients Run Out Mid-service
     answer: Ingredient stock is tracked in real time, so shortages show early.
   - icon: receipt
-    problem: Bills that do not match
+    problem: Bills That Do Not Match
     answer: Automatic billing with several payment options, and sales reports by order type.
 features:
   - icon: fork-knife

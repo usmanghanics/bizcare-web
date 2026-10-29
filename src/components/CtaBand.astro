@@ -12,51 +12,53 @@ interface Props {
   message?: string;
 }
 const {
-  title = 'See BizCare on Your Own Business',
-  line = 'Tell us what you run, and we will show you the software that fits.',
+  title = 'Let’s Talk About <span class="teal">Your Business</span>',
+  line = 'Tell us what you run, and we will show you the software that fits, on a call or at your place.',
   product,
   message = 'Hello BizCare, I would like a demo.',
 } = Astro.props;
 const demo = u(product ? `/contact/?product=${product}` : '/contact/');
 ---
 
-<section class="section">
-  <div class="wrap">
-    <div class="cta reveal">
-      <div class="text">
-        <h2 class="h2">{title}</h2>
-        <p class="lede">{line}</p>
-      </div>
+<section class="cta dark">
+  <div class="wrap grid-cta">
+    <div class="left reveal">
+      <h2 class="display" set:html={title} />
+      <p class="lede">{line}</p>
       <div class="btn-row">
-        <a class="btn btn-quiet" href={company.phoneHref}><Icon name="phone" /> Call</a>
-        <a class="btn btn-quiet" href={whatsappHref(message)} target="_blank" rel="noopener">
-          <Icon name="whatsapp-logo" class="wa" /> WhatsApp
-        </a>
-        <a class="btn btn-primary" href={demo}>Book a Demo</a>
+        <a class="btn btn-teal" href={demo}>Book a Demo <Icon name="arrow-right" size={18} /></a>
+        <a class="btn btn-line" href={whatsappHref(message)} target="_blank" rel="noopener"><Icon name="whatsapp-logo" class="wa" /> WhatsApp</a>
       </div>
     </div>
+    <ul class="right reveal">
+      <li>
+        <span class="k">Call or WhatsApp</span>
+        <a class="v num" href={company.phoneHref}>{company.phone}</a>
+      </li>
+      <li>
+        <span class="k">Email</span>
+        <a class="v" href={`mailto:${company.email}`}>{company.email}</a>
+      </li>
+      <li>
+        <span class="k">Office</span>
+        <a class="v" href={company.mapsHref} target="_blank" rel="noopener">Al-Hamd Garden, Lahore</a>
+      </li>
+    </ul>
   </div>
 </section>
 
 <style>
-  .cta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 32px;
-    padding: 48px;
-    border-radius: var(--radius-lg);
-    background: var(--accent-tint);
-  }
-  .text { display: grid; gap: 10px; max-width: 560px; }
-  .cta :global(.wa) { color: var(--whatsapp); }
-  @media (max-width: 960px) {
-    .cta { flex-direction: column; align-items: flex-start; padding: 36px 28px; }
-  }
-  @media (max-width: 480px) {
-    .cta { padding: 32px 20px; }
-    .btn-row { width: 100%; }
-    .btn-row .btn { flex: 1 1 auto; }
-    .btn-row .btn-primary { flex-basis: 100%; order: -1; }
-  }
+  .cta { padding: var(--section) 0; border-top: 1px solid #1a1a1a; }
+  .grid-cta { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 72px; align-items: end; }
+  .left { display: grid; gap: 28px; justify-items: start; }
+  .left .display { max-width: 12ch; }
+  .left .lede { max-width: 560px; }
+  .right { display: grid; }
+  .right li { display: grid; gap: 4px; padding: 22px 0; border-top: 1px solid var(--line); }
+  .right li:last-child { border-bottom: 1px solid var(--line); }
+  .k { font-size: 0.8125rem; font-weight: 750; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+  .v { font-size: clamp(1.25rem, 1rem + 0.9vw, 1.75rem); font-weight: 700; letter-spacing: -0.02em; transition: color 0.2s var(--ease); }
+  .v:hover { color: var(--teal-bright); }
+  @media (max-width: 960px) { .grid-cta { grid-template-columns: minmax(0, 1fr); gap: 48px; } }
+  @media (max-width: 480px) { .btn-row { width: 100%; } .btn-row .btn { flex: 1 1 auto; } }
 </style>

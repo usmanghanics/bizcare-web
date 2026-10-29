@@ -109,7 +109,8 @@ const affiliations = defineCollection({
 
 const regions = defineCollection({
   loader: file('src/data/regions.yaml'),
-  schema: z.object({ name: words, lat: z.number(), lon: z.number(), order: z.number() }),
+  schema: ({ image }) =>
+    z.object({ name: words, short: words, lat: z.number(), lon: z.number(), order: z.number(), photo: image() }),
 });
 
 const clients = defineCollection({

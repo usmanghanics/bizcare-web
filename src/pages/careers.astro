@@ -1,66 +1,56 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionHead from '../components/SectionHead.astro';
 import { company } from '../data/site';
 import { u } from '../lib/url';
 
-const careers = (await getEntry('apps', 'bizcareers'))!;
 const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
 const subject = encodeURIComponent('CV for BizCare');
 ---
 
 <Base title="Careers" description="Work at BizCare Software Solutions in Lahore. How to send us your CV.">
-  <PageHero
-    label="Careers"
-    title="Work at BizCare"
-    line="We are a Lahore team building software that businesses across Pakistan run on every day."
-  />
+  <PageHero label="Careers" title="Work at <span class='teal'>BizCare</span>" line="We are a Lahore team building software that businesses across Pakistan run on every day.">
+    <div class="btn-row">
+      <a class="btn btn-teal" href={`mailto:${company.email}?subject=${subject}`}>Email Your CV <Icon name="arrow-right" size={18} /></a>
+    </div>
+  </PageHero>
 
-  <section class="section top">
+  <section class="section">
     <div class="wrap two">
-      <article class="card how reveal">
-        <span class="tile tile-lg"><Icon name="envelope-simple" size={26} /></span>
+      <div class="block reveal">
+        <span class="n num">01</span>
         <h2 class="h3">Send Us Your CV</h2>
         <p class="muted">
-          Email your CV to <a class="underline" href={`mailto:${company.email}?subject=${subject}`}>{company.email}</a>, with the kind
-          of work you are looking for in the subject.
+          Email your CV to <a class="underline" href={`mailto:${company.email}?subject=${subject}`}>{company.email}</a>, with the kind of
+          work you are looking for in the subject.
         </p>
-        <a class="btn btn-primary" href={`mailto:${company.email}?subject=${subject}`}>Email Your CV</a>
-      </article>
-      <article class:list={['card how reveal', `tint-${careers.data.tint}`]}>
-        <span class="tile tile-lg"><Icon name="briefcase" size={26} /></span>
+      </div>
+      <div class="block reveal">
+        <span class="n num">02</span>
         <h2 class="h3">Soon on BizCareers</h2>
         <p class="muted">
-          Our openings will be posted on BizCareers, our own jobs app for Pakistan, when it launches. You will be able to apply
-          there in a few taps.
+          Our openings will be posted on BizCareers, our own jobs app for Pakistan, when it launches. You will be able to apply there in a
+          few taps.
         </p>
-        <a class="link" href={u('/apps/bizcareers/')}>About BizCareers <Icon name="arrow-right" size={16} /></a>
-      </article>
+        <a class="link" href={u('/apps/bizcareers/')}>About BizCareers <Icon name="arrow-right" size={18} /></a>
+      </div>
     </div>
   </section>
 
-  <section class="section band" aria-labelledby="team-title">
+  <section class="section dark" aria-labelledby="team-title">
     <div class="wrap">
       <SectionHead id="team-title" label="Our Team" title="Who You Would Work With" />
-      <ul class="team">
+      <ul class="team head-gap">
         {
           team.map((m) => (
             <li class="reveal">
               <div class="face">
-                <Picture
-                  src={m.data.photo}
-                  alt={m.data.name}
-                  formats={['avif', 'webp']}
-                  widths={[240, 360]}
-                  sizes="(max-width: 640px) 30vw, 160px"
-                  quality={70}
-                  loading="lazy"
-                  decoding="async"
-                />
+                <Picture src={m.data.photo} alt={m.data.name} formats={['avif', 'webp']} widths={[240, 360, 480]} sizes="(max-width: 640px) 45vw, 200px" quality={70} loading="lazy" decoding="async" />
               </div>
               <p class="mname">{m.data.name}</p>
               <p class="mrole">{m.data.role}</p>
@@ -70,25 +60,22 @@ const subject = encodeURIComponent('CV for BizCare');
       </ul>
     </div>
   </section>
-  <div class="section"></div>
+
+  <CtaBand title="Questions? <span class='teal'>Talk to Us</span>" line="Call or WhatsApp us, or email your CV and we will take it from there." message="Hello BizCare, I have a question about working at BizCare." />
 </Base>
 
 <style>
-  .top { padding-top: 0; }
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .how { display: grid; gap: 14px; align-content: start; justify-items: start; padding: 32px; }
-  .team { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 20px; }
-  .team li { display: grid; gap: 2px; align-content: start; }
-  .face { aspect-ratio: 1; border-radius: var(--radius); overflow: hidden; background: var(--surface); margin-bottom: 12px; }
-  .face :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .block { display: grid; gap: 14px; align-content: start; justify-items: start; padding-top: 28px; border-top: 2px solid var(--line); }
+  .block:first-child { border-top-color: var(--teal); }
+  .n { font-size: 0.875rem; font-weight: 800; color: var(--teal); }
+  .team { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px; }
+  .team li { display: grid; gap: 4px; align-content: start; }
+  .face { aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--radius); background: #141414; margin-bottom: 14px; }
+  .face :global(picture), .face :global(img) { width: 100%; height: 100%; }
+  .face :global(img) { object-fit: cover; object-position: center 25%; }
   .mname { font-weight: 750; line-height: 1.3; }
-  .mrole { font-size: 0.875rem; color: var(--ink-2); }
-  @media (max-width: 960px) {
-    .two { grid-template-columns: minmax(0, 1fr); }
-    .team { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  }
-  @media (max-width: 560px) {
-    .team { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-    .how { padding: 24px; }
-  }
+  .mrole { font-size: 0.875rem; color: var(--d-ink-2); }
+  @media (max-width: 960px) { .two { grid-template-columns: minmax(0, 1fr); } .team { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .team { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 14px; } }
 </style>

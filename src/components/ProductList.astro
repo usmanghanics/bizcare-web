@@ -1,0 +1,170 @@
+---
+import { getCollection } from 'astro:content';
+import Frame from './Frame.astro';
+import Icon from './Icon.astro';
+import { u } from '../lib/url';
+
+/**
+ * The products as a numbered list. On a laptop, pointing at a row shows that
+ * product's real screen beside the list. On a phone, each row carries its own
+ * screen. Every row is a link to the product's page.
+ */
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const pad = (i: number) => String(i + 1).padStart(2, '0');
+---
+
+<div class="plist" data-plist>
+  <ol class="rows">
+    {
+      products.map((p, i) => (
+        <li class:list={['row', { on: i === 0 }]} data-row>
+          <a class="row-link" href={u(`/products/${p.id}/`)}>
+            <span class="n num">{pad(i)}</span>
+            <span class="names">
+              <span class="name">{p.data.name}</span>
+              <span class="ind">{p.data.industry}</span>
+            </span>
+            <span class="go">
+              <Icon name="arrow-up-right" size={22} />
+            </span>
+          </a>
+          <div class="row-panel">
+            <Frame
+              kind={p.data.screen.frame}
+              src={p.data.screen.src}
+              alt={p.data.screen.alt}
+              title={p.data.screen.title}
+              sizes="calc(100vw - 40px)"
+            />
+            <p class="muted small">{p.data.tagline}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="stage" aria-hidden="true">
+    {
+      products.map((p, i) => (
+        <div class:list={['slide', { on: i === 0 }]} data-slide>
+          <Frame
+            kind={p.data.screen.frame}
+            src={p.data.screen.src}
+            alt=""
+            title={p.data.screen.title}
+            sizes="(max-width: 1280px) 56vw, 700px"
+          />
+          <div class="slide-text">
+            <p class="tag">{p.data.tagline}</p>
+            <ul class="hl">
+              {p.data.highlights.map((h) => (
+                <li>
+                  <Icon name="check" size={18} />
+                  {h}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .plist {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 72px;
+    align-items: start;
+  }
+  .rows { border-top: 1px solid var(--line); }
+  .row { border-bottom: 1px solid var(--line); }
+  .row-link {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 26px 0;
+  }
+  .n { font-size: 0.9375rem; font-weight: 700; color: var(--ink-3); transition: color 0.3s var(--ease); }
+  .names { display: grid; gap: 2px; }
+  .name {
+    font-size: clamp(1.625rem, 1.2rem + 1.2vw, 2.25rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: #5c5c5c;
+    transition: color 0.3s var(--ease);
+  }
+  .ind { font-size: 0.9375rem; color: var(--ink-3); }
+  .go {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    color: var(--ink-3);
+    transition: all 0.3s var(--ease);
+  }
+  .row.on .name, .row-link:hover .name, .row-link:focus-visible .name { color: var(--ink); }
+  .row.on .n { color: var(--teal-bright); }
+  .row.on .go { background: var(--teal); border-color: var(--teal); color: var(--white); }
+  .row-panel { display: none; }
+
+  .stage {
+    position: sticky;
+    top: calc(var(--bar) + 40px);
+    display: grid;
+  }
+  .slide {
+    grid-area: 1 / 1;
+    display: grid;
+    gap: 28px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+    pointer-events: none;
+  }
+  .slide.on { opacity: 1; transform: none; }
+  .slide-text { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .tag { font-size: 1.125rem; font-weight: 600; line-height: 1.5; color: var(--ink); }
+  .hl { display: grid; gap: 10px; }
+  .hl li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.9375rem; color: var(--ink-2); }
+  .hl :global(svg) { flex: none; margin-top: 3px; color: var(--teal-bright); }
+
+  @media (max-width: 960px) {
+    .plist { grid-template-columns: minmax(0, 1fr); }
+    .stage { display: none; }
+    .row-link { grid-template-columns: 40px 1fr auto; padding: 22px 0 18px; }
+    .name { color: var(--ink); }
+    .row .go { background: var(--teal); border-color: var(--teal); color: var(--white); width: 42px; height: 42px; }
+    .row-panel { display: grid; gap: 14px; padding: 0 0 28px; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-plist]').forEach((root) => {
+    const rows = [...root.querySelectorAll<HTMLElement>('[data-row]')];
+    const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
+    const show = (i: number) => {
+      rows.forEach((r, k) => r.classList.toggle('on', k === i));
+      slides.forEach((s, k) => s.classList.toggle('on', k === i));
+    };
+    rows.forEach((row, i) => {
+      const link = row.querySelector('a')!;
+      link.addEventListener('pointerenter', () => show(i));
+      link.addEventListener('focus', () => show(i));
+    });
+    // Fetch the other screens once the list is close, so each one shows at once.
+    new IntersectionObserver(
+      ([entry], io) => {
+        if (!entry.isIntersecting) return;
+        root.querySelectorAll<HTMLImageElement>('.stage img').forEach((img) => (img.loading = 'eager'));
+        io.disconnect();
+      },
+      { rootMargin: '400px 0px' },
+    ).observe(root);
+  });
+</script>

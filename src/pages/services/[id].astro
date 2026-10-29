@@ -1,15 +1,18 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { Picture } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Faq from '../../components/Faq.astro';
 import Icon from '../../components/Icon.astro';
-import PageHero from '../../components/PageHero.astro';
+import Numbered from '../../components/Numbered.astro';
 import SectionHead from '../../components/SectionHead.astro';
 import WhatsAppMessage from '../../components/WhatsAppMessage.astro';
 import { whatsappHref } from '../../data/site';
 import { u } from '../../lib/url';
+import whatsappPhoto from '../../assets/photos/whatsapp.jpg';
+import marketingPhoto from '../../assets/photos/marketing.jpg';
 
 export const getStaticPaths = (async () => {
   const services = await getCollection('services');
@@ -23,43 +26,50 @@ const { service } = Astro.props;
 const s = service.data;
 const others = (await getCollection('services')).filter((x) => x.id !== service.id);
 const whatsapp = service.id === 'whatsapp-cloud-api';
+const photo = whatsapp ? whatsappPhoto : marketingPhoto;
 ---
 
 <Base title={s.name} description={`${s.name}: ${s.tagline} ${s.line}`}>
-  <PageHero label="Service" title={s.headline} line={s.line}>
-    <div class="btn-row">
-      <a class="btn btn-quiet" href={whatsappHref(`Hello BizCare, I would like to know more about ${s.name}.`)} target="_blank" rel="noopener">
-        <Icon name="whatsapp-logo" class="wa" /> Ask on WhatsApp
-      </a>
-      <a class="btn btn-primary" href={u(`/contact/?product=${service.id}`)}>Talk to Us</a>
-    </div>
-  </PageHero>
-
-  <section class="section band" aria-labelledby="features-title">
-    <div class:list={['wrap', { split: whatsapp }]}>
-      <div>
-        <SectionHead id="features-title" label="What You Get" title={`${s.name} With BizCare`} />
-        <div class:list={['grid', whatsapp ? 'grid-2' : s.features.length % 3 === 0 ? 'grid-3' : 'grid-2']}>
-          {
-            s.features.map((f) => (
-              <article class="feature card reveal">
-                <span class="tile">
-                  <Icon name={f.icon} size={22} />
-                </span>
-                <h3 class="h3">{f.title}</h3>
-                <p class="muted">{f.line}</p>
-              </article>
-            ))
-          }
-        </div>
+  <section class="hero dark">
+    <div class="wrap inner">
+      <nav class="crumb small" aria-label="Breadcrumb">
+        <a href={u('/services/')}>Services</a>
+        <Icon name="caret-right" size={14} />
+        <span aria-current="page">{s.name}</span>
+      </nav>
+      <span class="eyebrow">{s.name}</span>
+      <h1 class="display">{s.headline}</h1>
+      <p class="lede">{s.line}</p>
+      <div class="btn-row">
+        <a class="btn btn-teal" href={u(`/contact/?product=${service.id}`)}>Talk to Us <Icon name="arrow-right" size={18} /></a>
+        <a class="btn btn-line" href={whatsappHref(`Hello BizCare, I would like to know more about ${s.name}.`)} target="_blank" rel="noopener">
+          <Icon name="whatsapp-logo" class="wa" /> Ask on WhatsApp
+        </a>
       </div>
-      {whatsapp && <WhatsAppMessage class="example reveal" />}
+    </div>
+  </section>
+
+  <div class="bridge">
+    <div class="wrap">
+      <div class="photo">
+        <Picture src={photo} alt="" formats={['avif', 'webp']} widths={[640, 960, 1280, 1920]} sizes="(max-width: 1340px) 100vw, 1280px" quality={66} loading="eager" fetchpriority="high" />
+        {whatsapp && <WhatsAppMessage class="msg" />}
+      </div>
+    </div>
+  </div>
+
+  <section class="section" aria-labelledby="features-title">
+    <div class="wrap">
+      <SectionHead id="features-title" label="What You Get" title={`${s.name} With BizCare`} />
+      <div class="head-gap">
+        <Numbered items={s.features.map((f) => ({ title: f.title, line: f.line }))} columns={s.features.length % 3 === 0 ? 3 : s.features.length === 4 ? 4 : 3} />
+      </div>
     </div>
   </section>
 
   {
     s.faq.length > 0 && (
-      <section class="section" aria-labelledby="faq-title">
+      <section class="section soft" aria-labelledby="faq-title">
         <div class="wrap faq-grid">
           <SectionHead id="faq-title" label="Questions" title="Good to Know" />
           <Faq items={s.faq} />
@@ -68,42 +78,55 @@ const whatsapp = service.id === 'whatsapp-cloud-api';
     )
   }
 
-  <section class:list={['section', { band: s.faq.length > 0 }]}>
+  <section class="section">
     <div class="wrap">
       {
         others.map((o) => (
-          <a class="other card reveal" href={u(`/services/${o.id}/`)}>
-            <span class="tile tile-lg">
-              <Icon name={o.data.icon} size={26} />
+          <a class="other reveal" href={u(`/services/${o.id}/`)}>
+            <span>
+              <span class="eyebrow">Also From BizCare</span>
+              <span class="oname">{o.data.name}</span>
+              <span class="muted">{o.data.tagline}</span>
             </span>
-            <span class="otext">
-              <span class="label">Also From BizCare</span>
-              <span class="h3">{o.data.name}</span>
-              <span class="muted small">{o.data.tagline}</span>
-            </span>
-            <Icon name="arrow-right" size={20} class="go" />
+            <span class="go"><Icon name="arrow-right" size={24} /></span>
           </a>
         ))
       }
     </div>
   </section>
 
-  <CtaBand title={`Talk to Us About ${s.name}`} product={service.id} message={`Hello BizCare, I would like to know more about ${s.name}.`} />
+  <CtaBand title={`Talk to Us About <span class="teal">${s.name}</span>`} product={service.id} message={`Hello BizCare, I would like to know more about ${s.name}.`} />
 </Base>
 
 <style>
-  .btn-row :global(.wa) { color: var(--whatsapp); }
-  .feature { display: grid; gap: 10px; align-content: start; padding: 28px; }
-  .feature .tile { margin-bottom: 6px; }
-  .split { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; align-items: end; }
-  .split :global(.example) { margin-bottom: 4px; }
-  .faq-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 56px; align-items: start; }
-  .faq-grid :global(.head + *) { margin-top: 0; }
-  .other { display: flex; align-items: center; gap: 18px; padding: 24px; transition: border-color 0.2s var(--ease); }
-  .other:hover { border-color: var(--line-strong); }
-  .otext { flex: 1; display: grid; gap: 4px; }
-  .other :global(.go) { flex: none; color: var(--accent-ink); }
+  .hero { padding: calc(var(--bar) + 72px) 0 240px; }
+  .inner { display: grid; gap: 24px; justify-items: start; }
+  .inner .display { max-width: 16ch; }
+  .inner .lede { max-width: 680px; }
+  .crumb { display: flex; align-items: center; gap: 8px; color: var(--d-ink-3); }
+  .crumb a:hover { color: var(--white); }
+  .crumb [aria-current] { color: var(--d-ink-2); }
+  .bridge { margin-top: -180px; position: relative; }
+  .photo { position: relative; aspect-ratio: 16 / 8; overflow: hidden; border-radius: var(--radius-lg); background: #111; }
+  .photo :global(picture), .photo :global(img) { width: 100%; height: 100%; }
+  .photo :global(img) { object-fit: cover; }
+  .photo :global(.msg) { position: absolute; right: 40px; bottom: 40px; }
+  .faq-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 64px; align-items: start; }
+  .other { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 40px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .other > span:first-child { display: grid; gap: 10px; }
+  .oname { font-size: clamp(2rem, 1.5rem + 2vw, 3.25rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+  .go { display: grid; place-items: center; flex: none; width: 64px; height: 64px; border-radius: 50%; background: var(--teal); color: #fff; transition: transform 0.3s var(--ease); }
+  .other:hover .go { transform: translateX(6px); }
   @media (max-width: 960px) {
-    .split, .faq-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .faq-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+    .photo :global(.msg) { right: 20px; bottom: 20px; transform: scale(0.85); transform-origin: bottom right; }
+  }
+  @media (max-width: 640px) {
+    .hero { padding: calc(var(--bar) + 40px) 0 120px; }
+    .bridge { margin-top: -80px; }
+    .photo { aspect-ratio: 4 / 3; }
+    .photo :global(.msg) { display: none; }
+    .inner .btn-row { width: 100%; }
+    .inner .btn-row .btn { flex: 1 1 auto; }
   }
 </style>

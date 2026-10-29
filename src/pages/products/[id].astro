@@ -3,13 +3,14 @@ import type { GetStaticPaths } from 'astro';
 import { getCollection, getEntries, type CollectionEntry } from 'astro:content';
 import { Picture } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
-import AppCard from '../../components/AppCard.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Faq from '../../components/Faq.astro';
 import Frame from '../../components/Frame.astro';
 import Icon from '../../components/Icon.astro';
-import QuoteCard from '../../components/QuoteCard.astro';
+import Numbered from '../../components/Numbered.astro';
 import SectionHead from '../../components/SectionHead.astro';
+import Testimonials from '../../components/Testimonials.astro';
+import WorkCard from '../../components/WorkCard.astro';
 import { whatsappHref } from '../../data/site';
 import { u } from '../../lib/url';
 
@@ -24,16 +25,16 @@ interface Props {
 const { product } = Astro.props;
 const p = product.data;
 const apps = await getEntries(p.apps);
-const quotes = (await getCollection('quotes')).filter((q) => q.data.product.id === product.id).slice(0, 3);
+const quotes = (await getCollection('quotes')).filter((q) => q.data.product.id === product.id);
 
-// The flour mill software has its named clients on the current site.
+// The flour mill software has its named clients from the current site.
 const clients = product.id === 'bizcare-erp' ? await getCollection('clients') : [];
 const cloud = clients.filter((c) => c.data.edition === 'cloud').length;
-const editionCount = (name: string) => (name.startsWith('Cloud') ? cloud : clients.length - cloud);
 const faces = clients
   .filter((c) => c.data.photo)
   .sort((a, b) => b.data.since.localeCompare(a.data.since))
-  .slice(0, 4);
+  .slice(0, 8);
+const month = (iso: string) => new Date(iso).toLocaleDateString('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' });
 
 const schema = {
   '@context': 'https://schema.org',
@@ -47,91 +48,66 @@ const schema = {
 ---
 
 <Base title={`${p.name} for ${p.industry}`} description={`${p.name}: ${p.tagline} ${p.line}`} image={`/og/products/${product.id}.png`} schema={schema}>
-  <section class:list={['hero', `tint-${p.tint}`]}>
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <a class="crumb" href={u('/products/')}>
-          <span class="tile tile-sm"><Icon name={p.icon} size={18} /></span>
-          <span><b>{p.name}</b> for {p.industry}</span>
+  <section class="hero dark">
+    <div class="wrap inner">
+      <nav class="crumb small" aria-label="Breadcrumb">
+        <a href={u('/products/')}>Products</a>
+        <Icon name="caret-right" size={14} />
+        <span aria-current="page">{p.name}</span>
+      </nav>
+      <span class="eyebrow">{p.name} for {p.industry}</span>
+      <h1 class="display">{p.headline}</h1>
+      <p class="lede">{p.line}</p>
+      <div class="btn-row">
+        <a class="btn btn-teal" href={u(`/contact/?product=${product.id}`)}>Book a Demo <Icon name="arrow-right" size={18} /></a>
+        <a class="btn btn-line" href={whatsappHref(`Hello BizCare, I would like to know more about ${p.name}.`)} target="_blank" rel="noopener">
+          <Icon name="whatsapp-logo" class="wa" /> Ask on WhatsApp
         </a>
-        <h1 class="display">{p.headline}</h1>
-        <p class="lede">{p.line}</p>
-        <div class="btn-row">
-          <a class="btn btn-quiet" href={whatsappHref(`Hello BizCare, I would like to know more about ${p.name}.`)} target="_blank" rel="noopener">
-            <Icon name="whatsapp-logo" class="wa" /> Ask on WhatsApp
-          </a>
-          <a class="btn btn-primary" href={u(`/contact/?product=${product.id}`)}>Book a Demo</a>
-        </div>
-        {
-          p.proof && (
-            <p class="proof small">
-              <Icon name="seal-check" size={20} /> {p.proof}
-            </p>
-          )
-        }
       </div>
-      <Frame
-        kind={p.screen.frame}
-        src={p.screen.src}
-        alt={p.screen.alt}
-        title={p.screen.title}
-        sizes="(max-width: 960px) 100vw, 720px"
-        priority
-        class="hero-frame"
-      />
+      {p.proof && <p class="proof small"><Icon name="seal-check" size={20} /> {p.proof}</p>}
     </div>
   </section>
 
-  <section class="section" aria-labelledby="fix-title">
+  <div class="bridge">
     <div class="wrap">
-      <SectionHead id="fix-title" label="What It Fixes" title={`Problems ${p.name} Takes Off Your Desk`} />
-      <div class="grid grid-3">
-        {
-          p.fixes.map((f) => (
-            <article class:list={['fix card reveal', `tint-${p.tint}`]}>
-              <span class="tile">
-                <Icon name={f.icon} size={22} />
-              </span>
-              <h3 class="h3">{f.problem}</h3>
-              <p class="muted">{f.answer}</p>
-            </article>
-          ))
-        }
+      <Frame kind={p.screen.frame} src={p.screen.src} alt={p.screen.alt} title={p.screen.title} sizes="(max-width: 1340px) 100vw, 1280px" priority />
+    </div>
+  </div>
+
+  <section class="section fixes" aria-labelledby="fix-title">
+    <div class="wrap">
+      <SectionHead id="fix-title" label="What It Fixes" title={`The Problems ${p.name} Takes Off Your Desk`} />
+      <div class="head-gap">
+        <Numbered items={p.fixes.map((f) => ({ title: f.problem, line: f.answer }))} />
       </div>
     </div>
   </section>
 
-  <section class="section band" aria-labelledby="features-title">
+  <section class="section dark" aria-labelledby="features-title">
     <div class="wrap">
       <SectionHead id="features-title" label="Features" title="Everything in One Place" />
-      <div class="grid grid-3">
+      <div class="groups head-gap">
         {
           p.features.map((g) => (
-            <article class="group card reveal">
-              <div class="group-head">
-                <span class:list={['tile', `tint-${p.tint}`]}>
-                  <Icon name={g.icon} size={22} />
-                </span>
-                <h3 class="h3">{g.title}</h3>
-              </div>
+            <div class="group reveal">
+              <span class="gicon"><Icon name={g.icon} size={24} /></span>
+              <h3 class="h3">{g.title}</h3>
               <ul class="ticks">
                 {g.items.map((item) => (
                   <li>
-                    <Icon name="check" size={18} class="tick" />
+                    <Icon name="check" size={18} />
                     {item}
                   </li>
                 ))}
               </ul>
-            </article>
+            </div>
           ))
         }
       </div>
-      <a class="wa-strip card reveal" href={u('/services/whatsapp-cloud-api/')}>
-        <span class="wa-icon"><Icon name="whatsapp-logo" size={24} /></span>
-        <span class="wa-text">
-          <b>WhatsApp alerts built in.</b> Invoices, payment due notices, receipts and bank transfers reach your customers on WhatsApp.
-        </span>
-        <Icon name="arrow-right" size={18} class="wa-go" />
+      <a class="wa-strip reveal" href={u('/services/whatsapp-cloud-api/')}>
+        <span class="wa-icon"><Icon name="whatsapp-logo" size={26} /></span>
+        <span class="wa-text"><b>WhatsApp alerts built in.</b> Invoices, payment due notices, receipts and bank transfers reach your customers on WhatsApp.</span>
+        <Icon name="arrow-right" size={20} class="wa-go" />
       </a>
     </div>
   </section>
@@ -140,29 +116,23 @@ const schema = {
     p.editions && (
       <section class="section" aria-labelledby="editions-title">
         <div class="wrap">
-          <SectionHead
-            id="editions-title"
-            label="Editions"
-            title="Cloud or Desktop"
-            line="Two editions of the same software. We help you choose the one that suits your mill."
-          />
-          <div class="grid grid-2">
-            {p.editions.map((e) => (
-              <article class="edition card reveal">
-                <span class:list={['tile', `tint-${p.tint}`]}>
-                  <Icon name={e.name.startsWith('Cloud') ? 'cloud' : 'desktop'} size={22} />
-                </span>
-                <div>
-                  <h3 class="h3">{e.name}</h3>
+          <SectionHead id="editions-title" label="Editions" title="Cloud or Desktop" line="Two editions of the same software. We help you choose the one that suits your mill." />
+          <div class="editions head-gap">
+            {p.editions.map((e) => {
+              const isCloud = e.name.startsWith('Cloud');
+              return (
+                <div class="edition reveal">
+                  <Icon name={isCloud ? 'cloud' : 'desktop'} size={32} class="eicon" />
+                  <h3 class="ename">{e.name}</h3>
                   <p class="muted">{e.line}</p>
+                  {clients.length > 0 && (
+                    <p class="ecount">
+                      <span class="num">{isCloud ? cloud : clients.length - cloud}</span> of our named mills
+                    </p>
+                  )}
                 </div>
-                {clients.length > 0 && (
-                  <p class="ecount">
-                    <span class="num">{editionCount(e.name)}</span> of our named mills
-                  </p>
-                )}
-              </article>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -171,34 +141,23 @@ const schema = {
 
   {
     faces.length > 0 && (
-      <section class="section" aria-labelledby="mills-title">
+      <section class="section soft" aria-labelledby="mills-title">
         <div class="wrap">
-          <SectionHead id="mills-title" label="On BizCare" title="Mills That Joined Recently" line="Real clients, with the date each one went live." />
-          <div class="grid grid-4">
-            {faces.map((c) => (
-              <figure class="mill card reveal">
-                <div class="mill-photo">
-                  <Picture
-                    src={c.data.photo!}
-                    alt={`${c.data.name}, ${c.data.town}`}
-                    formats={['avif', 'webp']}
-                    widths={[320, 480, 640]}
-                    sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 300px"
-                    quality={68}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <figcaption>
-                  <span class="mname">{c.data.name}</span>
-                  <span class="mtown">{c.data.town}</span>
-                </figcaption>
-              </figure>
-            ))}
+          <div class="head-row">
+            <SectionHead id="mills-title" label="On BizCare" title="Mills That Joined Recently" line="Our team at each mill on the day it went live." />
+            <a class="btn btn-line reveal" href={u('/clients/')}>All {clients.length} Clients</a>
           </div>
-          <a class="link more reveal" href={u('/clients/')}>
-            See All {clients.length} Named Clients <Icon name="arrow-right" size={16} />
-          </a>
+          <ul class="mills head-gap">
+            {faces.map((c) => (
+              <li class="reveal">
+                <div class="mphoto">
+                  <Picture src={c.data.photo!} alt={`${c.data.name}, ${c.data.town}`} formats={['avif', 'webp']} widths={[320, 480, 640]} sizes="(max-width: 640px) 50vw, 300px" quality={64} loading="lazy" decoding="async" />
+                </div>
+                <p class="mname">{c.data.name}</p>
+                <p class="mtown">{c.data.town} · {month(c.data.since)}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
     )
@@ -206,12 +165,10 @@ const schema = {
 
   {
     quotes.length > 0 && (
-      <section class="section band" aria-labelledby="quotes-title">
+      <section class="section dark" aria-labelledby="tst-title">
         <div class="wrap">
-          <SectionHead id="quotes-title" label="What Clients Say" title="In Their Own Words" />
-          <div class="grid grid-3">
-            {quotes.map((q) => <QuoteCard quote={q} />)}
-          </div>
+          <span class="eyebrow reveal" id="tst-title">What Clients Say</span>
+          <div class="tst-gap"><Testimonials quotes={quotes} /></div>
         </div>
       </section>
     )
@@ -221,116 +178,83 @@ const schema = {
     apps.length > 0 && (
       <section class="section" aria-labelledby="apps-title">
         <div class="wrap">
-          <SectionHead
-            id="apps-title"
-            label="Goes Further"
-            title={`${p.name} on Your Customers' Phones`}
-            line="An app of your own can show customers the records your software keeps."
-          />
-          <div class="grid grid-3">
-            {apps.map((a) => <AppCard app={a} />)}
-          </div>
+          <SectionHead id="apps-title" label="Goes Further" title={`${p.name} on Your Customers’ Phones`} line="An app of your own can show customers the records your software keeps." />
+          <div class="head-gap">{apps.map((a) => <WorkCard app={a} wide />)}</div>
         </div>
       </section>
     )
   }
 
-  <section class="section" aria-labelledby="faq-title">
+  <section class:list={['section', { soft: apps.length > 0 }]} aria-labelledby="faq-title">
     <div class="wrap faq-grid">
       <SectionHead id="faq-title" label="Questions" title="Good to Know" />
       <Faq items={p.faq} />
     </div>
   </section>
 
-  <CtaBand
-    title={`See ${p.name} on Your Own Business`}
-    product={product.id}
-    message={`Hello BizCare, I would like a demo of ${p.name}.`}
-  />
+  <CtaBand title={`See ${p.name} on <span class="teal">Your Business</span>`} product={product.id} message={`Hello BizCare, I would like a demo of ${p.name}.`} />
 </Base>
 
 <style>
-  .hero { padding: 40px 0 24px; }
-  .hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: 56px;
-    align-items: center;
-  }
-  .hero-copy { display: grid; gap: 22px; justify-items: start; }
-  .crumb {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 4px 14px 4px 4px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    font-size: 0.9375rem;
-    color: var(--ink-2);
-  }
-  .crumb b { color: var(--ink); }
-  .crumb .tile { border-radius: 50%; }
-  .hero .display { font-size: clamp(2.25rem, 1.5rem + 2.8vw, 3.75rem); }
-  .hero :global(.wa) { color: var(--whatsapp); }
-  .proof { display: inline-flex; align-items: center; gap: 8px; font-weight: 650; color: var(--ink-2); }
-  .proof :global(svg) { color: var(--t-fg); }
+  .hero { padding: calc(var(--bar) + 72px) 0 240px; }
+  .inner { display: grid; gap: 24px; justify-items: start; }
+  .inner .display { max-width: 16ch; }
+  .inner .lede { max-width: 680px; }
+  .crumb { display: flex; align-items: center; gap: 8px; color: var(--d-ink-3); }
+  .crumb a:hover { color: var(--white); }
+  .crumb [aria-current] { color: var(--d-ink-2); }
+  .proof { display: inline-flex; align-items: center; gap: 8px; font-weight: 650; color: var(--d-ink-2); }
+  .proof :global(svg) { color: var(--teal-bright); }
 
-  .fix { display: grid; gap: 12px; align-content: start; padding: 28px; }
-  .fix .tile { margin-bottom: 6px; }
+  .bridge { margin-top: -180px; position: relative; }
+  .bridge :global(.frame) { max-width: 1120px; margin-inline: auto; }
+  .bridge :global(.frame) { box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.45); }
+  .fixes { padding-top: 112px; }
 
-  .group { padding: 28px; display: grid; gap: 20px; align-content: start; }
-  .group-head { display: flex; align-items: center; gap: 14px; }
+  .groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .group { display: grid; gap: 18px; align-content: start; padding: 36px; border: 1px solid var(--d-line); border-radius: var(--radius); background: #0b0b0b; }
+  .gicon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; border: 1px solid #2a2a2a; color: var(--teal-bright); }
   .ticks { display: grid; gap: 12px; }
-  .ticks li { display: flex; gap: 10px; align-items: flex-start; }
-  .ticks :global(.tick) { flex: none; margin-top: 3px; color: var(--accent); }
+  .ticks li { display: flex; gap: 10px; align-items: flex-start; color: var(--d-ink-2); }
+  .ticks :global(svg) { flex: none; margin-top: 4px; color: var(--teal-bright); }
+  .wa-strip { display: flex; align-items: center; gap: 18px; margin-top: 24px; padding: 22px 28px; border: 1px solid var(--d-line); border-radius: var(--radius); transition: border-color 0.2s var(--ease); }
+  .wa-strip:hover { border-color: #444; }
+  .wa-icon { display: grid; place-items: center; flex: none; width: 48px; height: 48px; border-radius: 50%; background: #0f2a1a; color: #3ccf73; }
+  .wa-text { flex: 1; color: var(--d-ink-2); }
+  .wa-text b { color: var(--white); }
+  .wa-strip :global(.wa-go) { flex: none; }
 
-  .wa-strip {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-top: 20px;
-    padding: 18px 22px;
-    transition: border-color 0.2s var(--ease);
-  }
-  .wa-strip:hover { border-color: var(--line-strong); }
-  .wa-icon {
-    display: grid;
-    place-items: center;
-    flex: none;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--whatsapp) 14%, transparent);
-    color: var(--whatsapp);
-  }
-  .wa-text { flex: 1; color: var(--ink-2); }
-  .wa-text b { color: var(--ink); }
-  .wa-strip :global(.wa-go) { flex: none; color: var(--accent-ink); }
+  .editions { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .edition { display: grid; gap: 12px; align-content: start; padding: 44px; border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .edition :global(.eicon) { color: var(--teal); margin-bottom: 8px; }
+  .ename { font-size: clamp(1.75rem, 1.4rem + 1vw, 2.25rem); letter-spacing: -0.035em; }
+  .ecount { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink-2); }
+  .ecount .num { font-size: 1.5rem; font-weight: 800; color: var(--ink); margin-right: 4px; }
 
-  .edition { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; padding: 28px; align-items: start; }
-  .edition .h3 { margin-bottom: 4px; }
-  .ecount { grid-column: 2; margin-top: 10px; font-size: 0.9375rem; color: var(--ink-2); }
-  .ecount .num { font-weight: 800; color: var(--ink); }
-
-  .mill { margin: 0; overflow: hidden; }
-  .mill-photo { aspect-ratio: 4 / 3; background: var(--surface-2); overflow: hidden; }
-  .mill-photo :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
-  .mill figcaption { display: grid; gap: 2px; padding: 14px 16px 16px; }
+  .mills { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px 20px; }
+  .mphoto { aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius); background: #e9e9e9; margin-bottom: 14px; }
+  .mphoto :global(picture), .mphoto :global(img) { width: 100%; height: 100%; }
+  .mphoto :global(img) { object-fit: cover; object-position: center 35%; }
   .mname { font-weight: 750; line-height: 1.3; }
   .mtown { font-size: 0.875rem; color: var(--ink-2); }
-  .more { margin-top: 28px; }
+  .tst-gap { margin-top: 48px; }
 
-  .faq-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 56px; align-items: start; }
-  .faq-grid :global(.head + *) { margin-top: 0; }
+  .faq-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 64px; align-items: start; }
 
   @media (max-width: 960px) {
-    .hero { padding: 24px 0 8px; }
-    .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
-    .faq-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .hero { padding-bottom: 160px; }
+    .bridge { margin-top: -120px; }
+    .groups, .editions, .faq-grid { grid-template-columns: minmax(0, 1fr); }
+    .mills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .faq-grid { gap: 32px; }
   }
-  @media (max-width: 480px) {
-    .hero .btn-row { width: 100%; }
-    .hero .btn-row .btn { flex: 1 1 auto; }
-    .wa-strip { align-items: flex-start; }
+  @media (max-width: 640px) {
+    .hero { padding: calc(var(--bar) + 40px) 0 120px; }
+    .bridge { margin-top: -80px; }
+    .fixes { padding-top: 72px; }
+    .group, .edition { padding: 28px; }
+    .wa-strip { align-items: flex-start; padding: 20px; }
+    .inner .btn-row { width: 100%; }
+    .inner .btn-row .btn { flex: 1 1 auto; }
   }
 </style>

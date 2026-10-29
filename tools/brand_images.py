@@ -14,6 +14,8 @@ ROOT = Path(__file__).resolve().parent.parent
 PUBLIC = ROOT / 'public'
 FONT = ROOT / 'tools/fonts/Manrope.ttf'
 INK, INK2, ACCENT_INK, DOT, LINE, BAND = '#0d1b1e', '#4b5b5e', '#015e63', '#017e84', '#e2e8e8', '#f4f6f6'
+# Share images sit on black, like the site's top bands.
+BG, FG, FG2, TEAL_LIGHT, EDGE, STAGE = '#000000', '#ffffff', '#a6a6a6', '#2bb8bf', '#2a2a2a', '#111111'
 
 logo_ts = (ROOT / 'src/lib/logo.ts').read_text()
 MARK_D, WORD_D = re.findall(r"d: '([^']+)'", logo_ts)
@@ -121,30 +123,30 @@ def rounded(img, radius):
 
 def share_image(path, label, title, line, screen=None, phone=None):
     W, H = 1200, 630
-    img = Image.new('RGB', (W, H), 'white')
+    img = Image.new('RGB', (W, H), BG)
     d = ImageDraw.Draw(img)
     text_w = 560 if (screen or phone) else 1000
-    draw_logo(img, 64, 56, 44)
+    draw_logo(img, 64, 56, 44, ink=FG)
     y = 168
-    d.text((64, y), label.upper(), font=font(20, 750), fill=ACCENT_INK)
+    d.text((64, y), label.upper(), font=font(20, 750), fill=TEAL_LIGHT)
     y += 44
     tf = font(56 if len(title) < 40 else 48, 800)
     for ln in wrap(d, title, tf, text_w):
-        d.text((62, y), ln, font=tf, fill=INK)
+        d.text((62, y), ln, font=tf, fill=FG)
         y += int(tf.size * 1.08)
     y += 18
     lf = font(24, 500)
     for ln in wrap(d, line, lf, text_w)[:3]:
-        d.text((64, y), ln, font=lf, fill=INK2)
+        d.text((64, y), ln, font=lf, fill=FG2)
         y += 36
-    d.text((64, H - 70), 'bizcare.pk', font=font(22, 750), fill=ACCENT_INK)
+    d.text((64, H - 70), 'bizcare.pk', font=font(22, 750), fill=TEAL_LIGHT)
     if screen:
         shot = Image.open(screen).convert('RGB')
         sw = 640
         shot = shot.resize((sw, int(shot.height * sw / shot.width)), Image.LANCZOS)
         bar = 34
-        frame = Image.new('RGB', (sw + 2, shot.height + bar + 2), LINE)
-        inner = Image.new('RGB', (sw, bar), BAND)
+        frame = Image.new('RGB', (sw + 2, shot.height + bar + 2), EDGE)
+        inner = Image.new('RGB', (sw, bar), STAGE)
         frame.paste(inner, (1, 1))
         frame.paste(shot, (1, bar + 1))
         frame = rounded(frame, 16)
@@ -154,10 +156,10 @@ def share_image(path, label, title, line, screen=None, phone=None):
         pw = 250
         shot = shot.resize((pw, int(shot.height * pw / shot.width)), Image.LANCZOS)
         shot = shot.crop((0, 0, pw, min(shot.height, 540)))
-        body = Image.new('RGB', (pw + 16, shot.height + 16), INK)
+        body = Image.new('RGB', (pw + 16, shot.height + 16), '#1a1a1a')
         body = rounded(body, 40)
         body.paste(rounded(shot, 32), (8, 8), rounded(shot, 32))
-        bg = Image.new('RGB', (440, H), BAND)
+        bg = Image.new('RGB', (440, H), STAGE)
         img.paste(bg, (W - 440, 0))
         img.paste(body, (W - 440 + (440 - body.width) // 2, 70), body)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -190,9 +192,9 @@ def main():
 
     share_image(
         PUBLIC / 'og/default.png',
-        'Business Software, Lahore',
-        'Business Software Built for Pakistan',
-        'ERP and point of sale with WhatsApp alerts built in. Trusted by 300+ businesses in 70+ cities.',
+        'Software House, Lahore',
+        'Software That Runs Pakistan’s Businesses',
+        'ERP, point of sale and mobile apps. Trusted by 300+ businesses in 70+ cities.',
         screen=ROOT / 'src/assets/screens/bizcare-erp.jpg',
     )
     for f in sorted((ROOT / 'src/data/products').glob('*.yaml')):

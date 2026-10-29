@@ -18,13 +18,13 @@ highlights:
   - Service requests tracked to the technician
 fixes:
   - icon: arrows-clockwise
-    problem: Renewals missed
+    problem: Renewals Missed
     answer: Monthly and yearly renewals and bills are created automatically, on time.
   - icon: hand-coins
-    problem: Recovery left to memory
+    problem: Recovery Left to Memory
     answer: Received and pending recovery are tracked for every customer, and reminders go out on WhatsApp.
   - icon: wrench
-    problem: Service requests lost
+    problem: Service Requests Lost
     answer: Every service request and job is tracked, along with the technician who handles it.
 features:
   - icon: receipt

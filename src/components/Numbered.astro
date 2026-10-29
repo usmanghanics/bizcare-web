@@ -1,0 +1,33 @@
+---
+/** Items as numbered columns along a hairline: number, title, one line. */
+interface Props {
+  items: { title: string; line: string }[];
+  columns?: 2 | 3 | 4;
+}
+const { items, columns = 3 } = Astro.props;
+const pad = (i: number) => String(i + 1).padStart(2, '0');
+---
+
+<ol class:list={['numbered', `c${columns}`]}>
+  {
+    items.map((it, i) => (
+      <li class="reveal">
+        <span class="n num">{pad(i)}</span>
+        <h3 class="h3">{it.title}</h3>
+        <p class="muted">{it.line}</p>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .numbered { display: grid; gap: 48px 32px; }
+  .c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .c4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  li { display: grid; gap: 12px; align-content: start; padding-top: 24px; border-top: 1px solid var(--line); }
+  .n { font-size: 0.875rem; font-weight: 800; letter-spacing: 0.04em; color: var(--teal); }
+  :global(.dark) .n { color: var(--teal-bright); }
+  @media (max-width: 960px) { .c3, .c4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .c2, .c3, .c4 { grid-template-columns: minmax(0, 1fr); gap: 36px; } }
+</style>

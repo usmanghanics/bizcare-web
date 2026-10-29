@@ -91,12 +91,8 @@ if (failures === before) ok('visible text is clean');
 // ---------- 3. Contrast ----------
 console.log('\nContrast (WCAG AA: 4.5 for text, 3 for large text and icons)');
 const css = readFileSync('src/styles/global.css', 'utf8');
-const block = (selector) => {
-  const start = css.indexOf(`${selector} {`);
-  const body = css.slice(start, css.indexOf('\n}', start));
-  return Object.fromEntries([...body.matchAll(/(--[\w-]+):\s*(#[0-9a-f]{6})/gi)].map((m) => [m[1], m[2]]));
-};
-const themes = { light: block(':root'), dark: { ...block(':root'), ...block(":root[data-theme='dark']") } };
+const rootBlock = css.slice(css.indexOf(':root {'), css.indexOf('\n}', css.indexOf(':root {')));
+const t = Object.fromEntries([...rootBlock.matchAll(/(--[\w-]+):\s*(#[0-9a-f]{6})/gi)].map((m) => [m[1], m[2]]));
 const lum = (hex) => {
   const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
@@ -105,28 +101,25 @@ const ratio = (a, b) => {
   const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m);
   return (x + 0.05) / (y + 0.05);
 };
+// Light bands, dark bands, and the teal in both.
 const pairs = [
-  ['--ink', '--page', 4.5], ['--ink', '--band', 4.5], ['--ink-2', '--page', 4.5], ['--ink-2', '--band', 4.5],
-  ['--ink-2', '--surface-2', 4.5], ['--ink-3', '--page', 4.5], ['--ink-3', '--band', 4.5], ['--ink-3', '--surface-2', 4.5],
-  ['--accent-ink', '--page', 4.5], ['--accent-ink', '--band', 4.5], ['--accent-ink', '--accent-tint', 4.5],
-  ['--ink', '--accent-tint', 4.5], ['--ink-2', '--accent-tint', 4.5], ['--on-accent', '--accent', 4.5],
-  ['--on-accent', '--accent-hover', 4.5], ['--page', '--ink', 4.5], ['--sample', '--sample-bg', 4.5],
-  ['--danger', '--surface', 4.5], ['--whatsapp', '--surface', 3], ['--accent', '--page', 3],
-  ...['teal', 'blue', 'purple', 'orange', 'green', 'amber', 'red', 'forest'].map((t) => [`--${t}-fg`, `--${t}-bg`, 4.5]),
+  ['--ink', '--bg', 4.5], ['--ink-2', '--bg', 4.5], ['--ink-3', '--bg', 4.5], ['--ink-2', '--bg-soft', 4.5], ['--ink-3', '--bg-soft', 4.5],
+  ['--teal', '--bg', 4.5], ['--teal', '--bg-soft', 4.5], ['--white', '--teal', 4.5], ['--white', '--teal-hover', 4.5],
+  ['--d-ink', '--d-bg', 4.5], ['--d-ink-2', '--d-bg', 4.5], ['--d-ink-3', '--d-bg', 4.5], ['--d-ink-2', '--d-surface', 4.5], ['--d-ink-3', '--d-surface', 4.5],
+  ['--teal-bright', '--d-bg', 4.5], ['--teal-bright', '--d-surface', 4.5], ['--teal', '--d-bg', 3],
+  ['--whatsapp', '--bg', 3], ['--sample', '--sample-bg', 4.5], ['--danger', '--bg', 4.5],
 ];
 let worst = Infinity;
-for (const [name, t] of Object.entries(themes)) {
-  for (const [fg, bg, need] of pairs) {
-    if (!t[fg] || !t[bg]) {
-      fail(`${name}: ${fg} or ${bg} is not a token`);
-      continue;
-    }
-    const r = ratio(t[fg], t[bg]);
-    worst = Math.min(worst, r / need);
-    if (r < need) fail(`${name}: ${fg} on ${bg} is ${r.toFixed(2)}, needs ${need}`);
+for (const [fg, bg, need] of pairs) {
+  if (!t[fg] || !t[bg]) {
+    fail(`${fg} or ${bg} is not a token`);
+    continue;
   }
+  const r = ratio(t[fg], t[bg]);
+  worst = Math.min(worst, r / need);
+  if (r < need) fail(`${fg} on ${bg} is ${r.toFixed(2)}, needs ${need}`);
 }
-if (worst >= 1) ok(`${pairs.length} pairs pass in light and dark`);
+if (worst >= 1) ok(`${pairs.length} pairs pass on white and on black`);
 
 // ---------- 4. Weight ----------
 console.log('\nPage weight');

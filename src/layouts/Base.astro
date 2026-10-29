@@ -37,8 +37,7 @@ const hidden = !LIVE || noindex;
     <link rel="canonical" href={canonical} />
     {hidden && <meta name="robots" content="noindex, nofollow" />}
     {LIVE && <meta name="google-site-verification" content={company.googleVerification} />}
-    <meta name="theme-color" content="#ffffff" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#000000" />
 
     <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml" />
     <link rel="icon" href={u('/favicon-32.png')} sizes="32x32" type="image/png" />
@@ -59,14 +58,7 @@ const hidden = !LIVE || noindex;
     {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
 
     <script is:inline>
-      // Before first paint: mark that scripts run, and apply a saved dark theme.
-      (function () {
-        var d = document.documentElement;
-        d.classList.add('js');
-        try {
-          if (localStorage.getItem('theme') === 'dark') d.dataset.theme = 'dark';
-        } catch (e) {}
-      })();
+      document.documentElement.classList.add('js');
     </script>
   </head>
   <body>

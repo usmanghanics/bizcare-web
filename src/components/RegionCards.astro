@@ -1,0 +1,122 @@
+---
+import { getCollection } from 'astro:content';
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import { u } from '../lib/url';
+
+/** A sliding row of regions, each with its city photo and client count, linking to the filtered client list. */
+const regions = (await getCollection('regions')).sort((a, b) => a.data.order - b.data.order);
+const clients = await getCollection('clients');
+const count = (id: string) => clients.filter((c) => c.data.region.id === id).length;
+const list = regions.map((r) => ({ r, n: count(r.id) })).filter((x) => x.n > 0).sort((a, b) => b.n - a.n);
+---
+
+<div class="regions" data-regions>
+  <div class="controls">
+    <button class="ctrl" type="button" aria-label="Previous regions" data-prev><Icon name="arrow-left" size={20} /></button>
+    <button class="ctrl" type="button" aria-label="Next regions" data-next><Icon name="arrow-right" size={20} /></button>
+  </div>
+  <ul class="rail" data-rail>
+    {
+      list.map(({ r, n }, i) => (
+        <li>
+          <a class="card" href={u(`/clients/?region=${r.id}`)}>
+            <Picture
+              src={r.data.photo}
+              alt=""
+              formats={['avif', 'webp']}
+              widths={[320, 480, 640]}
+              sizes="300px"
+              quality={66}
+              loading={i < 4 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+            <span class="shade" aria-hidden="true" />
+            <span class="info">
+              <span class="count num">{n}</span>
+              <span class="name">{r.data.name}</span>
+              <span class="go">
+                See Clients <Icon name="arrow-right" size={16} />
+              </span>
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .regions { position: relative; }
+  .controls { position: absolute; top: -96px; right: 0; display: flex; gap: 10px; }
+  .ctrl {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+  }
+  .ctrl:hover { border-color: var(--ink); }
+  .ctrl:disabled { opacity: 0.35; cursor: default; }
+  .rail {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 300px;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  .rail::-webkit-scrollbar { display: none; }
+  .rail li { scroll-snap-align: start; }
+  .card {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: #1a1a1a;
+    color: #fff;
+  }
+  .card :global(picture), .card :global(img) { width: 100%; height: 100%; }
+  .card :global(img) { object-fit: cover; transition: transform 0.7s var(--ease); }
+  .card:hover :global(img) { transform: scale(1.05); }
+  .shade { position: absolute; inset: 40% 0 0; background: linear-gradient(to top, rgb(0 0 0 / 0.82), rgb(0 0 0 / 0)); }
+  .info { position: absolute; left: 22px; right: 22px; bottom: 22px; display: grid; gap: 2px; }
+  .count { font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+  .name { font-size: 1.0625rem; font-weight: 700; line-height: 1.3; }
+  .go {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #d6d6d6;
+  }
+  @media (max-width: 640px) {
+    .controls { display: none; }
+    .rail { grid-auto-columns: 240px; gap: 14px; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter); }
+    .count { font-size: 2.5rem; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-regions]').forEach((root) => {
+    const rail = root.querySelector<HTMLElement>('[data-rail]')!;
+    const prev = root.querySelector<HTMLButtonElement>('[data-prev]')!;
+    const next = root.querySelector<HTMLButtonElement>('[data-next]')!;
+    const step = () => Math.max(320, rail.clientWidth * 0.8);
+    const update = () => {
+      prev.disabled = rail.scrollLeft < 8;
+      next.disabled = rail.scrollLeft + rail.clientWidth > rail.scrollWidth - 8;
+    };
+    prev.addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next.addEventListener('click', () => rail.scrollBy({ left: step(), behavior: 'smooth' }));
+    rail.addEventListener('scroll', update, { passive: true });
+    update();
+  });
+</script>

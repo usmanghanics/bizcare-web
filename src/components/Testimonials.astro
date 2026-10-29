@@ -1,0 +1,151 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import Sample from './Sample.astro';
+
+/**
+ * Client words, one at a time, beside a real photo of that client's mill.
+ * Arrows move between them. Without scripts, they show one after another.
+ */
+interface Props {
+  quotes?: CollectionEntry<'quotes'>[];
+}
+const order = ['rana-shahid', 'usman-bhatti', 'mukhtar-hussain', 'malik-haseeb', 'umair-zaman'];
+const quotes = Astro.props.quotes ?? (await getCollection('quotes')).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+const clients = await getCollection('clients');
+const photoFor = (q: CollectionEntry<'quotes'>) =>
+  clients.find((c) => c.data.name === q.data.business && c.data.photo)?.data.photo;
+const pad = (i: number) => String(i + 1).padStart(2, '0');
+---
+
+<div class="tst" data-tst>
+  <div class="slides">
+    {
+      quotes.map((q, i) => {
+        const photo = photoFor(q);
+        return (
+          <figure class:list={['slide', { on: i === 0 }]} data-slide aria-hidden={i === 0 ? undefined : 'true'}>
+            <div class="words">
+              <div class="mark-row">
+                <Icon name="quotes" size={44} class="mark" />
+                <Sample when={q.data.sample} />
+              </div>
+              <blockquote>
+                <p>{q.data.text}</p>
+              </blockquote>
+              <figcaption>
+                <span class="who">{q.data.name}</span>
+                <span class="where">
+                  {q.data.role}, {q.data.business}, {q.data.town}
+                </span>
+              </figcaption>
+            </div>
+            {photo && (
+              <div class="photo">
+                <Picture
+                  src={photo}
+                  alt={`${q.data.business}, ${q.data.town}`}
+                  formats={['avif', 'webp']}
+                  widths={[400, 600, 800]}
+                  sizes="(max-width: 960px) 100vw, 460px"
+                  quality={66}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            )}
+          </figure>
+        );
+      })
+    }
+  </div>
+  <div class="nav">
+    <span class="count num" data-count>01 / {pad(quotes.length - 1)}</span>
+    <span class="bar"><span class="fill" data-fill></span></span>
+    <button class="ctrl" type="button" aria-label="Previous" data-prev><Icon name="arrow-left" size={20} /></button>
+    <button class="ctrl" type="button" aria-label="Next" data-next><Icon name="arrow-right" size={20} /></button>
+  </div>
+</div>
+
+<style>
+  .slides { display: grid; }
+  .slide {
+    grid-area: 1 / 1;
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 72px;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s var(--ease), visibility 0.5s;
+  }
+  .slide.on { opacity: 1; visibility: visible; }
+  :global(html:not(.js)) .slide { grid-area: auto; opacity: 1; visibility: visible; margin-bottom: 64px; }
+  :global(html:not(.js)) .nav { display: none; }
+  .words { display: grid; gap: 32px; }
+  .mark-row { display: flex; align-items: center; gap: 16px; }
+  .mark-row :global(.mark) { color: var(--teal-bright); }
+  blockquote { margin: 0; }
+  blockquote p {
+    font-size: clamp(1.625rem, 1.1rem + 1.8vw, 2.625rem);
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+    font-weight: 650;
+  }
+  figcaption { display: grid; gap: 4px; }
+  .who { font-size: 1.125rem; font-weight: 800; }
+  .where { color: var(--ink-2); }
+  .photo { aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-lg); background: #141414; }
+  .photo :global(picture), .photo :global(img) { width: 100%; height: 100%; }
+  .photo :global(img) { object-fit: cover; }
+  .nav { display: flex; align-items: center; gap: 16px; margin-top: 56px; }
+  .count { font-weight: 700; color: var(--ink-2); min-width: 72px; }
+  .bar { position: relative; flex: 1; height: 1px; background: var(--line); max-width: 360px; margin-right: auto; }
+  .fill { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--teal-bright); transition: width 0.5s var(--ease); }
+  .ctrl {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+  }
+  .ctrl:hover { border-color: var(--ink); }
+  @media (max-width: 960px) {
+    .slide { grid-template-columns: minmax(0, 1fr); gap: 36px; align-items: start; }
+    .photo { aspect-ratio: 16 / 10; order: -1; }
+    .nav { margin-top: 36px; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-tst]').forEach((root) => {
+    const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
+    const count = root.querySelector<HTMLElement>('[data-count]')!;
+    const fill = root.querySelector<HTMLElement>('[data-fill]')!;
+    const pad = (n: number) => String(n).padStart(2, '0');
+    let current = 0;
+    const show = (i: number) => {
+      current = (i + slides.length) % slides.length;
+      slides.forEach((s, k) => {
+        s.classList.toggle('on', k === current);
+        s.toggleAttribute('aria-hidden', k !== current);
+      });
+      count.textContent = `${pad(current + 1)} / ${pad(slides.length)}`;
+      fill.style.width = `${((current + 1) / slides.length) * 100}%`;
+    };
+    root.querySelector('[data-prev]')!.addEventListener('click', () => show(current - 1));
+    root.querySelector('[data-next]')!.addEventListener('click', () => show(current + 1));
+    show(0);
+    new IntersectionObserver(
+      ([entry], io) => {
+        if (!entry.isIntersecting) return;
+        root.querySelectorAll<HTMLImageElement>('img').forEach((img) => (img.loading = 'eager'));
+        io.disconnect();
+      },
+      { rootMargin: '400px 0px' },
+    ).observe(root);
+  });
+</script>

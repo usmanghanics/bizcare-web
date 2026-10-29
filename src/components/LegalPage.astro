@@ -1,11 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
-import Icon from './Icon.astro';
+import PageHero from './PageHero.astro';
 import type { IconName } from '../lib/icons';
 import { company } from '../data/site';
 import { u } from '../lib/url';
 
-/** Terms or Privacy for the website: one card, one short part per promise. */
+/** Terms or Privacy for the website: numbered parts in a readable column. */
 interface Props {
   title: string;
   description: string;
@@ -15,33 +15,29 @@ interface Props {
   other: { href: string; label: string };
 }
 const { title, description, line, updated, parts, other } = Astro.props;
+const pad = (i: number) => String(i + 1).padStart(2, '0');
 ---
 
 <Base title={title} description={description}>
-  <section class="section legal">
+  <PageHero label="Website" title={title} line={line}>
+    <p class="meta small"><span class="draft">Draft for Review</span> Updated {updated}</p>
+  </PageHero>
+  <section class="section">
     <div class="wrap narrow">
-      <header class="top">
-        <span class="label">Website</span>
-        <h1 class="display">{title}</h1>
-        <p class="lede">{line}</p>
-        <p class="meta small"><span class="pill">Draft for Review</span> Updated {updated}</p>
-      </header>
-      <ol class="parts card">
+      <ol class="parts">
         {
-          parts.map((p) => (
+          parts.map((p, i) => (
             <li>
-              <h2 class="phead">
-                <span class="tile tile-sm">
-                  <Icon name={p.icon} size={18} />
-                </span>
-                {p.head}
-              </h2>
-              <p class="muted" set:html={p.body} />
+              <span class="n num">{pad(i)}</span>
+              <div>
+                <h2 class="phead">{p.head}</h2>
+                <p class="muted" set:html={p.body} />
+              </div>
             </li>
           ))
         }
       </ol>
-      <p class="foot small muted">
+      <p class="foot muted">
         Read the <a class="underline" href={u(other.href)}>{other.label}</a> too. Questions? Email
         <a class="underline" href={`mailto:${company.email}`}>{company.email}</a>.
       </p>
@@ -50,19 +46,12 @@ const { title, description, line, updated, parts, other } = Astro.props;
 </Base>
 
 <style>
-  .legal { padding-top: 40px; }
-  .narrow { max-width: calc(800px + 2 * var(--gutter)); }
-  .top { display: grid; gap: 14px; margin-bottom: 36px; }
-  .display { font-size: clamp(2.25rem, 1.7rem + 2vw, 3.25rem); }
-  .meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; color: var(--ink-3); }
-  .parts { display: grid; }
-  .parts li { display: grid; gap: 8px; padding: 24px 28px; }
-  .parts li + li { border-top: 1px solid var(--line); }
-  .phead { display: flex; align-items: center; gap: 12px; font-size: 1.125rem; font-weight: 750; letter-spacing: -0.01em; }
-  .parts p { padding-left: 48px; }
-  .foot { margin-top: 24px; }
-  @media (max-width: 560px) {
-    .parts li { padding: 20px; }
-    .parts p { padding-left: 0; }
-  }
+  .meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; color: var(--d-ink-3); }
+  .draft { padding: 4px 10px; border-radius: 999px; border: 1px solid #333; color: var(--d-ink-2); font-weight: 650; }
+  .narrow { max-width: calc(860px + 2 * var(--gutter)); }
+  .parts li { display: grid; grid-template-columns: 64px 1fr; gap: 16px; padding: 32px 0; border-top: 1px solid var(--line); }
+  .n { font-size: 0.9375rem; font-weight: 800; color: var(--teal); padding-top: 4px; }
+  .phead { font-size: 1.375rem; font-weight: 750; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .foot { margin-top: 24px; padding-top: 32px; border-top: 1px solid var(--line); }
+  @media (max-width: 560px) { .parts li { grid-template-columns: 1fr; gap: 8px; } }
 </style>

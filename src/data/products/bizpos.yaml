@@ -18,13 +18,13 @@ highlights:
   - Purchase history for every customer
 fixes:
   - icon: barcode
-    problem: Long queues at the counter
+    problem: Long Queues at the Counter
     answer: Barcode scanning and fast billing, with receipt printers and touchscreens.
   - icon: package
-    problem: Running out without warning
+    problem: Running Out Without Warning
     answer: Stock updates with every sale, so shortages show before they happen.
   - icon: users
-    problem: Customers you do not know
+    problem: Customers You Do Not Know
     answer: Purchase history for each customer, so you can reward the ones who come back.
 features:
   - icon: shopping-cart

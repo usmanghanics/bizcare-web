@@ -13,7 +13,9 @@ const { items } = Astro.props;
       <details class="item">
         <summary>
           <span>{item.q}</span>
-          <Icon name="plus" size={18} class="sign" />
+          <span class="sign">
+            <Icon name="plus" size={18} />
+          </span>
         </summary>
         <p class="muted">{item.a}</p>
       </details>
@@ -28,16 +30,26 @@ const { items } = Astro.props;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 16px;
-    min-height: 64px;
-    padding: 14px 0;
-    font-size: 1.0625rem;
+    gap: 20px;
+    min-height: 80px;
+    padding: 18px 0;
+    font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
     font-weight: 700;
+    letter-spacing: -0.01em;
     cursor: pointer;
     list-style: none;
   }
   summary::-webkit-details-marker { display: none; }
-  summary :global(.sign) { flex: none; color: var(--ink-3); transition: transform 0.25s var(--ease); }
-  .item[open] summary :global(.sign) { transform: rotate(45deg); }
-  .item p { padding: 0 40px 22px 0; max-width: 720px; }
+  .sign {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    transition: transform 0.3s var(--ease), background-color 0.3s var(--ease), color 0.3s var(--ease);
+  }
+  .item[open] .sign { transform: rotate(45deg); background: var(--teal); border-color: var(--teal); color: #fff; }
+  .item p { padding: 0 64px 28px 0; max-width: 760px; }
 </style>

@@ -1,0 +1,44 @@
+---
+import { numbers } from '../data/site';
+
+/** The agreed numbers, large, split by hairlines. The plus sign is teal. */
+---
+
+<ul class="stats reveal">
+  {
+    numbers.map((n) => (
+      <li>
+        <span class="value num">{n.value.replace('+', '')}{n.value.endsWith('+') && <span class="plus">+</span>}</span>
+        <span class="label">{n.label}</span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .stats li { display: grid; gap: 10px; padding: 28px 24px 0 0; border-top: 1px solid var(--line); }
+  .stats li + li { padding-left: 24px; border-left: 1px solid var(--line); }
+  .value {
+    font-size: clamp(2.5rem, 1.7rem + 2.2vw, 3.875rem);
+    white-space: nowrap;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+  .plus { color: var(--teal); }
+  :global(.dark) .plus { color: var(--teal-bright); }
+  .label { font-size: 0.9375rem; font-weight: 650; color: var(--ink-2); }
+  @media (max-width: 960px) {
+    .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 36px; }
+    .stats li:nth-child(4) { border-left: 0; padding-left: 0; }
+  }
+  @media (max-width: 560px) {
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
+    .stats li { padding: 20px 12px 0 0; }
+    .stats li + li { padding-left: 16px; }
+    .stats li:nth-child(odd) { border-left: 0; padding-left: 0; }
+    .stats li:nth-child(4) { border-left: 1px solid var(--line); padding-left: 16px; }
+    .stats li:last-child { grid-column: 1 / -1; }
+  }
+</style>

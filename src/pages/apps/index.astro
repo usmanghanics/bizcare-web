@@ -1,35 +1,39 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import AppCard from '../../components/AppCard.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import PageHero from '../../components/PageHero.astro';
+import WorkCard from '../../components/WorkCard.astro';
 
 const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
+const makki = apps.find((a) => a.id === 'makki-autocare')!;
 ---
 
 <Base
   title="Apps"
-  description="Phone apps by BizCare: BizCareers, our own jobs app, Makki AutoCare for Makki Oil Store and Madadgar Kisan for Chaudhary Trading Company.">
+  description="Phone apps by BizCare: Makki AutoCare for Makki Oil Store, Madadgar Kisan for Chaudhary Trading Company, and BizCareers, our own jobs app.">
   <PageHero
-    label="Apps"
-    title="Apps for Our Clients, and One of Our Own"
-    line="Makki AutoCare and Madadgar Kisan serve our clients' customers. BizCareers is our own jobs app."
+    label="Our Work"
+    title="Apps We <span class='teal'>Have Built</span>"
+    line="Makki AutoCare and Madadgar Kisan serve our clients’ customers. BizCareers is our own jobs app for Pakistan."
   />
-  <section class="section top">
-    <div class="wrap">
-      <div class="grid grid-3">
-        {apps.map((a) => <AppCard app={a} />)}
+  <section class="section">
+    <div class="wrap work">
+      <WorkCard app={makki} wide />
+      <div class="pair">
+        {apps.filter((a) => a.id !== makki.id).map((a) => <WorkCard app={a} />)}
       </div>
     </div>
   </section>
   <CtaBand
-    title="Want an App for Your Customers?"
+    title="Want an App for <span class='teal'>Your Customers?</span>"
     line="If your business runs on BizCare, your customers can see their records in an app of your own."
     message="Hello BizCare, I would like to talk about an app for my customers."
   />
 </Base>
 
 <style>
-  .top { padding-top: 0; }
+  .work { display: grid; gap: 24px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 960px) { .pair { grid-template-columns: minmax(0, 1fr); } }
 </style>

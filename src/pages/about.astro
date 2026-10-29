@@ -4,81 +4,90 @@ import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
-import NumberStrip from '../components/NumberStrip.astro';
-import PageHero from '../components/PageHero.astro';
 import Sample from '../components/Sample.astro';
 import SectionHead from '../components/SectionHead.astro';
+import Stats from '../components/Stats.astro';
 import Steps from '../components/Steps.astro';
 import { company } from '../data/site';
 import { u } from '../lib/url';
+import office from '../assets/photos/office.jpg';
+import workspace from '../assets/photos/workspace.jpg';
+import lahore from '../assets/regions/lahore.jpg';
 
 const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
 const affiliations = (await getCollection('affiliations')).sort((a, b) => a.data.order - b.data.order);
 const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const links = products.map((p) => `<a href="${u(`/products/${p.id}/`)}">${p.data.name}</a>`);
+const productLinks = `${links.slice(0, -1).join(', ')} and ${links.at(-1)}`;
 ---
 
 <Base
   title="About"
-  description="BizCare Software Solutions is a Lahore software company. 300+ businesses in 70+ cities run on its software, including 200+ flour mills.">
-  <PageHero
-    label="About BizCare"
-    title="Software for the Businesses That Keep Pakistan Running"
-    line="BizCare Software Solutions is a software company in Lahore. Flour mills, shops, restaurants, travel agencies, workshops and internet providers across Pakistan run on what we build."
-  />
+  description="BizCare Software Solutions is a Lahore software house. 300+ businesses in 70+ cities run on its software, including 200+ flour mills.">
+  <section class="hero dark">
+    <div class="wrap inner">
+      <span class="eyebrow">About BizCare</span>
+      <h1 class="display">Software for the Businesses That <span class="teal">Keep Pakistan Running</span></h1>
+    </div>
+  </section>
 
-  <NumberStrip />
+  <div class="bridge">
+    <div class="wrap">
+      <div class="wide-photo">
+        <Picture src={office} alt="A BizCare workspace with BizCare software on the screens" formats={['avif', 'webp']} widths={[640, 960, 1280, 1920]} sizes="(max-width: 1340px) 100vw, 1280px" quality={66} loading="eager" fetchpriority="high" />
+      </div>
+    </div>
+  </div>
 
-  <section class="section" aria-labelledby="story-title">
+  <section class="section intro" aria-labelledby="who-title">
+    <div class="wrap">
+      <span class="eyebrow reveal" id="who-title">Who We Are</span>
+      <p class="statement reveal who">
+        BizCare Software Solutions is a software house in Lahore. We build software around one kind of business at a time,
+        <span class="quiet">then install it, train the staff and stay on call for as long as they run on it.</span>
+      </p>
+      <div class="stats-gap"><Stats /></div>
+    </div>
+  </section>
+
+  <section class="section soft" aria-labelledby="story-title">
     <div class="wrap story">
-      <SectionHead id="story-title" label="Our Story" title="Built Around One Kind of Business at a Time" />
-      <div class="story-text reveal">
-        <p>
-          BizCare is best known for flour mill software. More than 200 mills, from Peshawar and Swat to Quetta, Turbat
-          and Sindh, run their purchase, production, stock, sales and accounts on BizCare ERP.
-        </p>
-        <p>
-          Over seven years the same approach has grown into a product for each kind of business:
-          {products.map((p, i) => (
-            <>
-              <a class="underline" href={u(`/products/${p.id}/`)}>{p.data.name}</a>
-              {i < products.length - 2 ? ', ' : i === products.length - 2 ? ' and ' : '.'}
-            </>
-          ))}
-          Every one of them sends invoices, reminders and receipts to customers on WhatsApp.
-        </p>
-        <p>
-          We also build phone apps that put a client's records in their customers' hands, like Makki AutoCare for Makki
-          Oil Store, and BizCareers, our own jobs app for Pakistan.
-        </p>
+      <div class="story-photo reveal">
+        <Picture src={workspace} alt="BizCare’s web software on a desk of screens" formats={['avif', 'webp']} widths={[480, 720, 960]} sizes="(max-width: 960px) 100vw, 560px" quality={66} loading="lazy" decoding="async" />
+      </div>
+      <div class="story-text">
+        <SectionHead id="story-title" label="Our Story" title="It Started With Flour Mills" />
+        <div class="prose reveal">
+          <p>
+            BizCare is best known for flour mill software. More than 200 mills, from Peshawar and Swat to Quetta, Turbat and
+            Sindh, run their wheat purchase, production, stock, sales and accounts on BizCare ERP.
+          </p>
+          <p set:html={`Over seven years the same approach has grown into a product for each kind of business: ${productLinks}. Every one of them sends invoices, reminders and receipts to customers on WhatsApp.`} />
+          <p>
+            We also build phone apps that put a client’s records in their customers’ hands, like Makki AutoCare for Makki Oil
+            Store, and BizCareers, our own jobs app for Pakistan.
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section band" aria-labelledby="how-title">
+  <section class="section" aria-labelledby="how-title">
     <div class="wrap">
-      <SectionHead id="how-title" center label="How We Work" title="From First Call to Every Day After" />
-      <Steps />
+      <SectionHead id="how-title" label="How We Work" title="From First Call to Every Day After" />
+      <div class="head-gap"><Steps /></div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="team-title">
+  <section class="section dark" aria-labelledby="team-title">
     <div class="wrap">
-      <SectionHead id="team-title" label="Our Team" title="The Team Behind BizCare" />
-      <ul class="team">
+      <SectionHead id="team-title" label="Our Team" title="The People Behind BizCare" />
+      <ul class="team head-gap">
         {
           team.map((m) => (
-            <li class="member reveal">
+            <li class="reveal">
               <div class="face">
-                <Picture
-                  src={m.data.photo}
-                  alt={m.data.name}
-                  formats={['avif', 'webp']}
-                  widths={[240, 360, 480]}
-                  sizes="(max-width: 640px) 45vw, 200px"
-                  quality={70}
-                  loading="lazy"
-                  decoding="async"
-                />
+                <Picture src={m.data.photo} alt={m.data.name} formats={['avif', 'webp']} widths={[240, 360, 480]} sizes="(max-width: 640px) 45vw, 200px" quality={70} loading="lazy" decoding="async" />
               </div>
               <p class="mname">{m.data.name}</p>
               <p class="mrole">{m.data.role}</p>
@@ -89,25 +98,22 @@ const products = (await getCollection('products')).sort((a, b) => a.data.order -
     </div>
   </section>
 
-  <section class="section band" aria-labelledby="aff-title">
+  <section class="section" aria-labelledby="aff-title">
     <div class="wrap">
       <SectionHead id="aff-title" label="Recognition" title="Listings and Memberships" />
-      <ul class="grid grid-4">
+      <ul class="affs head-gap">
         {
           affiliations.map((a) => {
             const Tag = a.data.url ? 'a' : 'div';
             return (
               <li class="reveal">
-                <Tag class="aff card" href={a.data.url} target={a.data.url ? '_blank' : undefined} rel={a.data.url ? 'noopener' : undefined}>
-                  <div class="aff-top">
-                    <span class="tile">
-                      <Icon name={a.data.icon} size={22} />
-                    </span>
-                    <Sample when={a.data.sample} />
-                    {a.data.url && <Icon name="arrow-up-right" size={18} class="ext" />}
-                  </div>
-                  <h3 class="h3">{a.data.name}</h3>
-                  <p class="muted small">{a.data.line}</p>
+                <Tag class="aff" href={a.data.url} target={a.data.url ? '_blank' : undefined} rel={a.data.url ? 'noopener' : undefined}>
+                  <Icon name={a.data.icon} size={28} class="aicon" />
+                  <span class="atext">
+                    <span class="aname">{a.data.name} <Sample when={a.data.sample} /></span>
+                    <span class="muted">{a.data.line}</span>
+                  </span>
+                  {a.data.url && <Icon name="arrow-up-right" size={22} class="ext" />}
                 </Tag>
               </li>
             );
@@ -117,17 +123,19 @@ const products = (await getCollection('products')).sort((a, b) => a.data.order -
     </div>
   </section>
 
-  <section class="section" aria-labelledby="visit-title">
-    <div class="wrap">
-      <div class="visit card reveal">
-        <div>
-          <span class="label">Visit Us</span>
-          <h2 class="h3" id="visit-title">{company.name}</h2>
-          <p class="muted">{company.address}</p>
-        </div>
-        <a class="btn btn-quiet" href={company.mapsHref} target="_blank" rel="noopener">
-          <Icon name="map-pin" /> Open in Google Maps
-        </a>
+  <section class="section soft" aria-labelledby="visit-title">
+    <div class="wrap visit">
+      <div class="visit-photo reveal">
+        <Picture src={lahore} alt="Badshahi Mosque, Lahore" formats={['avif', 'webp']} widths={[480, 720, 960]} sizes="(max-width: 960px) 100vw, 600px" quality={66} loading="lazy" decoding="async" />
+      </div>
+      <div class="visit-text">
+        <SectionHead id="visit-title" label="Visit Us" title="Lahore, Pakistan" line={company.name} />
+        <ul class="visit-list reveal">
+          <li><span class="k">Address</span><span class="v">{company.address}</span></li>
+          <li><span class="k">Phone and WhatsApp</span><a class="v num" href={company.phoneHref}>{company.phone}</a></li>
+          <li><span class="k">Email</span><a class="v" href={`mailto:${company.email}`}>{company.email}</a></li>
+        </ul>
+        <a class="btn btn-line reveal" href={company.mapsHref} target="_blank" rel="noopener"><Icon name="map-pin" /> Open in Google Maps</a>
       </div>
     </div>
   </section>
@@ -136,34 +144,64 @@ const products = (await getCollection('products')).sort((a, b) => a.data.order -
 </Base>
 
 <style>
-  .story { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; align-items: start; }
-  .story :global(.head + *) { margin-top: 0; }
-  .story-text { display: grid; gap: 18px; font-size: 1.125rem; line-height: 1.65; color: var(--ink-2); }
+  .hero { padding: calc(var(--bar) + 96px) 0 240px; }
+  .inner { display: grid; gap: 26px; }
+  .inner .display { max-width: 15ch; }
+  .bridge { margin-top: -180px; }
+  .wide-photo { aspect-ratio: 16 / 7; overflow: hidden; border-radius: var(--radius-lg); background: #111; }
+  .wide-photo :global(picture), .wide-photo :global(img) { width: 100%; height: 100%; }
+  .wide-photo :global(img) { object-fit: cover; }
+  .intro { padding-top: 112px; }
+  .who { margin-top: 28px; max-width: 1100px; }
+  .stats-gap { margin-top: 80px; }
 
-  .team { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 20px; }
-  .member { display: grid; gap: 2px; align-content: start; }
-  .face { aspect-ratio: 1; border-radius: var(--radius); overflow: hidden; background: var(--surface-2); margin-bottom: 12px; }
-  .face :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+  .story { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; align-items: center; }
+  .story-photo { aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-lg); background: #ddd; }
+  .story-photo :global(picture), .story-photo :global(img) { width: 100%; height: 100%; }
+  .story-photo :global(img) { object-fit: cover; }
+  .story-text { display: grid; gap: 32px; }
+  .prose { display: grid; gap: 18px; font-size: 1.125rem; line-height: 1.7; color: var(--ink-2); }
+  .prose a { color: var(--ink); font-weight: 650; }
+
+  .team { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px; }
+  .team li { display: grid; gap: 4px; align-content: start; }
+  .face { aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--radius); background: #141414; margin-bottom: 14px; }
+  .face :global(picture), .face :global(img) { width: 100%; height: 100%; }
+  .face :global(img) { object-fit: cover; object-position: center 25%; }
   .mname { font-weight: 750; line-height: 1.3; }
-  .mrole { font-size: 0.875rem; color: var(--ink-2); line-height: 1.4; }
+  .mrole { font-size: 0.875rem; color: var(--d-ink-2); line-height: 1.4; }
 
-  .aff { display: grid; gap: 10px; align-content: start; height: 100%; padding: 24px; transition: border-color 0.2s var(--ease); }
-  a.aff:hover { border-color: var(--line-strong); }
-  .aff-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-  .aff-top :global(.sample-tag) { margin-left: auto; }
-  .aff-top :global(.ext) { margin-left: auto; color: var(--ink-3); }
-  .grid-4 > li { display: block; }
+  .affs { border-top: 1px solid var(--line); }
+  .affs li { border-bottom: 1px solid var(--line); }
+  .aff { display: flex; align-items: center; gap: 24px; padding: 28px 0; }
+  .aff :global(.aicon) { flex: none; color: var(--teal); }
+  .atext { flex: 1; display: grid; gap: 4px; }
+  .aname { display: inline-flex; align-items: center; gap: 12px; font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem); font-weight: 750; letter-spacing: -0.02em; }
+  .aff :global(.ext) { flex: none; color: var(--ink-3); }
+  a.aff:hover .aname { color: var(--teal); }
 
-  .visit { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; padding: 28px 32px; }
-  .visit > div { display: grid; gap: 6px; }
+  .visit { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; align-items: center; }
+  .visit-photo { aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius-lg); }
+  .visit-photo :global(picture), .visit-photo :global(img) { width: 100%; height: 100%; }
+  .visit-photo :global(img) { object-fit: cover; }
+  .visit-text { display: grid; gap: 32px; justify-items: start; }
+  .visit-list { display: grid; width: 100%; }
+  .visit-list li { display: grid; gap: 2px; padding: 16px 0; border-top: 1px solid var(--line-strong); }
+  .k { font-size: 0.8125rem; font-weight: 750; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+  .v { font-size: 1.125rem; font-weight: 700; }
 
   @media (max-width: 960px) {
-    .story { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .story, .visit { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+    .story-photo { aspect-ratio: 16 / 10; }
     .team { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
-  @media (max-width: 560px) {
-    .team { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-    .story-text { font-size: 1.0625rem; }
-    .visit { padding: 24px; }
+  @media (max-width: 640px) {
+    .hero { padding: calc(var(--bar) + 48px) 0 120px; }
+    .bridge { margin-top: -80px; }
+    .wide-photo { aspect-ratio: 4 / 3; }
+    .intro { padding-top: 72px; }
+    .stats-gap { margin-top: 56px; }
+    .team { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 14px; }
+    .aff { gap: 16px; }
   }
 </style>

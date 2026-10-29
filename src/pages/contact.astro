@@ -25,13 +25,13 @@ const schema = {
   schema={schema}>
   <PageHero
     label="Contact"
-    title="Book a Demo"
-    line="Tell us a little about your business. We will get back to you on WhatsApp or by phone."
+    title="Book a <span class='teal'>Demo</span>"
+    line="Tell us a little about your business. We will get back to you on WhatsApp or by phone, usually the same day."
   />
 
   <section class="section top">
     <div class="wrap layout">
-      <form class="form card" novalidate data-form>
+      <form class="form" novalidate data-form>
         <div class="fields">
           <div class="field">
             <label for="f-name">Your Name</label>
@@ -88,10 +88,10 @@ const schema = {
         <div class="send">
           <p class="small muted">Choose how to send. Your message opens ready to go, and you press send.</p>
           <div class="btn-row">
-            <button class="btn btn-primary" type="submit" value="whatsapp" data-send>
+            <button class="btn btn-teal" type="submit" value="whatsapp" data-send>
               <Icon name="whatsapp-logo" /> Send on WhatsApp
             </button>
-            <button class="btn btn-quiet" type="submit" value="email" data-send>
+            <button class="btn btn-line" type="submit" value="email" data-send>
               <Icon name="envelope-simple" /> Send by Email
             </button>
           </div>
@@ -99,21 +99,22 @@ const schema = {
         </div>
       </form>
 
-      <aside class="ways" aria-label="Other ways to reach us">
-        <a class="way card" href={whatsappHref('Hello BizCare.')} target="_blank" rel="noopener">
-          <span class="tile wa-tile"><Icon name="whatsapp-logo" size={22} /></span>
+      <aside class="ways dark" aria-label="Other ways to reach us">
+        <p class="ways-title">Or reach us directly</p>
+        <a class="way" href={whatsappHref('Hello BizCare.')} target="_blank" rel="noopener">
+          <span class="wicon wa"><Icon name="whatsapp-logo" size={22} /></span>
           <span><span class="wt">WhatsApp</span><span class="wv num">{company.phone}</span></span>
         </a>
-        <a class="way card" href={company.phoneHref}>
-          <span class="tile"><Icon name="phone" size={22} /></span>
+        <a class="way" href={company.phoneHref}>
+          <span class="wicon"><Icon name="phone" size={22} /></span>
           <span><span class="wt">Call</span><span class="wv num">{company.phone}</span></span>
         </a>
-        <a class="way card" href={`mailto:${company.email}`}>
-          <span class="tile"><Icon name="envelope-simple" size={22} /></span>
+        <a class="way" href={`mailto:${company.email}`}>
+          <span class="wicon"><Icon name="envelope-simple" size={22} /></span>
           <span><span class="wt">Email</span><span class="wv">{company.email}</span></span>
         </a>
-        <a class="way card" href={company.mapsHref} target="_blank" rel="noopener">
-          <span class="tile"><Icon name="map-pin" size={22} /></span>
+        <a class="way" href={company.mapsHref} target="_blank" rel="noopener">
+          <span class="wicon"><Icon name="map-pin" size={22} /></span>
           <span><span class="wt">Office</span><span class="wv">{company.address}</span></span>
         </a>
       </aside>
@@ -122,63 +123,55 @@ const schema = {
 </Base>
 
 <style>
-  .top { padding-top: 0; }
-  .layout { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: 32px; align-items: start; }
+  .top { padding-top: 88px; }
+  .layout { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px; align-items: start; }
 
-  .form { padding: 32px; display: grid; gap: 28px; }
-  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form { display: grid; gap: 32px; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 20px; }
   .field { display: grid; gap: 8px; align-content: start; }
   .wide { grid-column: 1 / -1; }
   label { font-size: 0.9375rem; font-weight: 700; }
   .opt { margin-left: 6px; font-weight: 600; color: var(--ink-3); font-size: 0.8125rem; }
   input, select, textarea {
     width: 100%;
-    min-height: 50px;
-    padding: 12px 14px;
+    min-height: 56px;
+    padding: 14px 16px;
     border: 1px solid var(--line-strong);
-    border-radius: 12px;
-    background: var(--surface);
+    border-radius: 14px;
+    background: var(--white);
     color: var(--ink);
     font-size: 1rem;
     transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
   }
-  textarea { resize: vertical; min-height: 120px; line-height: 1.5; }
-  input::placeholder, textarea::placeholder { color: var(--ink-3); }
-  input:focus, select:focus, textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
-  }
+  textarea { resize: vertical; min-height: 140px; line-height: 1.5; }
+  input::placeholder, textarea::placeholder { color: #8a8a8a; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgb(1 126 132 / 0.18); }
   [aria-invalid='true'] { border-color: var(--danger); }
   .error { font-size: 0.875rem; font-weight: 650; color: var(--danger); }
   .select { position: relative; }
-  select { appearance: none; padding-right: 40px; cursor: pointer; }
-  .select :global(.caret) { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--ink-3); }
+  select { appearance: none; padding-right: 44px; cursor: pointer; }
+  .select :global(.caret) { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--ink-3); }
 
-  .send { display: grid; gap: 14px; padding-top: 24px; border-top: 1px solid var(--line); }
-  .done {
-    padding: 12px 14px;
-    border-radius: 12px;
-    background: var(--accent-tint);
-    color: var(--accent-ink);
-    font-weight: 650;
-  }
+  .send { display: grid; gap: 16px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .done { padding: 14px 16px; border-radius: 14px; background: #e6f2f2; color: #015e63; font-weight: 650; }
 
-  .ways { display: grid; gap: 12px; }
-  .way { display: flex; align-items: center; gap: 14px; padding: 18px; transition: border-color 0.2s var(--ease); }
-  .way:hover { border-color: var(--line-strong); }
-  .wt { display: block; font-size: 0.8125rem; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; }
-  .wv { display: block; font-weight: 700; line-height: 1.35; }
-  .wa-tile { background: color-mix(in srgb, var(--whatsapp) 14%, transparent); color: var(--whatsapp); }
+  .ways { display: grid; gap: 6px; padding: 36px; border-radius: var(--radius-lg); position: sticky; top: calc(var(--bar) + 24px); }
+  .ways-title { margin-bottom: 10px; font-size: 0.8125rem; font-weight: 750; letter-spacing: 0.1em; text-transform: uppercase; color: var(--d-ink-3); }
+  .way { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-top: 1px solid #1f1f1f; }
+  .way:hover .wv { color: var(--teal-bright); }
+  .wicon { display: grid; place-items: center; flex: none; width: 48px; height: 48px; border-radius: 50%; border: 1px solid #2a2a2a; color: var(--teal-bright); }
+  .wicon.wa { color: #3ccf73; }
+  .wt { display: block; font-size: 0.8125rem; font-weight: 700; color: var(--d-ink-3); }
+  .wv { display: block; font-size: 1.0625rem; font-weight: 700; line-height: 1.35; transition: color 0.2s var(--ease); }
 
   @media (max-width: 960px) {
     .layout { grid-template-columns: minmax(0, 1fr); }
-    .ways { grid-template-columns: 1fr 1fr; }
+    .ways { position: static; }
   }
   @media (max-width: 640px) {
-    .form { padding: 22px 18px; }
-    .fields { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-    .ways { grid-template-columns: minmax(0, 1fr); }
+    .top { padding-top: 56px; }
+    .fields { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    .ways { padding: 28px 22px; margin-inline: calc(-1 * var(--gutter)); border-radius: 0; }
     .send .btn-row { flex-direction: column; }
     .send .btn { width: 100%; }
   }

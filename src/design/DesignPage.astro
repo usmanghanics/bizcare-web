@@ -1,129 +1,84 @@
 ---
-/**
- * The design system on one page, for review on a phone and a laptop.
- * Preview builds only: the live build leaves it out (astro.config.mjs).
- */
-import { getCollection } from 'astro:content';
+/** The design system on one page, for review. Preview builds only (astro.config.mjs). */
 import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
-import Frame from '../components/Frame.astro';
 import Icon from '../components/Icon.astro';
 import Logo from '../components/Logo.astro';
-import NumberStrip from '../components/NumberStrip.astro';
-import QuoteCard from '../components/QuoteCard.astro';
+import Numbered from '../components/Numbered.astro';
+import PageHero from '../components/PageHero.astro';
 import Sample from '../components/Sample.astro';
-import SectionHead from '../components/SectionHead.astro';
+import Stats from '../components/Stats.astro';
 import WhatsAppMessage from '../components/WhatsAppMessage.astro';
 
-const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
-const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
-const quote = (await getCollection('quotes'))[0];
 const colours = [
-  ['--page', 'Page'],
-  ['--band', 'Band'],
-  ['--surface', 'Surface'],
-  ['--ink', 'Text'],
-  ['--ink-2', 'Secondary Text'],
-  ['--ink-3', 'Tertiary Text'],
-  ['--line', 'Hairline'],
-  ['--accent', 'Accent'],
-  ['--accent-ink', 'Accent Text'],
-  ['--accent-tint', 'Accent Tint'],
-  ['--whatsapp', 'WhatsApp'],
+  ['#000000', 'Black (logo)'],
+  ['#017E84', 'Teal (logo dot)'],
+  ['#2BB8BF', 'Teal on black'],
+  ['#FFFFFF', 'White'],
+  ['#F4F4F4', 'Soft band'],
+  ['#0A0A0A', 'Text'],
+  ['#4D4D4D', 'Secondary text'],
+  ['#A6A6A6', 'Secondary on black'],
+  ['#E6E6E6', 'Hairline'],
+  ['#262626', 'Hairline on black'],
 ];
-const tints = [...products.map((p) => [p.data.tint, p.data.name]), ...apps.map((a) => [a.data.tint, a.data.name])];
 ---
 
 <Base title="Design System" description="The BizCare website's colours, type and components." noindex>
+  <PageHero label="Preview Only" title="Design <span class='teal'>System</span>" line="Black, white and the logo's teal. Large type, full-width bands, real photos." />
   <section class="section">
     <div class="wrap stack">
-      <SectionHead level={1} label="Preview Only" title="Design System" line="Every colour, type size and component the site uses, in the current theme. Switch the theme in the top bar to check both." />
-
-      <h2 class="h3">Logo</h2>
-      <div class="row card pad">
-        <Logo height={40} />
-        <Logo variant="mark" height={56} />
-        <Logo height={24} />
-      </div>
-
       <h2 class="h3">Colours</h2>
       <ul class="swatches">
-        {
-          colours.map(([v, name]) => (
-            <li class="card">
-              <span class="chip" style={`background: var(${v})`} />
-              <span class="small"><b>{name}</b><br /><code>{v}</code></span>
-            </li>
-          ))
-        }
+        {colours.map(([hex, name]) => (<li><span class="chip" style={`background:${hex}`} /><span class="small"><b>{name}</b><br /><code>{hex}</code></span></li>))}
       </ul>
-
-      <h2 class="h3">Product and App Tints</h2>
-      <ul class="tints">
-        {
-          tints.map(([t, name]) => (
-            <li class:list={['card', `tint-${t}`]}>
-              <span class="tile"><Icon name="check" /></span>
-              <span class="small"><b>{name}</b><br /><code>{t}</code></span>
-            </li>
-          ))
-        }
-      </ul>
-
       <h2 class="h3">Type</h2>
-      <div class="card pad stack-sm">
-        <span class="label">Label</span>
+      <div class="stack-sm">
+        <span class="eyebrow">Eyebrow</span>
+        <p class="mega">Mega Headline</p>
         <p class="display">Display Headline</p>
         <p class="h2">Section Headline</p>
         <p class="h3">Card Title</p>
-        <p class="lede">A lede line under a headline, in secondary text.</p>
-        <p>Body text at 17 pixels with a line height of 1.6, for paragraphs and lists.</p>
-        <p class="small muted">Small text for captions and supporting details.</p>
+        <p class="statement">A statement paragraph <span class="quiet">with a quieter second half.</span></p>
+        <p class="lede">A lede line in secondary text.</p>
+        <p>Body text at 18 pixels with a line height of 1.6.</p>
       </div>
-
-      <h2 class="h3">Buttons and Tags</h2>
-      <div class="row card pad">
-        <a class="btn btn-primary" href="#">Book a Demo</a>
-        <a class="btn btn-quiet" href="#">See Products</a>
-        <a class="btn btn-quiet" href="#"><Icon name="whatsapp-logo" class="wa" /> WhatsApp</a>
-        <a class="btn btn-primary btn-sm" href="#">Small</a>
-        <span class="pill">Pill</span>
+      <h2 class="h3">Buttons</h2>
+      <div class="row">
+        <a class="btn btn-teal" href="#">Book a Demo <Icon name="arrow-right" size={18} /></a>
+        <a class="btn btn-line" href="#">See Our Work</a>
+        <a class="btn btn-line" href="#"><Icon name="whatsapp-logo" class="wa" /> WhatsApp</a>
         <Sample />
-        <a class="link" href="#">Text Link <Icon name="arrow-right" size={16} /></a>
+        <a class="link" href="#">Text Link <Icon name="arrow-right" size={18} /></a>
       </div>
-
-      <h2 class="h3">Frames</h2>
-      <div class="frames">
-        <Frame kind="window" src={products[0].data.screen.src} alt={products[0].data.screen.alt} title={products[0].data.screen.title} />
-        <Frame kind="browser" src={products[3].data.screen.src} alt={products[3].data.screen.alt} title={products[3].data.screen.title} />
-        <Frame kind="phone" src={apps[0].data.screens[0].src} alt={apps[0].data.screens[0].alt} sizes="220px" class="phone" />
-      </div>
-
-      <h2 class="h3">Message Example</h2>
-      <WhatsAppMessage />
-
-      <h2 class="h3">Quote</h2>
-      <div class="grid grid-3"><QuoteCard quote={quote} /></div>
-
+      <h2 class="h3">Numbers</h2>
+      <Stats />
+      <h2 class="h3">Numbered Items</h2>
+      <Numbered items={[{ title: 'First', line: 'One plain line.' }, { title: 'Second', line: 'One plain line.' }, { title: 'Third', line: 'One plain line.' }]} />
       <h2 class="h3">Questions</h2>
-      <Faq items={[{ q: 'A question?', a: 'Its answer, in one or two plain sentences.' }, { q: 'Another question?', a: 'Another answer.' }]} />
+      <Faq items={[{ q: 'A question?', a: 'Its answer, in plain words.' }, { q: 'Another question?', a: 'Another answer.' }]} />
     </div>
   </section>
-  <NumberStrip />
-  <div class="section"></div>
+  <section class="section dark">
+    <div class="wrap stack">
+      <Logo height={44} />
+      <p class="display">On Black</p>
+      <div class="row">
+        <a class="btn btn-teal" href="#">Book a Demo</a>
+        <a class="btn btn-line" href="#">See Our Work</a>
+      </div>
+      <WhatsAppMessage />
+    </div>
+  </section>
 </Base>
 
 <style>
-  .stack { display: grid; gap: 20px; }
-  .stack > :global(.h3) { margin-top: 28px; }
-  .stack-sm { display: grid; gap: 12px; }
-  .pad { padding: 24px; }
+  .stack { display: grid; gap: 24px; }
+  .stack > :global(.h3) { margin-top: 32px; }
+  .stack-sm { display: grid; gap: 14px; }
   .row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
-  .row :global(.wa) { color: var(--whatsapp); }
-  .swatches, .tints { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
-  .swatches li, .tints li { display: flex; align-items: center; gap: 12px; padding: 12px; }
-  .chip { width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--line); flex: none; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .swatches li { display: flex; align-items: center; gap: 12px; }
+  .chip { width: 52px; height: 52px; border-radius: 12px; border: 1px solid #ddd; flex: none; }
   code { font-size: 0.8125rem; color: var(--ink-3); }
-  .frames { display: grid; grid-template-columns: 1fr 1fr 220px; gap: 20px; align-items: start; }
-  @media (max-width: 960px) { .frames { grid-template-columns: 1fr; } .frames :global(.phone) { width: 220px; } }
 </style>

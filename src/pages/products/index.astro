@@ -1,17 +1,18 @@
 ---
 import { getCollection } from 'astro:content';
-import { Picture } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
-import AppCard from '../../components/AppCard.astro';
 import CtaBand from '../../components/CtaBand.astro';
+import Frame from '../../components/Frame.astro';
 import Icon from '../../components/Icon.astro';
 import PageHero from '../../components/PageHero.astro';
 import SectionHead from '../../components/SectionHead.astro';
+import Services from '../../components/Services.astro';
+import WorkCard from '../../components/WorkCard.astro';
 import { u } from '../../lib/url';
 
 const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
 const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
-const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const pad = (i: number) => String(i + 1).padStart(2, '0');
 ---
 
 <Base
@@ -19,77 +20,64 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
   description="BizCare ERP for flour mills, BizPOS for retail, Restro for restaurants, BizWay for travel agencies, OilMate for workshops and RecovrPro for internet and cable, plus apps and WhatsApp messaging.">
   <PageHero
     label="Products"
-    title="One Product for Each Kind of Business"
-    line="Pick the one made for your work. Every product sends WhatsApp alerts to your customers."
+    title="One Product for Each <span class='teal'>Kind of Business</span>"
+    line="Six products, each built around the way one kind of business works. All of them send invoices and reminders to your customers on WhatsApp."
   />
 
-  <section class="section top" aria-labelledby="software-title">
-    <div class="wrap">
-      <h2 class="visually-hidden" id="software-title">Business Software</h2>
-      <div class="grid grid-3">
-        {
-          products.map((p, i) => (
-            <a class:list={['product card reveal', `tint-${p.data.tint}`]} href={u(`/products/${p.id}/`)}>
-              <div class="shot">
-                <Picture
-                  src={p.data.screen.src}
-                  alt=""
-                  formats={['avif', 'webp']}
-                  widths={[400, 600, 800]}
-                  sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 380px"
-                  quality={70}
-                  loading={i < 3 ? 'eager' : 'lazy'}
-                  decoding="async"
-                />
-              </div>
-              <div class="body">
-                <div class="row">
-                  <span class="tile">
-                    <Icon name={p.data.icon} size={22} />
-                  </span>
-                  <span class="pill">{p.data.industry}</span>
-                </div>
-                <h3 class="h3">{p.data.name}</h3>
-                <p class="muted">{p.data.tagline}</p>
-                <span class="link">
-                  See {p.data.name} <Icon name="arrow-right" size={16} />
-                </span>
-              </div>
+  <section class="section">
+    <div class="wrap rows">
+      {
+        products.map((p, i) => (
+          <article class:list={['prow', { flip: i % 2 === 1 }]}>
+            <div class="ptext reveal">
+              <span class="n num">{pad(i)}</span>
+              <span class="eyebrow">{p.data.industry}</span>
+              <h2 class="pname">{p.data.name}</h2>
+              <p class="lede">{p.data.tagline}</p>
+              <ul class="hl">
+                {p.data.highlights.map((h) => (
+                  <li>
+                    <Icon name="check" size={18} />
+                    {h}
+                  </li>
+                ))}
+              </ul>
+              <a class="btn btn-line" href={u(`/products/${p.id}/`)}>
+                See {p.data.name} <Icon name="arrow-right" size={18} />
+              </a>
+            </div>
+            <a class="pshot reveal" href={u(`/products/${p.id}/`)} tabindex="-1" aria-hidden="true">
+              <Frame
+                kind={p.data.screen.frame}
+                src={p.data.screen.src}
+                alt=""
+                title={p.data.screen.title}
+                priority={i === 0}
+                sizes="(max-width: 960px) 100vw, 720px"
+              />
             </a>
-          ))
-        }
-      </div>
+          </article>
+        ))
+      }
     </div>
   </section>
 
-  <section class="section band" aria-labelledby="apps-title">
+  <section class="section dark" id="apps" aria-labelledby="apps-title">
     <div class="wrap">
-      <SectionHead id="apps-title" label="Apps" title="Apps for Phones" line="For our clients' customers, and BizCareers, our own jobs app." />
-      <div class="grid grid-3">
-        {apps.map((a) => <AppCard app={a} />)}
+      <SectionHead id="apps-title" label="Apps" title="Apps for Phones" line="For our clients’ customers, and BizCareers, our own jobs app." />
+      <div class="work head-gap">
+        <WorkCard app={apps.find((a) => a.id === 'makki-autocare')!} wide />
+        <div class="pair">
+          {apps.filter((a) => a.id !== 'makki-autocare').map((a) => <WorkCard app={a} />)}
+        </div>
       </div>
     </div>
   </section>
 
   <section class="section" aria-labelledby="services-title">
     <div class="wrap">
-      <SectionHead id="services-title" label="Services" title="Help Beyond the Software" />
-      <div class="grid grid-2">
-        {
-          services.map((s) => (
-            <a class="service card reveal" href={u(`/services/${s.id}/`)}>
-              <span class="tile tile-lg">
-                <Icon name={s.data.icon} size={26} />
-              </span>
-              <div>
-                <h3 class="h3">{s.data.name}</h3>
-                <p class="muted">{s.data.tagline}</p>
-              </div>
-              <Icon name="arrow-right" size={20} class="go" />
-            </a>
-          ))
-        }
-      </div>
+      <SectionHead id="services-title" label="Services" title="Everything Your Business Needs From Software" />
+      <div class="head-gap"><Services /></div>
     </div>
   </section>
 
@@ -97,37 +85,24 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
 </Base>
 
 <style>
-  .top { padding-top: 0; }
-  .product { display: flex; flex-direction: column; overflow: hidden; transition: border-color 0.2s var(--ease); }
-  .product:hover { border-color: var(--line-strong); }
-  .shot {
-    aspect-ratio: 16 / 10;
-    padding: 22px 22px 0;
-    background: var(--t-bg);
-    overflow: hidden;
+  .rows { display: grid; gap: 140px; }
+  .prow { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 80px; align-items: center; }
+  .flip .ptext { order: 2; }
+  .ptext { display: grid; gap: 18px; justify-items: start; }
+  .n { font-size: 0.9375rem; font-weight: 800; color: var(--ink-3); }
+  .pname { font-size: clamp(2.5rem, 1.8rem + 2.6vw, 4rem); letter-spacing: -0.045em; line-height: 1; }
+  .hl { display: grid; gap: 10px; margin: 6px 0 10px; }
+  .hl li { display: flex; gap: 10px; align-items: flex-start; color: var(--ink-2); }
+  .hl :global(svg) { flex: none; margin-top: 4px; color: var(--teal); }
+  .pshot { display: block; transition: transform 0.5s var(--ease); }
+  .pshot:hover { transform: translateY(-6px); }
+  .work { display: grid; gap: 24px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .dark :global(.work) { background: #0f0f0f; }
+  @media (max-width: 960px) {
+    .rows { gap: 96px; }
+    .prow { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+    .flip .ptext { order: 0; }
+    .pair { grid-template-columns: minmax(0, 1fr); }
   }
-  .shot :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top left;
-    border-radius: 10px 10px 0 0;
-    border: 1px solid var(--line);
-    border-bottom: 0;
-  }
-  .body { display: grid; gap: 8px; align-content: start; flex: 1; padding: 24px; }
-  .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-  .link { margin-top: 6px; }
-  .product:hover .link :global(svg) { transform: translateX(3px); }
-
-  .service {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 28px;
-    transition: border-color 0.2s var(--ease);
-  }
-  .service:hover { border-color: var(--line-strong); }
-  .service > div { flex: 1; display: grid; gap: 4px; }
-  .service :global(.go) { flex: none; color: var(--accent-ink); }
 </style>

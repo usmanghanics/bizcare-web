@@ -1,20 +1,17 @@
 ---
 import Icon from './Icon.astro';
 
-/**
- * An example of the invoice a customer receives on WhatsApp. Drawn in HTML,
- * with made-up figures, to show what the alerts look like.
- */
+/** An example of the invoice a customer receives on WhatsApp. Drawn in HTML, with made-up figures. */
 interface Props {
   class?: string;
 }
 const { class: className } = Astro.props;
 ---
 
-<div class:list={['msg card', className]} role="img" aria-label="Example: an invoice sent to a customer on WhatsApp">
+<div class:list={['msg', className]} role="img" aria-label="Example: an invoice sent to a customer on WhatsApp">
   <div class="msg-head" aria-hidden="true">
     <span class="msg-icon"><Icon name="whatsapp-logo" size={18} /></span>
-    <span class="msg-who">
+    <span>
       <span class="msg-title">Invoice Sent</span>
       <span class="msg-sub">on WhatsApp, just now</span>
     </span>
@@ -32,47 +29,28 @@ const { class: className } = Astro.props;
 
 <style>
   .msg {
-    width: 280px;
-    padding: 14px;
-    box-shadow: var(--shadow-float);
+    width: 300px;
+    padding: 16px;
     display: grid;
     gap: 12px;
+    border-radius: 20px;
+    background: #fff;
+    color: #0a0a0a;
+    box-shadow: 0 24px 60px rgb(0 0 0 / 0.35);
   }
   .msg-head { display: flex; align-items: center; gap: 10px; }
-  .msg-icon {
-    display: grid;
-    place-items: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--whatsapp) 14%, transparent);
-    color: var(--whatsapp);
-  }
+  .msg-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #e3f5ea; color: #138a43; }
   .msg-title { display: block; font-size: 0.875rem; font-weight: 800; line-height: 1.2; }
-  .msg-sub { display: block; font-size: 0.75rem; color: var(--ink-2); }
-  .bubble {
-    position: relative;
-    padding: 12px 12px 22px;
-    border-radius: 4px 14px 14px 14px;
-    background: var(--surface-2);
-    font-size: 0.8125rem;
-  }
+  .msg-sub { display: block; font-size: 0.75rem; color: #6b6b6b; }
+  .bubble { position: relative; padding: 12px 12px 22px; border-radius: 4px 14px 14px 14px; background: #f2f2f2; font-size: 0.8125rem; }
   .b-title { font-weight: 800; margin-bottom: 6px; }
   dl { margin: 0; display: grid; gap: 3px; }
   dl div { display: flex; justify-content: space-between; gap: 12px; }
-  dt { color: var(--ink-2); }
+  dt { color: #555; }
   dd { margin: 0; font-weight: 700; }
-  .total { margin-top: 4px; padding-top: 6px; border-top: 1px dashed var(--line-strong); }
-  .total dt { color: var(--ink); font-weight: 700; }
-  .b-time {
-    position: absolute;
-    right: 10px;
-    bottom: 5px;
-    display: inline-flex;
-    align-items: center;
-    font-size: 0.6875rem;
-    color: var(--ink-3);
-  }
+  .total { margin-top: 4px; padding-top: 6px; border-top: 1px dashed #ccc; }
+  .total dt { color: #0a0a0a; font-weight: 700; }
+  .b-time { position: absolute; right: 10px; bottom: 5px; display: inline-flex; align-items: center; font-size: 0.6875rem; color: #777; }
   .b-time :global(svg) { color: #34b7f1; }
   .b-time :global(svg:first-of-type) { margin-left: 4px; }
   .b-time :global(.tick2) { margin-left: -7px; }

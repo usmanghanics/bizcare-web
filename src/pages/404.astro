@@ -5,22 +5,22 @@ import { u } from '../lib/url';
 ---
 
 <Base title="Page Not Found" description="This page could not be found." noindex>
-  <section class="section">
-    <div class="wrap lost">
-      <span class="label">Error 404</span>
-      <h1 class="display">This Page Is Not Here</h1>
+  <section class="lost dark">
+    <div class="wrap inner">
+      <span class="eyebrow">Error 404</span>
+      <h1 class="mega">This Page <span class="teal">Is Not Here</span></h1>
       <p class="lede">The link may be old, or the page may have moved. These will get you back on track.</p>
       <div class="btn-row">
-        <a class="btn btn-quiet" href={u('/')}><Icon name="house" /> Home</a>
-        <a class="btn btn-quiet" href={u('/products/')}>Products</a>
-        <a class="btn btn-primary" href={u('/contact/')}>Contact Us</a>
+        <a class="btn btn-teal" href={u('/')}><Icon name="house" /> Home</a>
+        <a class="btn btn-line" href={u('/products/')}>Products</a>
+        <a class="btn btn-line" href={u('/contact/')}>Contact Us</a>
       </div>
     </div>
   </section>
 </Base>
 
 <style>
-  .lost { display: grid; gap: 18px; justify-items: center; text-align: center; padding-block: 40px; }
-  .lost .lede { max-width: 520px; }
-  .btn-row { justify-content: center; }
+  .lost { min-height: 88vh; display: grid; align-items: center; padding: calc(var(--bar) + 64px) 0 96px; }
+  .inner { display: grid; gap: 28px; justify-items: start; }
+  .inner .lede { max-width: 560px; }
 </style>

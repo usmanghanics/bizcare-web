@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 import { company, whatsappHref } from '../data/site';
+import { word } from '../lib/logo';
 import { u } from '../lib/url';
 
 const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
@@ -11,22 +12,18 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
 const year = new Date().getFullYear();
 ---
 
-<footer class="footer">
+<footer class="footer dark">
   <div class="wrap">
     <div class="cols">
       <div class="about">
-        <a href={u('/')} aria-label="BizCare, home"><Logo height={30} /></a>
-        <p class="muted small">Business software built in Lahore for flour mills, shops, restaurants, travel agencies, workshops and internet providers across Pakistan.</p>
-        <ul class="contact small">
-          <li>
-            <a href={whatsappHref()} target="_blank" rel="noopener"><Icon name="whatsapp-logo" size={18} class="wa" /> WhatsApp {company.phone}</a>
-          </li>
-          <li><a href={company.phoneHref}><Icon name="phone" size={18} /> {company.phone}</a></li>
-          <li><a href={`mailto:${company.email}`}><Icon name="envelope-simple" size={18} /> {company.email}</a></li>
-          <li>
-            <a href={company.mapsHref} target="_blank" rel="noopener"><Icon name="map-pin" size={18} /> {company.address}</a>
-          </li>
-        </ul>
+        <a class="flogo" href={u('/')} aria-label="BizCare, home"><Logo height={34} /></a>
+        <p class="muted">Business software and apps, built in Lahore for businesses across Pakistan.</p>
+        <div class="btn-row">
+          <a class="btn btn-teal btn-sm" href={u('/contact/')}>Book a Demo</a>
+          <a class="btn btn-line btn-sm" href={whatsappHref()} target="_blank" rel="noopener">
+            <Icon name="whatsapp-logo" size={18} class="wa" /> WhatsApp
+          </a>
+        </div>
       </div>
 
       <nav aria-label="Products">
@@ -56,7 +53,20 @@ const year = new Date().getFullYear();
           <li><a href={u('/contact/')}>Contact</a></li>
         </ul>
       </nav>
+
+      <div>
+        <p class="col-title">Get in Touch</p>
+        <ul class="contact">
+          <li><a href={company.phoneHref}>{company.phone}</a></li>
+          <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
+          <li><a href={company.mapsHref} target="_blank" rel="noopener">{company.address}</a></li>
+        </ul>
+      </div>
     </div>
+
+    <svg class="giant" viewBox={`0 0 ${word.width} ${word.height}`} aria-hidden="true" focusable="false">
+      <path fill="currentColor" fill-rule="evenodd" d={word.d}></path>
+    </svg>
 
     <div class="base tiny">
       <p>© {year} {company.name}</p>
@@ -69,59 +79,61 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
-  .footer {
-    padding: 72px 0 28px;
-    border-top: 1px solid var(--line);
-    background: var(--page);
-  }
+  .footer { padding: 96px 0 28px; border-top: 1px solid #1a1a1a; }
   .cols {
     display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    grid-template-columns: 1.6fr 1fr 1fr 0.8fr 1.2fr;
     gap: 40px;
   }
-  .about { display: grid; gap: 18px; align-content: start; max-width: 380px; }
-  .contact { display: grid; gap: 10px; }
-  .contact a { display: inline-flex; align-items: flex-start; gap: 10px; color: var(--ink-2); }
-  .contact a:hover { color: var(--ink); }
-  .contact :global(svg) { margin-top: 3px; flex: none; }
-  .contact :global(.wa) { color: var(--whatsapp); }
+  .about { display: grid; gap: 22px; align-content: start; max-width: 360px; }
+  .flogo { color: var(--white); }
   .col-title {
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     font-size: 0.75rem;
     font-weight: 750;
-    letter-spacing: 0.09em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--ink-3);
+    color: var(--d-ink-3);
   }
-  .col-title.gap { margin-top: 28px; }
-  .col-links { display: grid; gap: 4px; }
-  .col-links a {
+  .col-title.gap { margin-top: 32px; }
+  .col-links { display: grid; gap: 2px; }
+  .col-links a, .contact a {
     display: inline-flex;
     align-items: center;
-    min-height: 32px;
+    min-height: 34px;
     font-size: 0.9375rem;
     font-weight: 600;
-    color: var(--ink-2);
+    color: #d4d4d4;
+    transition: color 0.2s var(--ease);
   }
-  .col-links a:hover { color: var(--ink); }
+  .col-links a:hover, .contact a:hover { color: var(--teal-bright); }
+  .contact { display: grid; gap: 6px; }
+  .contact a { line-height: 1.45; }
+  .giant {
+    width: 100%;
+    height: auto;
+    margin-top: 96px;
+    color: #141414;
+  }
   .base {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 12px;
-    margin-top: 56px;
-    padding-top: 22px;
-    border-top: 1px solid var(--line);
-    color: var(--ink-3);
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #1f1f1f;
+    color: var(--d-ink-3);
   }
-  .base ul { display: flex; gap: 20px; }
-  .base a:hover { color: var(--ink); }
-  @media (max-width: 960px) {
-    .cols { grid-template-columns: 1fr 1fr; }
-    .about { grid-column: 1 / -1; max-width: none; }
+  .base ul { display: flex; gap: 24px; }
+  .base a:hover { color: var(--white); }
+  @media (max-width: 1080px) {
+    .cols { grid-template-columns: 1fr 1fr 1fr; }
+    .about { grid-column: 1 / -1; max-width: 480px; }
   }
-  @media (max-width: 480px) {
-    .cols { grid-template-columns: 1fr 1fr; gap: 32px 20px; }
-    .base a { display: inline-flex; min-height: 32px; align-items: center; }
+  @media (max-width: 640px) {
+    .footer { padding-top: 72px; }
+    .cols { grid-template-columns: 1fr 1fr; gap: 36px 20px; }
+    .giant { margin-top: 64px; }
   }
 </style>

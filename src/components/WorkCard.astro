@@ -1,0 +1,113 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Frame from './Frame.astro';
+import Icon from './Icon.astro';
+import { u } from '../lib/url';
+
+/**
+ * One app as a case study: a black card with the client, the app's name and
+ * one line, and the real screens in phones rising from the bottom edge.
+ * `wide` lays the text beside the phones instead of above them.
+ */
+interface Props {
+  app: CollectionEntry<'apps'>;
+  wide?: boolean;
+}
+const { app, wide = false } = Astro.props;
+const a = app.data;
+const screens = a.screens.slice(0, wide ? 3 : 2);
+---
+
+<a class:list={['work dark reveal', { wide }]} href={u(`/apps/${app.id}/`)}>
+  <div class="text">
+    <span class="who">{a.kind === 'own' ? 'BizCare Product' : `Client: ${a.client}`}</span>
+    <h3 class="title">{a.name}</h3>
+    <p class="muted">{a.tagline}</p>
+    <ul class="tags">
+      <li class:list={{ live: a.status === 'live' }}>
+        <span class="dot" aria-hidden="true"></span>{a.status === 'live' ? 'Live on Google Play' : 'Coming Soon'}
+      </li>
+      <li>{a.platforms.join(', ')}</li>
+    </ul>
+    <span class="link">View Project <Icon name="arrow-right" size={18} /></span>
+  </div>
+  <div class="phones">
+    {
+      screens.map((s, i) => (
+        <Frame kind="phone" src={s.src} alt={s.alt} sizes={wide ? '240px' : '200px'} class={`ph p${i}`} />
+      ))
+    }
+  </div>
+</a>
+
+<style>
+  .work {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: #0d0d0d;
+    border: 1px solid #1c1c1c;
+    min-height: 640px;
+    transition: border-color 0.3s var(--ease);
+  }
+  .work:hover { border-color: #333; }
+  .text { display: grid; gap: 14px; align-content: start; justify-items: start; padding: 44px 44px 32px; }
+  .who {
+    font-size: 0.8125rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal-bright);
+  }
+  .title { font-size: clamp(2rem, 1.5rem + 1.6vw, 3rem); letter-spacing: -0.04em; line-height: 1; }
+  .text .muted { max-width: 440px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .tags li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid #2a2a2a;
+    font-size: 0.8125rem;
+    font-weight: 650;
+    color: #cfcfcf;
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: #777; }
+  .live .dot { background: #3ccf73; }
+  .link { margin-top: 10px; color: var(--white); }
+  .work:hover .link :global(svg) { transform: translateX(4px); }
+
+  .phones {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 12px 32px 0;
+    margin-bottom: -120px;
+  }
+  .phones :global(.ph) { width: 46%; max-width: 230px; flex: none; transition: transform 0.5s var(--ease); }
+  .phones :global(.p1) { margin-top: 48px; }
+  .work:hover :global(.p0) { transform: translateY(-8px); }
+  .work:hover :global(.p1) { transform: translateY(-14px); }
+
+  .wide { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: none; min-height: 560px; }
+  .wide .text { align-content: center; padding: 56px; }
+  .wide .phones { align-items: flex-start; padding: 56px 40px 0; gap: 24px; margin-bottom: -80px; }
+  .wide .phones :global(.ph) { width: 31%; max-width: 250px; }
+  .wide .phones :global(.p1) { margin-top: 56px; }
+  .wide .phones :global(.p2) { margin-top: 112px; }
+
+  @media (max-width: 960px) {
+    .wide { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; }
+    .wide .text { padding: 40px 32px 24px; }
+    .wide .phones { padding: 12px 24px 0; gap: 14px; }
+  }
+  @media (max-width: 640px) {
+    .work { min-height: 0; }
+    .text, .wide .text { padding: 32px 24px 20px; }
+    .phones { margin-bottom: -90px; padding: 8px 20px 0; gap: 14px; }
+    .wide .phones { margin-bottom: -60px; }
+  }
+</style>
