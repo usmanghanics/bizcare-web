@@ -1,23 +1,22 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
+import FillButton from '../components/FillButton.astro';
+import GooButton from '../components/GooButton.astro';
 import HeroMosaic from '../components/HeroMosaic.astro';
-import Icon from '../components/Icon.astro';
-import NameMarquee from '../components/NameMarquee.astro';
-import ProductList from '../components/ProductList.astro';
+import ProductGrid from '../components/ProductGrid.astro';
 import RegionCards from '../components/RegionCards.astro';
 import SectionHead from '../components/SectionHead.astro';
-import Services from '../components/Services.astro';
-import Stats from '../components/Stats.astro';
-import Steps from '../components/Steps.astro';
 import Testimonials from '../components/Testimonials.astro';
+import TrustBar from '../components/TrustBar.astro';
 import WorkCard from '../components/WorkCard.astro';
 import { company } from '../data/site';
 import { u } from '../lib/url';
 
-const makki = (await getEntry('apps', 'makki-autocare'))!;
-const others = (await getCollection('apps')).filter((a) => a.id !== 'makki-autocare').sort((a, b) => a.data.order - b.data.order);
+const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
+const order = ['makki-autocare', 'madadgar-kisan', 'bizcareers'];
+apps.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
 const clients = await getCollection('clients');
 
 const schema = {
@@ -34,74 +33,44 @@ const schema = {
 ---
 
 <Base
-  title="BizCare | Software That Runs Pakistan’s Businesses"
+  title="BizCare | Business Software and Apps"
   fullTitle
-  description="BizCare Software Solutions is a Lahore software house. ERP, point of sale and mobile apps for flour mills, retail, restaurants, travel agencies, workshops and internet providers. Trusted by 300+ businesses."
+  description="BizCare Software Solutions builds ERP, point of sale and mobile apps for flour mills, retail, restaurants, travel agencies, workshops and internet providers. Trusted by 300+ businesses."
   schema={schema}>
   <!-- Hero -->
   <section class="hero dark">
     <div class="wrap hero-grid">
       <div class="copy">
-        <span class="eyebrow">Software House, Lahore</span>
-        <h1 class="mega">Software That Runs <span class="teal">Pakistan’s</span> Businesses</h1>
-        <p class="lede">
-          ERP, point of sale and mobile apps for flour mills, retailers, restaurants, travel agencies, workshops and internet
-          providers.
-        </p>
+        <h1 class="display">We Build the Software <span class="teal">Businesses Run On</span></h1>
+        <p class="lede">ERP, point of sale and mobile apps, built in Lahore and trusted by more than 300 businesses.</p>
         <div class="btn-row">
-          <a class="btn btn-teal" href={u('/contact/')}>Book a Demo <Icon name="arrow-right" size={18} /></a>
-          <a class="btn btn-line" href="#work">See Our Work</a>
+          <FillButton href="#work">See Our Work</FillButton>
+          <GooButton href={u('/contact/')} icon="calendar-check">Book a Demo</GooButton>
         </div>
       </div>
       <HeroMosaic />
     </div>
-    <div class="wrap proof">
-      <p class="proof-label">Trusted by <b>300+ businesses</b> in 70+ cities</p>
-      <NameMarquee />
-    </div>
-  </section>
-
-  <!-- Who we are -->
-  <section class="section" aria-labelledby="who-title">
-    <div class="wrap">
-      <span class="eyebrow reveal" id="who-title">Who We Are</span>
-      <p class="statement reveal who">
-        BizCare is a software house in Lahore. For seven years we have built, installed and supported the software that
-        <span class="quiet">flour mills, shops, restaurants, travel agencies, workshops and internet providers across Pakistan run on every day.</span>
-      </p>
-      <div class="stats-gap"><Stats /></div>
-      <a class="link reveal about-link" href={u('/about/')}>More About BizCare <Icon name="arrow-right" size={18} /></a>
-    </div>
+    <div class="wrap"><TrustBar /></div>
   </section>
 
   <!-- What we build -->
-  <section class="section dark" aria-labelledby="build-title">
+  <section class="section" aria-labelledby="build-title">
     <div class="wrap">
-      <div class="head-row">
-        <SectionHead
-          id="build-title"
-          label="What We Build"
-          title="One Product for Each Kind of Business"
-          line="Every product sends invoices, reminders and receipts to your customers on WhatsApp."
-        />
-        <a class="btn btn-line reveal" href={u('/products/')}>All Products</a>
-      </div>
-      <div class="head-gap"><ProductList /></div>
+      <SectionHead
+        id="build-title"
+        title="Software for Every Kind of Business"
+        line="Pick the one made for your work. Each sends invoices and reminders to your customers on WhatsApp."
+      />
+      <div class="head-gap"><ProductGrid /></div>
     </div>
   </section>
 
-  <!-- Our work -->
-  <section class="section" id="work" aria-labelledby="work-title">
+  <!-- Apps -->
+  <section class="section dark" id="work" aria-labelledby="work-title">
     <div class="wrap">
-      <div class="head-row">
-        <SectionHead id="work-title" label="Our Work" title="Apps We Have Built" line="For our clients’ customers, and for Pakistan’s job market." />
-        <a class="btn btn-line reveal" href={u('/apps/')}>All Apps</a>
-      </div>
-      <div class="work head-gap">
-        <WorkCard app={makki} wide />
-        <div class="work-pair">
-          {others.map((a) => <WorkCard app={a} />)}
-        </div>
+      <SectionHead id="work-title" title="Apps We Have Built" line="On the App Store and Google Play, for our clients and for our own customers." />
+      <div class="apps head-gap">
+        {apps.map((a) => <WorkCard app={a} />)}
       </div>
     </div>
   </section>
@@ -111,35 +80,18 @@ const schema = {
     <div class="wrap">
       <SectionHead
         id="regions-title"
-        label="Clients Across Pakistan"
         title="From Peshawar to Turbat"
-        line={`${clients.length} named clients in 14 regions, and 300+ businesses in all. Our team installs and trains at every one.`}
+        line={`${clients.length} named clients in 14 regions. Our team installs and trains at every one.`}
       />
       <div class="head-gap"><RegionCards /></div>
     </div>
   </section>
 
-  <!-- Services -->
-  <section class="section" aria-labelledby="services-title">
-    <div class="wrap">
-      <SectionHead id="services-title" label="Services" title="Everything Your Business Needs From Software" />
-      <div class="head-gap"><Services /></div>
-    </div>
-  </section>
-
-  <!-- Testimonials -->
+  <!-- Client words -->
   <section class="section dark" aria-labelledby="tst-title">
     <div class="wrap">
-      <span class="eyebrow reveal" id="tst-title">What Clients Say</span>
+      <h2 class="h2 reveal" id="tst-title">What Clients Say</h2>
       <div class="tst-gap"><Testimonials /></div>
-    </div>
-  </section>
-
-  <!-- How we work -->
-  <section class="section" aria-labelledby="how-title">
-    <div class="wrap">
-      <SectionHead id="how-title" label="How We Work" title="From First Call to Every Day After" />
-      <div class="head-gap"><Steps /></div>
     </div>
   </section>
 
@@ -147,47 +99,28 @@ const schema = {
 </Base>
 
 <style>
-  .hero { padding-top: calc(var(--bar) + 48px); overflow: hidden; }
+  .hero { padding-top: calc(var(--bar) + 40px); overflow: hidden; }
   .hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 64px;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 72px;
     align-items: center;
   }
-  .copy { display: grid; gap: 30px; justify-items: start; padding-bottom: 40px; }
-  .copy .lede { max-width: 520px; }
-  .proof {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    align-items: center;
-    gap: 40px;
-    margin-top: 24px;
-    padding-top: 32px;
-    padding-bottom: 40px;
-    border-top: 1px solid #1f1f1f;
-  }
-  .proof-label { font-size: 0.9375rem; color: var(--d-ink-2); white-space: nowrap; }
-  .proof-label b { color: var(--white); }
+  .copy { display: grid; gap: 28px; justify-items: start; }
+  .copy .display { font-size: clamp(2.75rem, 1.6rem + 3.8vw, 4.75rem); max-width: 11ch; }
+  .copy .lede { max-width: 30ch; color: rgb(255 255 255 / 0.66); }
+  .copy .btn-row { margin-top: 8px; }
 
-  .who { margin-top: 28px; max-width: 1100px; }
-  .stats-gap { margin-top: 80px; }
-  .about-link { margin-top: 48px; }
-
-  .work { display: grid; gap: 24px; }
-  .work-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-
-  .tst-gap { margin-top: 48px; }
+  .apps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+  .tst-gap { margin-top: 56px; }
 
   @media (max-width: 960px) {
-    .hero { padding-top: calc(var(--bar) + 40px); }
-    .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 48px; }
-    .copy { padding-bottom: 0; }
-    .proof { grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 40px; }
-    .work-pair { grid-template-columns: minmax(0, 1fr); }
-    .stats-gap { margin-top: 56px; }
+    .hero { padding-top: calc(var(--bar) + 32px); }
+    .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 44px; }
+    .copy .display { max-width: 13ch; }
+    .apps { grid-template-columns: minmax(0, 1fr); gap: 56px; max-width: 520px; }
   }
   @media (max-width: 480px) {
     .copy .btn-row { width: 100%; }
-    .copy .btn-row .btn { flex: 1 1 auto; }
   }
 </style>

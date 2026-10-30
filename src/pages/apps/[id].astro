@@ -3,11 +3,13 @@ import type { GetStaticPaths } from 'astro';
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import CtaBand from '../../components/CtaBand.astro';
+import FillButton from '../../components/FillButton.astro';
 import Frame from '../../components/Frame.astro';
+import StoreBadges from '../../components/StoreBadges.astro';
 import Icon from '../../components/Icon.astro';
-import Numbered from '../../components/Numbered.astro';
 import SectionHead from '../../components/SectionHead.astro';
 import WorkCard from '../../components/WorkCard.astro';
+import { Image } from 'astro:assets';
 import { u } from '../../lib/url';
 
 export const getStaticPaths = (async () => {
@@ -24,6 +26,11 @@ const product = a.poweredBy ? await getEntry(a.poweredBy) : undefined;
 const live = a.status === 'live';
 const others = (await getCollection('apps')).filter((x) => x.id !== app.id).sort((x, y) => x.data.order - y.data.order);
 
+// A flat, deep stage colour from the app's own colour. No gradients.
+const stageColour: Record<string, string> = { red: '#2a1012', forest: '#0e2218', teal: '#07292b', blue: '#0d1b33' };
+const stage = stageColour[a.tint] ?? '#151517';
+const [front, left, right] = [a.screens[0], a.screens[1] ?? a.screens[0], a.screens[2] ?? a.screens[0]];
+
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'MobileApplication',
@@ -38,44 +45,61 @@ const schema = {
 
 <Base title={a.name} description={`${a.name}: ${a.tagline}`} image={`/og/apps/${app.id}.png`} schema={schema}>
   <section class="hero dark">
-    <div class="wrap hero-grid">
-      <div class="copy">
-        <nav class="crumb small" aria-label="Breadcrumb">
-          <a href={u('/apps/')}>Our Work</a>
-          <Icon name="caret-right" size={14} />
-          <span aria-current="page">{a.name}</span>
-        </nav>
-        <span class="eyebrow">{a.kind === 'own' ? 'BizCare Product' : `Client: ${a.client}`}</span>
-        <h1 class="display">{a.headline}</h1>
-        <p class="lede">{a.line}</p>
-        <div class="btn-row">
-          {a.links.play && (
-            <a class="btn btn-teal" href={a.links.play} target="_blank" rel="noopener"><Icon name="google-play-logo" /> Get It on Google Play</a>
-          )}
-          {a.links.site && (
-            <a class="btn btn-line" href={a.links.site} target="_blank" rel="noopener">Visit {a.name} <Icon name="arrow-up-right" size={16} /></a>
-          )}
-          {!a.links.play && !a.links.site && (
-            <a class="btn btn-teal" href={u('/contact/?product=custom-app')}>Talk to Us About an App <Icon name="arrow-right" size={18} /></a>
-          )}
+    <div class="wrap">
+      <nav class="crumb small" aria-label="Breadcrumb">
+        <a href={u('/apps/')}>Our Work</a>
+        <Icon name="caret-right" size={14} />
+        <span aria-current="page">{a.name}</span>
+      </nav>
+      <div class="hero-grid">
+        <div class="copy">
+          <div class="ident">
+            <Image src={a.appIcon} alt="" width={144} height={144} class="app-icon" loading="eager" />
+            <div>
+              <p class="app-name">{a.name}</p>
+              <p class="app-for">{a.kind === 'own' ? 'By BizCare' : `For ${a.client}`}</p>
+            </div>
+          </div>
+          <h1 class="display">{a.headline}</h1>
+          <p class="lede">{a.line}</p>
+          <StoreBadges appStore={a.links.appStore} play={a.links.play} live={live} />
+          <ul class="facts small">
+            <li class:list={['status', { live }]}><span class="dot" aria-hidden="true"></span>{live ? 'Live on both stores' : 'Coming soon'}</li>
+            <li>{a.platforms.join(', ')}</li>
+            {a.links.site && (
+              <li>
+                <a class="underline" href={a.links.site} target="_blank" rel="noopener">Visit the {a.name} website</a>
+              </li>
+            )}
+          </ul>
         </div>
-        <ul class="facts small">
-          <li class:list={['status', { live }]}><span class="dot" aria-hidden="true"></span>{live ? 'Live on Google Play' : 'Coming Soon'}</li>
-          <li><Icon name="device-mobile" size={18} /> {a.platforms.join(', ')}</li>
-        </ul>
-      </div>
-      <div class="stage">
-        {a.screens.map((s, i) => <Frame kind="phone" src={s.src} alt={s.alt} sizes="(max-width: 640px) 30vw, 220px" priority={i === 0} class={`ph p${i}`} />)}
+        <div class="stage" style={`--stage: ${stage}`}>
+          <div class="trio">
+            <Frame kind="phone" src={left.src} alt={left.alt} sizes="(max-width: 640px) 34vw, 200px" class="ph side side-l" />
+            <Frame kind="phone" src={right.src} alt={right.alt} sizes="(max-width: 640px) 34vw, 200px" class="ph side side-r" />
+            <Frame kind="phone" src={front.src} alt={front.alt} sizes="(max-width: 640px) 44vw, 240px" priority class="ph front" />
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="section" aria-labelledby="does-title">
     <div class="wrap">
-      <SectionHead id="does-title" label="What It Does" title={`Inside ${a.name}`} />
-      <div class="head-gap">
-        <Numbered items={a.features.map((f) => ({ title: f.title, line: f.line }))} columns={a.features.length % 3 === 0 ? 3 : 2} />
-      </div>
+      <SectionHead id="does-title" title={`Inside ${a.name}`} line={a.tagline} />
+      <ul class="features head-gap">
+        {
+          a.features.map((f) => (
+            <li class="reveal">
+              <span class="f-icon" style={`--stage: ${stage}`}>
+                <Icon name={f.icon} size={22} />
+              </span>
+              <h3 class="h3">{f.title}</h3>
+              <p class="muted">{f.line}</p>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 
@@ -86,11 +110,10 @@ const schema = {
           <div class="behind-copy">
             <SectionHead
               id="behind-title"
-              label="The Software Behind It"
               title={`Powered by ${product.data.name}`}
               line={`${a.client} runs ${product.data.name}, BizCare’s software for ${product.data.industry.toLowerCase()}. The app shows each customer the records it keeps.`}
             />
-            <a class="btn btn-line reveal" href={u(`/products/${product.id}/`)}>See {product.data.name} <Icon name="arrow-right" size={18} /></a>
+            <FillButton href={u(`/products/${product.id}/`)} class="reveal">See {product.data.name}</FillButton>
           </div>
           <Frame kind={product.data.screen.frame} src={product.data.screen.src} alt={product.data.screen.alt} title={product.data.screen.title} sizes="(max-width: 960px) 100vw, 680px" />
         </div>
@@ -98,9 +121,9 @@ const schema = {
     )
   }
 
-  <section class="section" aria-labelledby="more-title">
+  <section class="section dark" aria-labelledby="more-title">
     <div class="wrap">
-      <SectionHead id="more-title" label="More Work" title="Other Apps We Have Built" />
+      <SectionHead id="more-title" title="Other Apps We Have Built" />
       <div class="pair head-gap">{others.map((o) => <WorkCard app={o} />)}</div>
     </div>
   </section>
@@ -113,44 +136,83 @@ const schema = {
 </Base>
 
 <style>
-  .hero { padding: calc(var(--bar) + 72px) 0 0; overflow: hidden; }
-  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: end; }
-  .copy { display: grid; gap: 24px; justify-items: start; padding-bottom: 104px; }
-  .copy .display { font-size: clamp(2.25rem, 1.4rem + 3vw, 4rem); }
-  .crumb { display: flex; align-items: center; gap: 8px; color: var(--d-ink-3); }
+  .hero { padding: calc(var(--bar) + 56px) 0 96px; overflow: hidden; }
+  .crumb { display: flex; align-items: center; gap: 8px; color: var(--d-ink-3); margin-bottom: 40px; }
   .crumb a:hover { color: var(--white); }
   .crumb [aria-current] { color: var(--d-ink-2); }
-  .facts { display: flex; flex-wrap: wrap; gap: 10px 24px; color: var(--d-ink-2); font-weight: 650; }
-  .facts li { display: inline-flex; align-items: center; gap: 8px; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; align-items: center; }
+  .copy { display: grid; gap: 24px; justify-items: start; }
+  .ident { display: flex; align-items: center; gap: 16px; }
+  .ident :global(.app-icon) {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    border: 1px solid rgb(255 255 255 / 0.14);
+  }
+  .app-name { font-size: 1.25rem; font-weight: 750; letter-spacing: -0.02em; line-height: 1.2; }
+  .app-for { font-size: 0.9375rem; color: var(--d-ink-2); }
+  .copy .display { font-size: clamp(2.25rem, 1.4rem + 2.8vw, 3.75rem); max-width: 14ch; }
+  .copy .lede { max-width: 46ch; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .facts li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid #2a2a2c;
+    color: var(--d-ink-2);
+    font-weight: 600;
+  }
   .status .dot { width: 8px; height: 8px; border-radius: 50%; background: #777; }
   .status.live .dot { background: #3ccf73; }
+
+  /* Three straight phones on a flat stage in the app's own colour: one in
+     front, two behind it, all fully in view. */
   .stage {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 18px;
-    padding: 56px 32px 0;
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    background: #111;
-    border: 1px solid #1f1f1f;
-    border-bottom: 0;
-    height: 560px;
+    display: grid;
+    place-items: center;
+    padding: 36px 28px;
+    border-radius: 32px;
+    background: var(--stage);
+    border: 1px solid rgb(255 255 255 / 0.08);
     overflow: hidden;
   }
-  .stage :global(.ph) { width: 31%; max-width: 220px; flex: none; }
-  .stage :global(.p1) { margin-top: 44px; }
-  .stage :global(.p2) { margin-top: 88px; }
+  .trio { position: relative; width: min(100%, 540px); aspect-ratio: 540 / 590; }
+  .stage :global(.ph) { position: absolute; }
+  .stage :global(.front) { width: 44%; left: 28%; top: 2%; z-index: 3; }
+  .stage :global(.side) { width: 36%; top: 11%; z-index: 1; opacity: 0.9; }
+  .stage :global(.side-l) { left: 0; }
+  .stage :global(.side-r) { right: 0; }
+  .stage:hover :global(.front) { transform: translateY(-8px); }
+  .stage :global(.front), .stage :global(.side) { transition: transform 0.6s var(--ease); }
+
+  .features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 32px; }
+  .features li { display: grid; gap: 12px; align-content: start; }
+  .f-icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: var(--stage);
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
   .behind { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; align-items: center; }
   .behind-copy { display: grid; gap: 28px; justify-items: start; }
-  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; max-width: 900px; }
+
   @media (max-width: 960px) {
     .hero-grid, .behind, .pair { grid-template-columns: minmax(0, 1fr); }
-    .copy { padding-bottom: 0; }
-    .stage { height: 440px; padding: 36px 16px 0; gap: 12px; }
+    .hero-grid { gap: 44px; }
+    .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 560px) {
-    .stage { height: 360px; margin-inline: calc(-1 * var(--gutter)); border-radius: 0; border-inline: 0; }
-    .copy .btn-row { width: 100%; }
-    .copy .btn-row .btn { flex: 1 1 auto; }
+    .hero { padding-bottom: 72px; }
+    .crumb { margin-bottom: 28px; }
+    .stage { padding: 24px 14px; border-radius: 24px; }
+    .features { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   }
 </style>

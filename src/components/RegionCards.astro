@@ -13,8 +13,8 @@ const list = regions.map((r) => ({ r, n: count(r.id) })).filter((x) => x.n > 0).
 
 <div class="regions" data-regions>
   <div class="controls">
-    <button class="ctrl" type="button" aria-label="Previous regions" data-prev><Icon name="arrow-left" size={20} /></button>
-    <button class="ctrl" type="button" aria-label="Next regions" data-next><Icon name="arrow-right" size={20} /></button>
+    <button class="ctrl" type="button" aria-label="Previous regions" data-prev><Icon name="caret-left" size={20} /></button>
+    <button class="ctrl" type="button" aria-label="Next regions" data-next><Icon name="caret-right" size={20} /></button>
   </div>
   <ul class="rail" data-rail>
     {
@@ -36,7 +36,7 @@ const list = regions.map((r) => ({ r, n: count(r.id) })).filter((x) => x.n > 0).
               <span class="count num">{n}</span>
               <span class="name">{r.data.name}</span>
               <span class="go">
-                See Clients <Icon name="arrow-right" size={16} />
+                See Clients <Icon name="caret-right" size={16} />
               </span>
             </span>
           </a>

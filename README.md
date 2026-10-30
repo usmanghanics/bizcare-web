@@ -8,7 +8,7 @@ Astro 7.3.8 turns everything into plain HTML files ahead of time, so the server 
 
 ```sh
 npm install
-npm run dev          # http://localhost:4321/bizcare-web/ while editing
+npm run dev          # opens http://localhost:4321/ and reloads as you edit (Ctrl+C to stop)
 npm run check        # type check, build, then every check below
 npm run build:live   # the build for bizcare.pk (refuses sample content)
 ```

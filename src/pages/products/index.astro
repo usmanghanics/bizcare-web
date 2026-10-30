@@ -2,81 +2,38 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import CtaBand from '../../components/CtaBand.astro';
-import Frame from '../../components/Frame.astro';
-import Icon from '../../components/Icon.astro';
 import PageHero from '../../components/PageHero.astro';
+import ProductGrid from '../../components/ProductGrid.astro';
 import SectionHead from '../../components/SectionHead.astro';
 import Services from '../../components/Services.astro';
 import WorkCard from '../../components/WorkCard.astro';
-import { u } from '../../lib/url';
 
-const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
-const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
-const pad = (i: number) => String(i + 1).padStart(2, '0');
+const order = ['makki-autocare', 'madadgar-kisan', 'bizcareers'];
+const apps = (await getCollection('apps')).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
 ---
 
 <Base
   title="Products"
   description="BizCare ERP for flour mills, BizPOS for retail, Restro for restaurants, BizWay for travel agencies, OilMate for workshops and RecovrPro for internet and cable, plus apps and WhatsApp messaging.">
   <PageHero
-    label="Products"
     title="One Product for Each <span class='teal'>Kind of Business</span>"
-    line="Six products, each built around the way one kind of business works. All of them send invoices and reminders to your customers on WhatsApp."
+    line="Six products, each built around how one kind of business works."
   />
 
   <section class="section">
-    <div class="wrap rows">
-      {
-        products.map((p, i) => (
-          <article class:list={['prow', { flip: i % 2 === 1 }]}>
-            <div class="ptext reveal">
-              <span class="n num">{pad(i)}</span>
-              <span class="eyebrow">{p.data.industry}</span>
-              <h2 class="pname">{p.data.name}</h2>
-              <p class="lede">{p.data.tagline}</p>
-              <ul class="hl">
-                {p.data.highlights.map((h) => (
-                  <li>
-                    <Icon name="check" size={18} />
-                    {h}
-                  </li>
-                ))}
-              </ul>
-              <a class="btn btn-line" href={u(`/products/${p.id}/`)}>
-                See {p.data.name} <Icon name="arrow-right" size={18} />
-              </a>
-            </div>
-            <a class="pshot reveal" href={u(`/products/${p.id}/`)} tabindex="-1" aria-hidden="true">
-              <Frame
-                kind={p.data.screen.frame}
-                src={p.data.screen.src}
-                alt=""
-                title={p.data.screen.title}
-                priority={i === 0}
-                sizes="(max-width: 960px) 100vw, 720px"
-              />
-            </a>
-          </article>
-        ))
-      }
-    </div>
+    <div class="wrap"><ProductGrid /></div>
   </section>
 
   <section class="section dark" id="apps" aria-labelledby="apps-title">
     <div class="wrap">
-      <SectionHead id="apps-title" label="Apps" title="Apps for Phones" line="For our clients’ customers, and BizCareers, our own jobs app." />
-      <div class="work head-gap">
-        <WorkCard app={apps.find((a) => a.id === 'makki-autocare')!} wide />
-        <div class="pair">
-          {apps.filter((a) => a.id !== 'makki-autocare').map((a) => <WorkCard app={a} />)}
-        </div>
-      </div>
+      <SectionHead id="apps-title" title="Apps We Have Built" line="On the App Store and Google Play." />
+      <div class="apps head-gap">{apps.map((a) => <WorkCard app={a} />)}</div>
     </div>
   </section>
 
   <section class="section" aria-labelledby="services-title">
     <div class="wrap">
-      <SectionHead id="services-title" label="Services" title="Everything Your Business Needs From Software" />
+      <SectionHead id="services-title" title="Services" />
       <div class="head-gap"><Services /></div>
     </div>
   </section>
@@ -85,24 +42,6 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
 </Base>
 
 <style>
-  .rows { display: grid; gap: 140px; }
-  .prow { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 80px; align-items: center; }
-  .flip .ptext { order: 2; }
-  .ptext { display: grid; gap: 18px; justify-items: start; }
-  .n { font-size: 0.9375rem; font-weight: 800; color: var(--ink-3); }
-  .pname { font-size: clamp(2.5rem, 1.8rem + 2.6vw, 4rem); letter-spacing: -0.045em; line-height: 1; }
-  .hl { display: grid; gap: 10px; margin: 6px 0 10px; }
-  .hl li { display: flex; gap: 10px; align-items: flex-start; color: var(--ink-2); }
-  .hl :global(svg) { flex: none; margin-top: 4px; color: var(--teal); }
-  .pshot { display: block; transition: transform 0.5s var(--ease); }
-  .pshot:hover { transform: translateY(-6px); }
-  .work { display: grid; gap: 24px; }
-  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .dark :global(.work) { background: #0f0f0f; }
-  @media (max-width: 960px) {
-    .rows { gap: 96px; }
-    .prow { grid-template-columns: minmax(0, 1fr); gap: 36px; }
-    .flip .ptext { order: 0; }
-    .pair { grid-template-columns: minmax(0, 1fr); }
-  }
+  .apps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+  @media (max-width: 960px) { .apps { grid-template-columns: minmax(0, 1fr); gap: 56px; max-width: 520px; } }
 </style>

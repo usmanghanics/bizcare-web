@@ -1,4 +1,5 @@
 ---
+import BrandIcon from './BrandIcon.astro';
 import Icon from './Icon.astro';
 
 /** An example of the invoice a customer receives on WhatsApp. Drawn in HTML, with made-up figures. */
@@ -10,7 +11,7 @@ const { class: className } = Astro.props;
 
 <div class:list={['msg', className]} role="img" aria-label="Example: an invoice sent to a customer on WhatsApp">
   <div class="msg-head" aria-hidden="true">
-    <span class="msg-icon"><Icon name="whatsapp-logo" size={18} /></span>
+    <span class="msg-icon"><BrandIcon name="whatsapp" size={30} /></span>
     <span>
       <span class="msg-title">Invoice Sent</span>
       <span class="msg-sub">on WhatsApp, just now</span>
@@ -39,7 +40,7 @@ const { class: className } = Astro.props;
     box-shadow: 0 24px 60px rgb(0 0 0 / 0.35);
   }
   .msg-head { display: flex; align-items: center; gap: 10px; }
-  .msg-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #e3f5ea; color: #138a43; }
+  .msg-icon { display: grid; place-items: center; }
   .msg-title { display: block; font-size: 0.875rem; font-weight: 800; line-height: 1.2; }
   .msg-sub { display: block; font-size: 0.75rem; color: #6b6b6b; }
   .bubble { position: relative; padding: 12px 12px 22px; border-radius: 4px 14px 14px 14px; background: #f2f2f2; font-size: 0.8125rem; }

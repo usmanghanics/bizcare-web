@@ -65,6 +65,7 @@ const apps = defineCollection({
         .object({ play: z.url().optional(), appStore: z.url().optional(), site: z.url().optional() })
         .default({}),
       features: z.array(z.object({ icon, title: words, line: words })).min(3).max(6),
+      appIcon: image(),
       screens: z.array(z.object({ src: image(), alt: words })).min(1).max(3),
       poweredBy: reference('products').optional(),
     }),

@@ -1,5 +1,5 @@
 ---
-/** The black top of every inner page: label, large headline, one line, then anything else. */
+/** The black top of every inner page: a large headline, one line, then anything else. */
 interface Props {
   label?: string;
   title: string;
@@ -7,12 +7,11 @@ interface Props {
   /** Leave room at the bottom for an image that overlaps into the next band. */
   bridge?: boolean;
 }
-const { label, title, line, bridge = false } = Astro.props;
+const { title, line, bridge = false } = Astro.props;
 ---
 
 <section class:list={['page-hero dark', { bridge }]}>
   <div class="wrap inner">
-    {label && <span class="eyebrow">{label}</span>}
     <h1 class="display" set:html={title} />
     {line && <p class="lede">{line}</p>}
     <slot />

@@ -1,0 +1,84 @@
+---
+import { getCollection } from 'astro:content';
+import Frame from './Frame.astro';
+import Icon from './Icon.astro';
+import { u } from '../lib/url';
+
+/**
+ * What We Build: one card per product. The whole screen shows, uncropped,
+ * in its own window or browser frame, then the name, who it is for, one line
+ * and Learn More. The whole card is the link.
+ */
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<ul class="pgrid">
+  {
+    products.map((p, i) => (
+      <li class="reveal">
+        <a class="pcard" href={u(`/products/${p.id}/`)}>
+          <div class="shot">
+            <Frame
+              kind={p.data.screen.frame}
+              src={p.data.screen.src}
+              alt={p.data.screen.alt}
+              title={p.data.screen.title}
+              sizes="(max-width: 640px) 90vw, (max-width: 1080px) 44vw, 380px"
+              priority={i < 3}
+              class="pframe"
+            />
+          </div>
+          <div class="pbody">
+            <p class="pind">{p.data.industry}</p>
+            <h3 class="pname">{p.data.name}</h3>
+            <p class="pline">{p.data.tagline}</p>
+            <span class="link">
+              Learn More <Icon name="caret-right" size={16} />
+            </span>
+          </div>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .pgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .pgrid > li { display: flex; }
+  .pcard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    border: 1px solid var(--line);
+    transition: border-color 0.3s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  .pcard:hover { border-color: var(--line-strong); box-shadow: 0 24px 48px -28px rgb(0 0 0 / 0.25); }
+  .shot {
+    display: grid;
+    place-items: center;
+    min-height: 236px;
+    padding: 28px 22px;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--line);
+  }
+  .shot :global(.pframe) {
+    width: 100%;
+    box-shadow: 0 16px 34px -18px rgb(0 0 0 / 0.3);
+    transition: transform 0.5s var(--ease);
+  }
+  .pcard:hover .shot :global(.pframe) { transform: translateY(-5px) scale(1.015); }
+  .pbody { display: grid; gap: 8px; flex: 1; align-content: start; padding: 22px 24px 24px; }
+  .pind { font-size: 0.875rem; font-weight: 650; color: var(--teal); }
+  .pname { font-size: 1.5rem; font-weight: 750; letter-spacing: -0.03em; line-height: 1.1; }
+  .pline { color: var(--ink-2); font-size: 1rem; line-height: 1.5; }
+  .pbody .link { margin-top: 8px; }
+  .pcard:hover .link :global(svg) { transform: translateX(3px); }
+  @media (max-width: 1080px) { .pgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) {
+    .pgrid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    .shot { min-height: 0; padding: 22px 16px; }
+  }
+</style>

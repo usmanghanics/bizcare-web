@@ -1,0 +1,27 @@
+---
+/**
+ * The second action: an outline pill that fills from the bottom on hover
+ * (from the Talent Pool design). Works on black and on white bands. A link
+ * with `href`, or a form button without one.
+ */
+interface Props {
+  href?: string;
+  size?: 'md' | 'sm';
+  external?: boolean;
+  type?: 'submit' | 'button';
+  value?: string;
+  class?: string;
+  [key: `data-${string}`]: string | boolean | undefined;
+}
+const { href, size = 'md', external = false, type = 'button', value, class: className, ...rest } = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class:list={['fill', `fill-${size}`, className]}
+  href={href}
+  type={href ? undefined : type}
+  value={href ? undefined : value}
+  target={href && external ? '_blank' : undefined}
+  rel={href && external ? 'noopener' : undefined}
+  {...rest}><span class="fill-label"><slot /></span></Tag>

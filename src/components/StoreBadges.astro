@@ -1,0 +1,62 @@
+---
+import BrandIcon from './BrandIcon.astro';
+
+/**
+ * App Store and Google Play badges, drawn the way the stores' own badges
+ * look. Before an app is live they show, quieter, as Coming Soon.
+ */
+interface Props {
+  appStore?: string;
+  play?: string;
+  live?: boolean;
+  class?: string;
+}
+const { appStore, play, live = true, class: className } = Astro.props;
+const badges = [
+  { key: 'apple', href: appStore, small: 'Download on the', big: 'App Store' },
+  { key: 'googleplay', href: play, small: 'Get it on', big: 'Google Play' },
+] as const;
+---
+
+<div class:list={['badges', className, { soon: !live }]}>
+  {
+    badges.map((b) => {
+      const Tag = live && b.href ? 'a' : 'span';
+      return (
+        <Tag
+          class="badge"
+          href={live ? b.href : undefined}
+          target={live && b.href ? '_blank' : undefined}
+          rel={live && b.href ? 'noopener' : undefined}
+          aria-label={live ? `${b.small} ${b.big}` : `${b.big}, coming soon`}>
+          <BrandIcon name={b.key} size={22} class="b-icon" />
+          <span class="b-text">
+            <span class="b-small">{live ? b.small : 'Coming soon to'}</span>
+            <span class="b-big">{b.big}</span>
+          </span>
+        </Tag>
+      );
+    })
+  }
+</div>
+
+<style>
+  .badges { display: flex; flex-wrap: wrap; gap: 10px; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    height: 46px;
+    padding: 0 16px 0 13px;
+    border-radius: 11px;
+    background: #000;
+    border: 1px solid #5c5c5c;
+    color: #fff;
+    transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  a.badge:hover { border-color: #a6a6a6; transform: translateY(-1px); }
+  .b-text { display: grid; line-height: 1.05; }
+  .b-small { font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.01em; }
+  .b-big { font-size: 1.0625rem; font-weight: 650; letter-spacing: -0.01em; }
+  .soon .badge { opacity: 0.55; }
+</style>

@@ -1,6 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import BrandIcon from '../components/BrandIcon.astro';
+import FillButton from '../components/FillButton.astro';
+import GooButton from '../components/GooButton.astro';
 import Icon from '../components/Icon.astro';
 import PageHero from '../components/PageHero.astro';
 import { company, whatsappHref } from '../data/site';
@@ -88,12 +91,8 @@ const schema = {
         <div class="send">
           <p class="small muted">Choose how to send. Your message opens ready to go, and you press send.</p>
           <div class="btn-row">
-            <button class="btn btn-teal" type="submit" value="whatsapp" data-send>
-              <Icon name="whatsapp-logo" /> Send on WhatsApp
-            </button>
-            <button class="btn btn-line" type="submit" value="email" data-send>
-              <Icon name="envelope-simple" /> Send by Email
-            </button>
+            <FillButton type="submit" value="email" data-send>Send by Email</FillButton>
+            <GooButton type="submit" value="whatsapp" icon="paper-plane-tilt" data-send>Send on WhatsApp</GooButton>
           </div>
           <p class="done small" role="status" hidden data-done></p>
         </div>
@@ -102,7 +101,7 @@ const schema = {
       <aside class="ways dark" aria-label="Other ways to reach us">
         <p class="ways-title">Or reach us directly</p>
         <a class="way" href={whatsappHref('Hello BizCare.')} target="_blank" rel="noopener">
-          <span class="wicon wa"><Icon name="whatsapp-logo" size={22} /></span>
+          <span class="wicon"><BrandIcon name="whatsapp" size={26} /></span>
           <span><span class="wt">WhatsApp</span><span class="wv num">{company.phone}</span></span>
         </a>
         <a class="way" href={company.phoneHref}>
@@ -156,7 +155,7 @@ const schema = {
   .done { padding: 14px 16px; border-radius: 14px; background: #e6f2f2; color: #015e63; font-weight: 650; }
 
   .ways { display: grid; gap: 6px; padding: 36px; border-radius: var(--radius-lg); position: sticky; top: calc(var(--bar) + 24px); }
-  .ways-title { margin-bottom: 10px; font-size: 0.8125rem; font-weight: 750; letter-spacing: 0.1em; text-transform: uppercase; color: var(--d-ink-3); }
+  .ways-title { margin-bottom: 10px; font-size: 0.9375rem; font-weight: 650; color: var(--d-ink-2); }
   .way { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-top: 1px solid #1f1f1f; }
   .way:hover .wv { color: var(--teal-bright); }
   .wicon { display: grid; place-items: center; flex: none; width: 48px; height: 48px; border-radius: 50%; border: 1px solid #2a2a2a; color: var(--teal-bright); }

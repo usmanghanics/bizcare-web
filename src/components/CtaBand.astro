@@ -1,8 +1,15 @@
 ---
+import BrandIcon from './BrandIcon.astro';
+import FillButton from './FillButton.astro';
+import GooButton from './GooButton.astro';
 import Icon from './Icon.astro';
 import { company, whatsappHref } from '../data/site';
 import { u } from '../lib/url';
 
+/**
+ * The closing card: one headline, one line, the two actions, and the three
+ * direct ways to reach BizCare beside them.
+ */
 interface Props {
   title?: string;
   line?: string;
@@ -12,53 +19,90 @@ interface Props {
   message?: string;
 }
 const {
-  title = 'Let’s Talk About <span class="teal">Your Business</span>',
-  line = 'Tell us what you run, and we will show you the software that fits, on a call or at your place.',
+  title = 'Ready to See It on <span class="teal">Your Business?</span>',
+  line = 'Book a short demo. We show you the software that fits, on a call or at your place.',
   product,
   message = 'Hello BizCare, I would like a demo.',
 } = Astro.props;
 const demo = u(product ? `/contact/?product=${product}` : '/contact/');
 ---
 
-<section class="cta dark">
-  <div class="wrap grid-cta">
-    <div class="left reveal">
-      <h2 class="display" set:html={title} />
-      <p class="lede">{line}</p>
-      <div class="btn-row">
-        <a class="btn btn-teal" href={demo}>Book a Demo <Icon name="arrow-right" size={18} /></a>
-        <a class="btn btn-line" href={whatsappHref(message)} target="_blank" rel="noopener"><Icon name="whatsapp-logo" class="wa" /> WhatsApp</a>
+<section class="cta-wrap">
+  <div class="wrap">
+    <div class="cta dark reveal">
+      <div class="left">
+        <h2 class="h2" set:html={title} />
+        <p class="lede">{line}</p>
+        <div class="btn-row">
+          <FillButton href={u('/products/')}>See Products</FillButton>
+          <GooButton href={demo} icon="calendar-check">Book a Demo</GooButton>
+        </div>
       </div>
+      <ul class="ways">
+        <li>
+          <a href={whatsappHref(message)} target="_blank" rel="noopener">
+            <BrandIcon name="whatsapp" size={26} />
+            <span><span class="k">WhatsApp</span><span class="v num">{company.phone}</span></span>
+            <Icon name="caret-right" size={18} class="go" />
+          </a>
+        </li>
+        <li>
+          <a href={company.phoneHref}>
+            <span class="ic"><Icon name="phone" size={18} /></span>
+            <span><span class="k">Call</span><span class="v num">{company.phone}</span></span>
+            <Icon name="caret-right" size={18} class="go" />
+          </a>
+        </li>
+        <li>
+          <a href={`mailto:${company.email}`}>
+            <span class="ic"><Icon name="envelope-simple" size={18} /></span>
+            <span><span class="k">Email</span><span class="v">{company.email}</span></span>
+            <Icon name="caret-right" size={18} class="go" />
+          </a>
+        </li>
+      </ul>
     </div>
-    <ul class="right reveal">
-      <li>
-        <span class="k">Call or WhatsApp</span>
-        <a class="v num" href={company.phoneHref}>{company.phone}</a>
-      </li>
-      <li>
-        <span class="k">Email</span>
-        <a class="v" href={`mailto:${company.email}`}>{company.email}</a>
-      </li>
-      <li>
-        <span class="k">Office</span>
-        <a class="v" href={company.mapsHref} target="_blank" rel="noopener">Al-Hamd Garden, Lahore</a>
-      </li>
-    </ul>
   </div>
 </section>
 
 <style>
-  .cta { padding: var(--section) 0; border-top: 1px solid #1a1a1a; }
-  .grid-cta { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 72px; align-items: end; }
-  .left { display: grid; gap: 28px; justify-items: start; }
-  .left .display { max-width: 12ch; }
-  .left .lede { max-width: 560px; }
-  .right { display: grid; }
-  .right li { display: grid; gap: 4px; padding: 22px 0; border-top: 1px solid var(--line); }
-  .right li:last-child { border-bottom: 1px solid var(--line); }
-  .k { font-size: 0.8125rem; font-weight: 750; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
-  .v { font-size: clamp(1.25rem, 1rem + 0.9vw, 1.75rem); font-weight: 700; letter-spacing: -0.02em; transition: color 0.2s var(--ease); }
-  .v:hover { color: var(--teal-bright); }
-  @media (max-width: 960px) { .grid-cta { grid-template-columns: minmax(0, 1fr); gap: 48px; } }
-  @media (max-width: 480px) { .btn-row { width: 100%; } .btn-row .btn { flex: 1 1 auto; } }
+  .cta-wrap { padding: var(--section) 0; background: var(--bg); }
+  .cta {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 56px;
+    align-items: center;
+    padding: 64px;
+    border-radius: 32px;
+    background: #0c0c0d;
+    border: 1px solid #1f1f22;
+  }
+  .left { display: grid; gap: 22px; justify-items: start; }
+  .left .h2 { max-width: 15ch; }
+  .left .lede { max-width: 48ch; }
+  .left .btn-row { margin-top: 8px; }
+  .ways { display: grid; gap: 10px; }
+  .ways a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 18px;
+    background: #161618;
+    border: 1px solid #232326;
+    transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+  }
+  .ways a:hover { border-color: #3a3a3c; background: #1a1a1c; }
+  .ways a > span:nth-child(2) { flex: 1; display: grid; }
+  .ic { display: grid; place-items: center; width: 26px; height: 26px; color: var(--teal-bright); }
+  .k { font-size: 0.8125rem; color: var(--d-ink-3); }
+  .v { font-size: 1.0625rem; font-weight: 700; color: var(--white); }
+  .ways :global(.go) { color: #6b6b6b; transition: transform 0.2s var(--ease); }
+  .ways a:hover :global(.go) { transform: translateX(3px); color: var(--white); }
+  @media (max-width: 960px) {
+    .cta { grid-template-columns: minmax(0, 1fr); padding: 44px 32px; gap: 36px; }
+  }
+  @media (max-width: 480px) {
+    .cta { padding: 36px 22px; border-radius: 24px; }
+  }
 </style>

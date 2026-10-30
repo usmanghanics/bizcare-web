@@ -5,25 +5,19 @@ import CtaBand from '../../components/CtaBand.astro';
 import PageHero from '../../components/PageHero.astro';
 import WorkCard from '../../components/WorkCard.astro';
 
-const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
-const makki = apps.find((a) => a.id === 'makki-autocare')!;
+const order = ['makki-autocare', 'madadgar-kisan', 'bizcareers'];
+const apps = (await getCollection('apps')).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
 ---
 
 <Base
   title="Apps"
   description="Phone apps by BizCare: Makki AutoCare for Makki Oil Store, Madadgar Kisan for Chaudhary Trading Company, and BizCareers, our own jobs app.">
   <PageHero
-    label="Our Work"
     title="Apps We <span class='teal'>Have Built</span>"
-    line="Makki AutoCare and Madadgar Kisan serve our clients’ customers. BizCareers is our own jobs app for Pakistan."
+    line="On the App Store and Google Play, for our clients and for our own customers."
   />
-  <section class="section">
-    <div class="wrap work">
-      <WorkCard app={makki} wide />
-      <div class="pair">
-        {apps.filter((a) => a.id !== makki.id).map((a) => <WorkCard app={a} />)}
-      </div>
-    </div>
+  <section class="section dark">
+    <div class="wrap apps">{apps.map((a) => <WorkCard app={a} />)}</div>
   </section>
   <CtaBand
     title="Want an App for <span class='teal'>Your Customers?</span>"
@@ -33,7 +27,6 @@ const makki = apps.find((a) => a.id === 'makki-autocare')!;
 </Base>
 
 <style>
-  .work { display: grid; gap: 24px; }
-  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  @media (max-width: 960px) { .pair { grid-template-columns: minmax(0, 1fr); } }
+  .apps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+  @media (max-width: 960px) { .apps { grid-template-columns: minmax(0, 1fr); gap: 56px; max-width: 520px; } }
 </style>

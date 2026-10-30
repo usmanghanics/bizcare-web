@@ -1,0 +1,38 @@
+---
+import { applePath, googlePlayPieces, whatsappPath } from '../lib/brands';
+
+/**
+ * WhatsApp, Apple and Google Play marks in their own colours. WhatsApp is
+ * the green disc with the white handset, as people recognise it.
+ */
+interface Props {
+  name: 'whatsapp' | 'apple' | 'googleplay';
+  size?: number;
+  class?: string;
+}
+const { name, size = 20, class: className } = Astro.props;
+const playColours = ['#FFCE00', '#00A0FF', '#00D96E', '#FF3A44'];
+---
+
+{
+  name === 'whatsapp' && (
+    <svg class={className} width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="12" r="10.6" fill="#25D366" />
+      <path fill="#fff" d={whatsappPath} />
+    </svg>
+  )
+}
+{
+  name === 'apple' && (
+    <svg class={className} width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+      <path d={applePath} />
+    </svg>
+  )
+}
+{
+  name === 'googleplay' && (
+    <svg class={className} width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      {googlePlayPieces.map((d, i) => <path fill={playColours[i]} d={d} />)}
+    </svg>
+  )
+}

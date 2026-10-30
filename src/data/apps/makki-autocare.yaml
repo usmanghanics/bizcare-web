@@ -9,9 +9,10 @@ status: live
 tagline: Makki Oil Store's customers see their car's service history and next oil change.
 headline: Every Car's Service History, in the Owner's Pocket
 line: Built for Makki Oil Store. The app reads each customer's records from OilMate, the workshop's BizCare software, so customers always see what was done and what is due.
-platforms: [Android]
+platforms: [Android, iPhone]
 links:
   play: https://play.google.com/store/apps/details?id=com.bizcare.makki_autocare
+  appStore: https://apps.apple.com/pk/app/makki-autocare/id6752372809
 features:
   - icon: car
     title: Vehicles and History
@@ -25,6 +26,7 @@ features:
   - icon: cloud-sun
     title: Weather Tips
     line: Short car care tips for the day's weather.
+appIcon: ../../assets/apps/makki-autocare/icon.png
 screens:
   - src: ../../assets/apps/makki-autocare/vehicles.png
     alt: The Makki AutoCare home screen with the customer's vehicles

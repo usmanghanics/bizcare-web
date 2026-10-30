@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "description": "The new bizcare.pk company website",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "BASE_PATH=/ astro dev --open",
     "build": "astro build",
     "build:live": "BIZCARE_LIVE=1 astro build",
     "preview": "astro preview",

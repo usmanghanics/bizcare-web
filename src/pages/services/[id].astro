@@ -4,7 +4,10 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { Picture } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import CtaBand from '../../components/CtaBand.astro';
+import BrandIcon from '../../components/BrandIcon.astro';
 import Faq from '../../components/Faq.astro';
+import FillButton from '../../components/FillButton.astro';
+import GooButton from '../../components/GooButton.astro';
 import Icon from '../../components/Icon.astro';
 import Numbered from '../../components/Numbered.astro';
 import SectionHead from '../../components/SectionHead.astro';
@@ -37,14 +40,13 @@ const photo = whatsapp ? whatsappPhoto : marketingPhoto;
         <Icon name="caret-right" size={14} />
         <span aria-current="page">{s.name}</span>
       </nav>
-      <span class="eyebrow">{s.name}</span>
       <h1 class="display">{s.headline}</h1>
       <p class="lede">{s.line}</p>
       <div class="btn-row">
-        <a class="btn btn-teal" href={u(`/contact/?product=${service.id}`)}>Talk to Us <Icon name="arrow-right" size={18} /></a>
-        <a class="btn btn-line" href={whatsappHref(`Hello BizCare, I would like to know more about ${s.name}.`)} target="_blank" rel="noopener">
-          <Icon name="whatsapp-logo" class="wa" /> Ask on WhatsApp
-        </a>
+        <FillButton href={whatsappHref(`Hello BizCare, I would like to know more about ${s.name}.`)} external>
+          <BrandIcon name="whatsapp" size={20} /> Ask on WhatsApp
+        </FillButton>
+        <GooButton href={u(`/contact/?product=${service.id}`)} icon="chats">Talk to Us</GooButton>
       </div>
     </div>
   </section>
@@ -84,11 +86,10 @@ const photo = whatsapp ? whatsappPhoto : marketingPhoto;
         others.map((o) => (
           <a class="other reveal" href={u(`/services/${o.id}/`)}>
             <span>
-              <span class="eyebrow">Also From BizCare</span>
               <span class="oname">{o.data.name}</span>
               <span class="muted">{o.data.tagline}</span>
             </span>
-            <span class="go"><Icon name="arrow-right" size={24} /></span>
+            <span class="go"><Icon name="caret-right" size={24} /></span>
           </a>
         ))
       }

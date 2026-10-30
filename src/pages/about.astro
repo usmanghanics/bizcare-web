@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
+import FillButton from '../components/FillButton.astro';
 import Icon from '../components/Icon.astro';
 import Sample from '../components/Sample.astro';
 import SectionHead from '../components/SectionHead.astro';
@@ -26,7 +27,6 @@ const productLinks = `${links.slice(0, -1).join(', ')} and ${links.at(-1)}`;
   description="BizCare Software Solutions is a Lahore software house. 300+ businesses in 70+ cities run on its software, including 200+ flour mills.">
   <section class="hero dark">
     <div class="wrap inner">
-      <span class="eyebrow">About BizCare</span>
       <h1 class="display">Software for the Businesses That <span class="teal">Keep Pakistan Running</span></h1>
     </div>
   </section>
@@ -41,7 +41,7 @@ const productLinks = `${links.slice(0, -1).join(', ')} and ${links.at(-1)}`;
 
   <section class="section intro" aria-labelledby="who-title">
     <div class="wrap">
-      <span class="eyebrow reveal" id="who-title">Who We Are</span>
+      <h2 class="visually-hidden" id="who-title">Who We Are</h2>
       <p class="statement reveal who">
         BizCare Software Solutions is a software house in Lahore. We build software around one kind of business at a time,
         <span class="quiet">then install it, train the staff and stay on call for as long as they run on it.</span>
@@ -135,7 +135,7 @@ const productLinks = `${links.slice(0, -1).join(', ')} and ${links.at(-1)}`;
           <li><span class="k">Phone and WhatsApp</span><a class="v num" href={company.phoneHref}>{company.phone}</a></li>
           <li><span class="k">Email</span><a class="v" href={`mailto:${company.email}`}>{company.email}</a></li>
         </ul>
-        <a class="btn btn-line reveal" href={company.mapsHref} target="_blank" rel="noopener"><Icon name="map-pin" /> Open in Google Maps</a>
+        <FillButton href={company.mapsHref} external class="reveal">Open in Google Maps</FillButton>
       </div>
     </div>
   </section>
@@ -152,7 +152,7 @@ const productLinks = `${links.slice(0, -1).join(', ')} and ${links.at(-1)}`;
   .wide-photo :global(picture), .wide-photo :global(img) { width: 100%; height: 100%; }
   .wide-photo :global(img) { object-fit: cover; }
   .intro { padding-top: 112px; }
-  .who { margin-top: 28px; max-width: 1100px; }
+  .who { max-width: 1100px; }
   .stats-gap { margin-top: 80px; }
 
   .story { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; align-items: center; }
@@ -187,7 +187,7 @@ const productLinks = `${links.slice(0, -1).join(', ')} and ${links.at(-1)}`;
   .visit-text { display: grid; gap: 32px; justify-items: start; }
   .visit-list { display: grid; width: 100%; }
   .visit-list li { display: grid; gap: 2px; padding: 16px 0; border-top: 1px solid var(--line-strong); }
-  .k { font-size: 0.8125rem; font-weight: 750; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+  .k { font-size: 0.875rem; font-weight: 600; color: var(--ink-3); }
   .v { font-size: 1.125rem; font-weight: 700; }
 
   @media (max-width: 960px) {

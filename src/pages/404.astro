@@ -1,19 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
-import Icon from '../components/Icon.astro';
+import FillButton from '../components/FillButton.astro';
+import GooButton from '../components/GooButton.astro';
 import { u } from '../lib/url';
 ---
 
 <Base title="Page Not Found" description="This page could not be found." noindex>
   <section class="lost dark">
     <div class="wrap inner">
-      <span class="eyebrow">Error 404</span>
       <h1 class="mega">This Page <span class="teal">Is Not Here</span></h1>
       <p class="lede">The link may be old, or the page may have moved. These will get you back on track.</p>
       <div class="btn-row">
-        <a class="btn btn-teal" href={u('/')}><Icon name="house" /> Home</a>
-        <a class="btn btn-line" href={u('/products/')}>Products</a>
-        <a class="btn btn-line" href={u('/contact/')}>Contact Us</a>
+        <FillButton href={u('/products/')}>Products</FillButton>
+        <GooButton href={u('/')} icon="house">Go Home</GooButton>
       </div>
     </div>
   </section>

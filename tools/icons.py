@@ -14,7 +14,7 @@ from glyphs import Font, path  # noqa: E402
 ICONS = sorted(set('''
 airplane-tilt app-window apple-logo arrow-left arrow-right arrow-up-right arrows-clockwise
 bank barcode bell briefcase browser buildings building-office calculator calendar-check car
-caret-down caret-right certificate chalkboard-teacher chart-bar chart-line chats chat-circle-text
+caret-down caret-left caret-right certificate chalkboard-teacher chart-bar chart-line chats chat-circle-text
 check check-circle clipboard-text clock cloud cloud-sun coins cooking-pot copy desktop device-mobile
 drop envelope-simple facebook-logo factory file-text flask fork-knife gear globe google-play-logo
 handshake hand-coins headset house identification-card image info instagram-logo lifebuoy lightning

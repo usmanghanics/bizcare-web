@@ -1,10 +1,16 @@
 ---
 import { getCollection } from 'astro:content';
+import BrandIcon from './BrandIcon.astro';
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 import { company, whatsappHref } from '../data/site';
 import { isCurrent, u } from '../lib/url';
 
+/**
+ * At the top: flush, with one faint hairline under it. Once the page moves,
+ * the hairline goes and the bar lifts into a floating glass pill. The
+ * Products menu is a plain, text-only panel in three columns.
+ */
 const path = Astro.url.pathname;
 const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
 const apps = (await getCollection('apps')).sort((a, b) => a.data.order - b.data.order);
@@ -20,159 +26,117 @@ const inProducts = ['/products/', '/apps/', '/services/'].some((p) => isCurrent(
 ---
 
 <header class="site-header" data-header>
-  <div class="bar wrap">
-    <a class="brand" href={u('/')} aria-label="BizCare, home"><Logo height={30} /></a>
+  <div class="frame">
+    <div class="bar">
+      <a class="brand" href={u('/')} aria-label="BizCare, home"><Logo variant="mark" height={30} /></a>
 
-    <nav class="nav" aria-label="Main">
-      <ul class="nav-list">
-        <li class="has-menu" data-menu-root>
-          <button
-            class="nav-link"
-            type="button"
-            aria-expanded="false"
-            aria-controls="menu-products"
-            aria-current={inProducts ? 'page' : undefined}
-            data-menu-button>
-            Products <Icon name="caret-down" size={14} class="caret" />
-          </button>
-          <div class="menu" id="menu-products" data-menu hidden>
-            <div class="menu-cols">
-              <div>
-                <p class="menu-title">Business Software</p>
-                <ul class="menu-list">
-                  {
-                    products.map((p) => (
-                      <li>
-                        <a class="menu-item" href={u(`/products/${p.id}/`)}>
-                          <span class="menu-icon"><Icon name={p.data.icon} size={20} /></span>
-                          <span>
-                            <span class="menu-name">{p.data.name}</span>
-                            <span class="menu-line">{p.data.industry}</span>
-                          </span>
-                        </a>
-                      </li>
-                    ))
-                  }
-                </ul>
-              </div>
-              <div>
-                <p class="menu-title">Apps</p>
-                <ul class="menu-list">
-                  {
-                    apps.map((a) => (
-                      <li>
-                        <a class="menu-item" href={u(`/apps/${a.id}/`)}>
-                          <span class="menu-icon"><Icon name={a.data.icon} size={20} /></span>
-                          <span>
-                            <span class="menu-name">{a.data.name}</span>
-                            <span class="menu-line">{a.data.kind === 'own' ? 'Our own app' : `For ${a.data.client}`}</span>
-                          </span>
-                        </a>
-                      </li>
-                    ))
-                  }
-                </ul>
-                <p class="menu-title gap">Services</p>
-                <ul class="menu-list">
-                  {
-                    services.map((s) => (
-                      <li>
-                        <a class="menu-item" href={u(`/services/${s.id}/`)}>
-                          <span class="menu-icon"><Icon name={s.data.icon} size={20} /></span>
-                          <span class="menu-name">{s.data.name}</span>
-                        </a>
-                      </li>
-                    ))
-                  }
-                </ul>
-              </div>
-            </div>
-            <a class="menu-foot" href={u('/products/')}>
-              <span>See All Products</span>
-              <Icon name="arrow-right" size={18} />
-            </a>
-          </div>
-        </li>
-        {
-          links.map((l) => (
-            <li>
-              <a class="nav-link" href={u(l.href)} aria-current={isCurrent(path, l.href) ? 'page' : undefined}>
-                {l.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
+      <nav class="nav" aria-label="Main">
+        <ul class="nav-list">
+          <li data-menu-root>
+            <button
+              class="nav-link"
+              type="button"
+              aria-expanded="false"
+              aria-controls="menu-products"
+              aria-current={inProducts ? 'page' : undefined}
+              data-menu-button>
+              Products <Icon name="caret-down" size={12} class="caret" />
+            </button>
+          </li>
+          {
+            links.map((l) => (
+              <li>
+                <a class="nav-link" href={u(l.href)} aria-current={isCurrent(path, l.href) ? 'page' : undefined}>
+                  {l.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
 
-    <div class="actions">
-      <a class="icon-btn" href={whatsappHref()} target="_blank" rel="noopener" aria-label="Chat with BizCare on WhatsApp">
-        <Icon name="whatsapp-logo" size={20} />
-      </a>
-      <a class="btn btn-teal btn-sm demo" href={u('/contact/')}>Book a Demo</a>
-      <button
-        class="icon-btn sheet-btn"
-        type="button"
-        aria-expanded="false"
-        aria-controls="sheet"
-        aria-label="Open menu"
-        data-sheet-button>
-        <Icon name="list" size={22} class="open-icon" />
-        <Icon name="x" size={22} class="close-icon" />
-      </button>
+      <div class="actions">
+        <a class="icon-btn" href={whatsappHref()} target="_blank" rel="noopener" aria-label="Chat with BizCare on WhatsApp">
+          <BrandIcon name="whatsapp" size={22} />
+        </a>
+        <a class="demo" href={u('/contact/')}>Book a Demo</a>
+        <button
+          class="icon-btn sheet-btn"
+          type="button"
+          aria-expanded="false"
+          aria-controls="sheet"
+          aria-label="Open menu"
+          data-sheet-button>
+          <span class="burger" aria-hidden="true"><i></i><i></i></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="menu" id="menu-products" data-menu hidden>
+      <div class="menu-inner">
+        <div class="col">
+          <p class="col-title">Business Software</p>
+          <ul class="big">
+            {
+              products.map((p) => (
+                <li>
+                  <a href={u(`/products/${p.id}/`)}>
+                    <span class="m-name">{p.data.name}</span>
+                    <span class="m-line">{p.data.industry}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="col">
+          <p class="col-title">Apps</p>
+          <ul class="big">
+            {
+              apps.map((a) => (
+                <li>
+                  <a href={u(`/apps/${a.id}/`)}>
+                    <span class="m-name">{a.data.name}</span>
+                    <span class="m-line">{a.data.kind === 'own' ? 'By BizCare' : `For ${a.data.client}`}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="col">
+          <p class="col-title">Services</p>
+          <ul class="big">
+            {
+              services.map((s) => (
+                <li>
+                  <a href={u(`/services/${s.id}/`)}>
+                    <span class="m-name">{s.data.name}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+          <a class="all link" href={u('/products/')}>All Products <Icon name="caret-right" size={14} /></a>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="sheet" id="sheet" data-sheet hidden>
-    <div class="sheet-inner wrap">
+    <div class="sheet-inner">
       <ul class="sheet-links">
-        <li><a href={u('/products/')}>Products</a></li>
-        <li><a href={u('/clients/')}>Clients</a></li>
-        <li><a href={u('/about/')}>About</a></li>
-        <li><a href={u('/careers/')}>Careers</a></li>
-        <li><a href={u('/contact/')}>Contact</a></li>
-      </ul>
-      <p class="menu-title">Business Software</p>
-      <ul class="sheet-grid">
-        {
-          products.map((p) => (
-            <li>
-              <a href={u(`/products/${p.id}/`)}>
-                <span class="sname">{p.data.name}</span>
-                <span class="sline">{p.data.industry}</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-      <p class="menu-title">Apps and Services</p>
-      <ul class="sheet-grid">
-        {
-          apps.map((a) => (
-            <li>
-              <a href={u(`/apps/${a.id}/`)}>
-                <span class="sname">{a.data.name}</span>
-                <span class="sline">{a.data.kind === 'own' ? 'Our own app' : 'Client app'}</span>
-              </a>
-            </li>
-          ))
-        }
-        {
-          services.map((s) => (
-            <li>
-              <a href={u(`/services/${s.id}/`)}>
-                <span class="sname">{s.data.name}</span>
-                <span class="sline">Service</span>
-              </a>
-            </li>
-          ))
-        }
+        <li><a href={u('/products/')}>Products <Icon name="caret-right" size={18} /></a></li>
+        <li><a href={u('/clients/')}>Clients <Icon name="caret-right" size={18} /></a></li>
+        <li><a href={u('/about/')}>About <Icon name="caret-right" size={18} /></a></li>
+        <li><a href={u('/careers/')}>Careers <Icon name="caret-right" size={18} /></a></li>
+        <li><a href={u('/contact/')}>Contact <Icon name="caret-right" size={18} /></a></li>
       </ul>
       <div class="sheet-actions">
-        <a class="btn btn-teal" href={u('/contact/')}>Book a Demo</a>
+        <a class="sheet-demo" href={u('/contact/')}>Book a Demo</a>
         <div class="pair">
-          <a class="btn btn-line" href={whatsappHref()} target="_blank" rel="noopener"><Icon name="whatsapp-logo" class="wa" /> WhatsApp</a>
-          <a class="btn btn-line" href={company.phoneHref}><Icon name="phone" /> Call</a>
+          <a href={whatsappHref()} target="_blank" rel="noopener"><BrandIcon name="whatsapp" size={20} /> WhatsApp</a>
+          <a href={company.phoneHref}><Icon name="phone" size={18} /> Call</a>
         </div>
       </div>
     </div>
@@ -185,154 +149,209 @@ const inProducts = ['/products/', '/apps/', '/services/'].some((p) => isCurrent(
     inset: 0 0 auto;
     z-index: 50;
     color: var(--white);
-    transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease);
-    border-bottom: 1px solid transparent;
+    pointer-events: none;
   }
-  .site-header[data-scrolled],
-  .site-header[data-open] {
-    background: rgb(0 0 0 / 0.92);
-    border-bottom-color: #1f1f1f;
-    backdrop-filter: saturate(140%) blur(12px);
-    -webkit-backdrop-filter: saturate(140%) blur(12px);
+  .frame {
+    position: relative;
+    max-width: calc(var(--max) + 2 * var(--gutter));
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    transition: padding 0.45s var(--ease);
+    pointer-events: none;
   }
-  /* A blur would make the header the frame for the fixed menu sheet, so drop it while the sheet is open. */
-  .site-header[data-open] {
-    background: var(--black);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+  /* Resting: one faint hairline under the bar, inset from both edges. */
+  .frame::after {
+    content: '';
+    position: absolute;
+    left: var(--gutter);
+    right: var(--gutter);
+    top: var(--bar);
+    height: 1px;
+    background: rgb(255 255 255 / 0.1);
+    transition: opacity 0.3s var(--ease);
   }
-  .bar { display: flex; align-items: center; gap: 40px; height: var(--bar); }
+  .site-header[data-scrolled] .frame::after,
+  .site-header[data-open] .frame::after { opacity: 0; }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    height: var(--bar);
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 0;
+    pointer-events: auto;
+    transition:
+      height 0.45s var(--ease),
+      margin 0.45s var(--ease),
+      padding 0.45s var(--ease),
+      border-radius 0.45s var(--ease),
+      background-color 0.45s var(--ease),
+      border-color 0.45s var(--ease),
+      box-shadow 0.45s var(--ease);
+  }
+  /* Scrolled: a floating, fully rounded pill of frosted glass. */
+  .site-header[data-scrolled] .frame { padding-top: 12px; }
+  .site-header[data-scrolled] .bar {
+    height: 60px;
+    padding: 0 9px 0 24px;
+    border-color: rgb(255 255 255 / 0.12);
+    border-radius: 999px;
+    background: rgb(24 24 26 / 0.78);
+    box-shadow: 0 10px 40px -12px rgb(0 0 0 / 0.5), inset 0 1px 0 rgb(255 255 255 / 0.06);
+    -webkit-backdrop-filter: saturate(180%) blur(22px);
+    backdrop-filter: saturate(180%) blur(22px);
+  }
+
+  /* Where the browser cannot blur, keep the glass readable with a near-solid tint. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .site-header[data-scrolled] .bar { background: rgb(24 24 26 / 0.96); }
+    .menu { background: rgb(18 18 20 / 0.99); }
+  }
+
   .brand { display: flex; align-items: center; min-height: 44px; flex: none; color: var(--white); }
 
   .nav { margin-right: auto; }
-  .nav-list { display: flex; align-items: center; gap: 4px; }
+  .nav-list { display: flex; align-items: center; gap: 2px; }
   .nav-link {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    min-height: 44px;
-    padding: 0 14px;
-    border-radius: 999px;
+    min-height: 40px;
+    padding: 0 13px;
+    border-radius: 10px;
     font-size: 0.9375rem;
-    font-weight: 600;
-    color: #cfcfcf;
-    transition: color 0.2s var(--ease);
+    font-weight: 550;
+    color: rgb(255 255 255 / 0.72);
+    transition: color 0.2s var(--ease), background-color 0.2s var(--ease);
   }
-  .nav-link:hover, .nav-link[aria-expanded='true'], .nav-link[aria-current='page'] { color: var(--white); }
-  .nav-link :global(.caret) { transition: transform 0.25s var(--ease); }
+  .nav-link:hover, .nav-link[aria-expanded='true'] { color: var(--white); background: rgb(255 255 255 / 0.06); }
+  .nav-link[aria-current='page'] { color: var(--white); }
+  .nav-link :global(.caret) { opacity: 0.7; transition: transform 0.3s var(--ease); }
   .nav-link[aria-expanded='true'] :global(.caret) { transform: rotate(180deg); }
 
-  .has-menu { position: relative; }
-  .menu {
-    position: absolute;
-    top: calc(100% + 14px);
-    left: -20px;
-    width: 720px;
-    padding: 28px;
-    border: 1px solid #262626;
-    border-radius: var(--radius);
-    background: #0b0b0b;
-    box-shadow: 0 24px 60px rgb(0 0 0 / 0.5);
-    opacity: 0;
-    transform: translateY(-8px);
-    transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
-  }
-  .menu[data-shown] { opacity: 1; transform: none; }
-  .menu-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .menu-title {
-    margin-bottom: 10px;
-    padding-left: 12px;
-    font-size: 0.75rem;
-    font-weight: 750;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #8a8a8a;
-  }
-  .menu-title.gap { margin-top: 20px; }
-  .menu-list { display: grid; gap: 2px; }
-  .menu-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    min-height: 52px;
-    padding: 6px 12px;
-    border-radius: 12px;
-    transition: background-color 0.2s var(--ease);
-  }
-  .menu-item:hover { background: #171717; }
-  .menu-icon {
-    display: grid;
-    place-items: center;
-    flex: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    border: 1px solid #2a2a2a;
-    color: var(--teal-bright);
-  }
-  .menu-name { display: block; font-size: 0.9375rem; font-weight: 700; line-height: 1.3; color: var(--white); }
-  .menu-line { display: block; font-size: 0.8125rem; color: #9a9a9a; }
-  .menu-foot {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    padding: 16px 12px 0;
-    border-top: 1px solid #222;
-    font-weight: 700;
-  }
-  .menu-foot:hover { color: var(--teal-bright); }
-
-  .actions { display: flex; align-items: center; gap: 10px; }
+  .actions { display: flex; align-items: center; gap: 8px; }
   .icon-btn {
     display: inline-grid;
     place-items: center;
-    width: 46px;
-    height: 46px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    border: 1px solid #333;
-    color: var(--white);
-    transition: border-color 0.2s var(--ease);
+    transition: background-color 0.2s var(--ease);
   }
-  .icon-btn:hover { border-color: #777; }
-  .sheet-btn { display: none; }
-  .sheet-btn :global(.close-icon) { display: none; }
-  .sheet-btn[aria-expanded='true'] :global(.open-icon) { display: none; }
-  .sheet-btn[aria-expanded='true'] :global(.close-icon) { display: block; }
+  .icon-btn:hover { background: rgb(255 255 255 / 0.08); }
+  .demo {
+    display: inline-flex;
+    align-items: center;
+    height: 42px;
+    padding: 0 20px;
+    border-radius: 999px;
+    background: var(--teal);
+    color: var(--white);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    transition: background-color 0.2s var(--ease);
+  }
+  .demo:hover { background: var(--teal-hover); }
 
+  /* Two-line burger that folds into a cross. */
+  .sheet-btn { display: none; }
+  .burger { position: relative; display: block; width: 18px; height: 12px; }
+  .burger i { position: absolute; left: 0; width: 18px; height: 1.6px; border-radius: 2px; background: currentColor; transition: transform 0.35s var(--ease), top 0.35s var(--ease); }
+  .burger i:first-child { top: 2px; }
+  .burger i:last-child { top: 8.5px; }
+  .sheet-btn[aria-expanded='true'] .burger i:first-child { top: 5.2px; transform: rotate(45deg); }
+  .sheet-btn[aria-expanded='true'] .burger i:last-child { top: 5.2px; transform: rotate(-45deg); }
+
+  /* Products: plain columns of text, no boxes or icons. */
+  /* A separate floating card under the bar, with a small gap. */
+  .menu {
+    position: absolute;
+    left: var(--gutter);
+    right: var(--gutter);
+    top: calc(var(--bar) + 8px);
+    pointer-events: auto;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 26px;
+    background: rgb(18 18 20 / 0.95);
+    -webkit-backdrop-filter: saturate(180%) blur(22px);
+    backdrop-filter: saturate(180%) blur(22px);
+    box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.6);
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.22s var(--ease), transform 0.22s var(--ease);
+  }
+  .site-header[data-scrolled] .menu { top: calc(12px + 60px + 10px); }
+  .menu[data-shown] { opacity: 1; transform: none; }
+  .menu-inner {
+    display: grid;
+    grid-template-columns: 1.3fr 1.2fr 1fr;
+    gap: 40px;
+    padding: 32px 36px 36px;
+  }
+  .col-title {
+    margin-bottom: 14px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: rgb(255 255 255 / 0.5);
+  }
+  .big { display: grid; gap: 4px; }
+  .big a { display: flex; align-items: baseline; gap: 10px; padding: 5px 0; }
+  .m-name { font-size: 1.0625rem; font-weight: 650; letter-spacing: -0.01em; color: rgb(255 255 255 / 0.92); transition: color 0.2s var(--ease); }
+  .m-line { font-size: 0.875rem; color: rgb(255 255 255 / 0.45); }
+  .big a:hover .m-name { color: var(--teal-bright); }
+  .all { margin-top: 22px; color: var(--white); font-size: 0.9375rem; }
+
+  /* Phone menu */
   .sheet {
     position: fixed;
     inset: var(--bar) 0 0;
     overflow-y: auto;
     overscroll-behavior: contain;
     background: var(--black);
-    border-top: 1px solid #1f1f1f;
+    pointer-events: auto;
     opacity: 0;
-    transition: opacity 0.2s var(--ease);
+    transition: opacity 0.22s var(--ease);
   }
+  .site-header[data-scrolled] .sheet { inset: calc(60px + 12px + 8px) 0 0; }
   .sheet[data-shown] { opacity: 1; }
-  .sheet-inner { padding-top: 12px; padding-bottom: 40px; display: grid; gap: 12px; }
+  .sheet-inner { padding: 8px var(--gutter) 40px; display: grid; gap: 28px; }
   .sheet-links a {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     min-height: 64px;
-    border-bottom: 1px solid #1f1f1f;
-    font-size: 1.75rem;
-    font-weight: 800;
+    border-bottom: 1px solid #1c1c1e;
+    font-size: 1.625rem;
+    font-weight: 750;
     letter-spacing: -0.03em;
   }
-  .sheet .menu-title { padding: 18px 0 2px; }
-  .sheet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; }
-  .sheet-grid a { display: grid; padding: 8px 0; min-height: 52px; align-content: center; }
-  .sname { font-weight: 700; line-height: 1.3; }
-  .sline { font-size: 0.8125rem; color: #9a9a9a; }
-  .sheet-actions { display: grid; gap: 10px; margin-top: 20px; }
+  .sheet-links :global(svg) { opacity: 0.4; }
+  .sheet-actions { display: grid; gap: 10px; }
+  .sheet-demo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+    border-radius: 999px;
+    background: var(--teal);
+    font-weight: 700;
+  }
   .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .sheet .btn-line { border-color: #333; color: var(--white); }
-  .sheet :global(.wa) { color: #3ccf73; }
+  .pair a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 54px;
+    border-radius: 999px;
+    border: 1px solid #3a3a3c;
+    font-weight: 700;
+  }
 
   @media (max-width: 1080px) {
-    .nav { display: none; }
+    .nav, .menu { display: none; }
     .actions { margin-left: auto; }
     .sheet-btn { display: inline-grid; }
   }
@@ -341,6 +360,7 @@ const inProducts = ['/products/', '/apps/', '/services/'].some((p) => isCurrent(
   }
   @media (max-width: 560px) {
     .demo { display: none; }
+    .site-header[data-scrolled] .bar { padding: 0 6px 0 16px; }
   }
 </style>
 
@@ -348,12 +368,12 @@ const inProducts = ['/products/', '/apps/', '/services/'].some((p) => isCurrent(
   const header = document.querySelector<HTMLElement>('[data-header]')!;
   const root = document.documentElement;
 
-  // A solid bar once the page moves.
-  const onScroll = () => header.toggleAttribute('data-scrolled', window.scrollY > 8);
+  // Floating glass once the page moves.
+  const onScroll = () => header.toggleAttribute('data-scrolled', window.scrollY > 12);
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // Products menu: click or keyboard, plus hover where there is a mouse.
+  // Products menu: click, keyboard, and hover where there is a mouse.
   const menuRoot = document.querySelector<HTMLElement>('[data-menu-root]');
   const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-button]');
   const menu = document.querySelector<HTMLElement>('[data-menu]');
@@ -362,32 +382,35 @@ const inProducts = ['/products/', '/apps/', '/services/'].some((p) => isCurrent(
     if (!menu || !menuButton) return;
     window.clearTimeout(closeTimer);
     menuButton.setAttribute('aria-expanded', String(open));
+    header.toggleAttribute('data-open', open);
     if (open) {
       menu.hidden = false;
       void menu.offsetWidth;
       menu.setAttribute('data-shown', '');
     } else {
       menu.removeAttribute('data-shown');
-      closeTimer = window.setTimeout(() => (menu.hidden = true), 200);
+      closeTimer = window.setTimeout(() => (menu.hidden = true), 220);
     }
   };
   menuButton?.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
-  if (menuRoot && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  if (menuRoot && menu && matchMedia('(hover: hover) and (pointer: fine)').matches) {
     let hoverTimer = 0;
-    menuRoot.addEventListener('pointerenter', () => {
+    const enter = () => {
       window.clearTimeout(hoverTimer);
-      hoverTimer = window.setTimeout(() => setMenu(true), 80);
-    });
-    menuRoot.addEventListener('pointerleave', () => {
+      hoverTimer = window.setTimeout(() => setMenu(true), 90);
+    };
+    const leave = () => {
       window.clearTimeout(hoverTimer);
-      hoverTimer = window.setTimeout(() => setMenu(false), 180);
-    });
+      hoverTimer = window.setTimeout(() => setMenu(false), 200);
+    };
+    for (const el of [menuRoot, menu]) {
+      el.addEventListener('pointerenter', enter);
+      el.addEventListener('pointerleave', leave);
+    }
   }
   document.addEventListener('click', (e) => {
-    if (menuRoot && !menuRoot.contains(e.target as Node)) setMenu(false);
-  });
-  menuRoot?.addEventListener('focusout', (e) => {
-    if (!menuRoot.contains(e.relatedTarget as Node)) setMenu(false);
+    const t = e.target as Node;
+    if (menuRoot && menu && !menuRoot.contains(t) && !menu.contains(t)) setMenu(false);
   });
 
   // Phone menu.
@@ -405,7 +428,7 @@ const inProducts = ['/products/', '/apps/', '/services/'].some((p) => isCurrent(
       sheet.setAttribute('data-shown', '');
     } else {
       sheet.removeAttribute('data-shown');
-      window.setTimeout(() => (sheet.hidden = true), 200);
+      window.setTimeout(() => (sheet.hidden = true), 220);
     }
   };
   sheetButton?.addEventListener('click', () => setSheet(sheetButton.getAttribute('aria-expanded') !== 'true'));

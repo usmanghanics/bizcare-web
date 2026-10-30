@@ -10,6 +10,10 @@ tagline: Fertiliser orders from Chaudhary Trading Company's branches, in Urdu or
 headline: Fertiliser Orders From the Farm, in Urdu or English
 line: Built for Chaudhary Trading Company. Farmers see prices and branch stock, order for delivery or pickup, and book soil and water tests.
 platforms: [Android, iPhone, Web]
+# Live from launch (November 2026). Badges show as Coming Soon until status is live.
+links:
+  play: https://play.google.com/store/apps/details?id=com.bizcare.madadgar_kisan
+  appStore: https://apps.apple.com/app/id6825722989
 features:
   - icon: storefront
     title: Prices and Branch Stock
@@ -29,6 +33,7 @@ features:
   - icon: desktop
     title: Admin Website
     line: The company runs orders, stock and prices from its own website.
+appIcon: ../../assets/apps/madadgar-kisan/icon.png
 screens:
   - src: ../../assets/apps/madadgar-kisan/home.png
     alt: The Madadgar Kisan home screen with fertiliser types, featured products and lab tests

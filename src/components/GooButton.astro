@@ -1,0 +1,50 @@
+---
+import Icon from './Icon.astro';
+import type { IconName } from '../lib/icons';
+
+/**
+ * The main call to action, after AutoScale's Sign In button: on hover the
+ * pill draws back from the right and a separate round bubble pops out at its
+ * end with the icon in it, while the label slides left to make room. The
+ * button itself never moves. The #goo filter in the page layout lets the two
+ * shapes pull apart like liquid. A link with `href`, or a form button.
+ */
+interface Props {
+  href?: string;
+  size?: 'md' | 'sm';
+  /** Shown in the bubble. Name the action: a calendar for Book a Demo. */
+  icon?: IconName;
+  external?: boolean;
+  type?: 'submit' | 'button';
+  value?: string;
+  class?: string;
+  [key: `data-${string}`]: string | boolean | undefined;
+}
+const {
+  href,
+  size = 'md',
+  icon = 'caret-right',
+  external = false,
+  type = 'button',
+  value,
+  class: className,
+  ...rest
+} = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class:list={['goo', `goo-${size}`, className]}
+  href={href}
+  type={href ? undefined : type}
+  value={href ? undefined : value}
+  target={href && external ? '_blank' : undefined}
+  rel={href && external ? 'noopener' : undefined}
+  {...rest}>
+  <span class="goo-shape" aria-hidden="true">
+    <span class="goo-pill"></span>
+    <span class="goo-bubble"></span>
+  </span>
+  <span class="goo-label"><slot /></span>
+  <span class="goo-icon" aria-hidden="true"><Icon name={icon} size={size === 'sm' ? 16 : 18} /></span>
+</Tag>

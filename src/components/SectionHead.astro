@@ -1,5 +1,5 @@
 ---
-/** A small label with a teal dot, a large headline and one line under it. */
+/** A large headline and one line under it. `label` is kept for reference only and is not shown. */
 interface Props {
   label?: string;
   title: string;
@@ -9,12 +9,11 @@ interface Props {
   id?: string;
   size?: 'display' | 'h2';
 }
-const { label, title, line, center = false, level = 2, id, size = level === 1 ? 'display' : 'h2' } = Astro.props;
+const { title, line, center = false, level = 2, id, size = level === 1 ? 'display' : 'h2' } = Astro.props;
 const Heading = level === 1 ? 'h1' : 'h2';
 ---
 
 <div class:list={['head', 'reveal', { 'head-center': center }]}>
-  {label && <span class="eyebrow">{label}</span>}
   <Heading class={size} id={id} set:html={title} />
   {line && <p class="lede">{line}</p>}
   <slot />

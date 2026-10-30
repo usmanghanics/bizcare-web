@@ -4,7 +4,10 @@ import { getCollection, getEntries, type CollectionEntry } from 'astro:content';
 import { Picture } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import CtaBand from '../../components/CtaBand.astro';
+import BrandIcon from '../../components/BrandIcon.astro';
 import Faq from '../../components/Faq.astro';
+import FillButton from '../../components/FillButton.astro';
+import GooButton from '../../components/GooButton.astro';
 import Frame from '../../components/Frame.astro';
 import Icon from '../../components/Icon.astro';
 import Numbered from '../../components/Numbered.astro';
@@ -55,14 +58,13 @@ const schema = {
         <Icon name="caret-right" size={14} />
         <span aria-current="page">{p.name}</span>
       </nav>
-      <span class="eyebrow">{p.name} for {p.industry}</span>
       <h1 class="display">{p.headline}</h1>
       <p class="lede">{p.line}</p>
       <div class="btn-row">
-        <a class="btn btn-teal" href={u(`/contact/?product=${product.id}`)}>Book a Demo <Icon name="arrow-right" size={18} /></a>
-        <a class="btn btn-line" href={whatsappHref(`Hello BizCare, I would like to know more about ${p.name}.`)} target="_blank" rel="noopener">
-          <Icon name="whatsapp-logo" class="wa" /> Ask on WhatsApp
-        </a>
+        <FillButton href={whatsappHref(`Hello BizCare, I would like to know more about ${p.name}.`)} external>
+          <BrandIcon name="whatsapp" size={20} /> Ask on WhatsApp
+        </FillButton>
+        <GooButton href={u(`/contact/?product=${product.id}`)} icon="calendar-check">Book a Demo</GooButton>
       </div>
       {p.proof && <p class="proof small"><Icon name="seal-check" size={20} /> {p.proof}</p>}
     </div>
@@ -105,9 +107,9 @@ const schema = {
         }
       </div>
       <a class="wa-strip reveal" href={u('/services/whatsapp-cloud-api/')}>
-        <span class="wa-icon"><Icon name="whatsapp-logo" size={26} /></span>
+        <span class="wa-icon"><BrandIcon name="whatsapp" size={30} /></span>
         <span class="wa-text"><b>WhatsApp alerts built in.</b> Invoices, payment due notices, receipts and bank transfers reach your customers on WhatsApp.</span>
-        <Icon name="arrow-right" size={20} class="wa-go" />
+        <Icon name="caret-right" size={20} class="wa-go" />
       </a>
     </div>
   </section>
@@ -145,7 +147,7 @@ const schema = {
         <div class="wrap">
           <div class="head-row">
             <SectionHead id="mills-title" label="On BizCare" title="Mills That Joined Recently" line="Our team at each mill on the day it went live." />
-            <a class="btn btn-line reveal" href={u('/clients/')}>All {clients.length} Clients</a>
+            <FillButton href={u('/clients/')} class="reveal">All {clients.length} Clients</FillButton>
           </div>
           <ul class="mills head-gap">
             {faces.map((c) => (
@@ -167,7 +169,7 @@ const schema = {
     quotes.length > 0 && (
       <section class="section dark" aria-labelledby="tst-title">
         <div class="wrap">
-          <span class="eyebrow reveal" id="tst-title">What Clients Say</span>
+          <h2 class="h2 reveal" id="tst-title">What Clients Say</h2>
           <div class="tst-gap"><Testimonials quotes={quotes} /></div>
         </div>
       </section>
@@ -179,7 +181,7 @@ const schema = {
       <section class="section" aria-labelledby="apps-title">
         <div class="wrap">
           <SectionHead id="apps-title" label="Goes Further" title={`${p.name} on Your Customers’ Phones`} line="An app of your own can show customers the records your software keeps." />
-          <div class="head-gap">{apps.map((a) => <WorkCard app={a} wide />)}</div>
+          <div class="head-gap one-app">{apps.map((a) => <WorkCard app={a} />)}</div>
         </div>
       </section>
     )
@@ -219,7 +221,7 @@ const schema = {
   .ticks :global(svg) { flex: none; margin-top: 4px; color: var(--teal-bright); }
   .wa-strip { display: flex; align-items: center; gap: 18px; margin-top: 24px; padding: 22px 28px; border: 1px solid var(--d-line); border-radius: var(--radius); transition: border-color 0.2s var(--ease); }
   .wa-strip:hover { border-color: #444; }
-  .wa-icon { display: grid; place-items: center; flex: none; width: 48px; height: 48px; border-radius: 50%; background: #0f2a1a; color: #3ccf73; }
+  .wa-icon { display: grid; place-items: center; flex: none; }
   .wa-text { flex: 1; color: var(--d-ink-2); }
   .wa-text b { color: var(--white); }
   .wa-strip :global(.wa-go) { flex: none; }
@@ -239,6 +241,7 @@ const schema = {
   .mtown { font-size: 0.875rem; color: var(--ink-2); }
   .tst-gap { margin-top: 48px; }
 
+  .one-app { max-width: 420px; }
   .faq-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 64px; align-items: start; }
 
   @media (max-width: 960px) {

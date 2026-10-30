@@ -1,0 +1,43 @@
+---
+import { numbers } from '../data/site';
+
+/** Under the hero: four figures in one calm row, divided by hairlines. */
+const shown = numbers.slice(0, 4);
+---
+
+<ul class="trust" aria-label="BizCare in numbers">
+  {
+    shown.map((n) => (
+      <li>
+        <span class="v num">{n.value}</span>
+        <span class="l">{n.label}</span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .trust {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+  }
+  .trust li { display: grid; gap: 6px; padding: 30px 28px 34px; }
+  .trust li:first-child { padding-left: 0; }
+  .trust li + li { border-left: 1px solid rgb(255 255 255 / 0.1); }
+  .v {
+    font-size: clamp(1.875rem, 1.4rem + 1.4vw, 2.75rem);
+    font-weight: 750;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    color: var(--white);
+  }
+  .l { font-size: 0.9375rem; color: rgb(255 255 255 / 0.55); }
+  @media (max-width: 760px) {
+    .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .trust li { padding: 22px 16px 24px; }
+    .trust li:nth-child(odd) { padding-left: 0; }
+    .trust li:nth-child(3) { border-left: 0; }
+    .trust li:nth-child(n + 3) { border-top: 1px solid rgb(255 255 255 / 0.1); }
+  }
+</style>

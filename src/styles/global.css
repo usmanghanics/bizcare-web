@@ -197,66 +197,131 @@ button { cursor: pointer; }
 .dark .teal { color: var(--teal-bright); }
 .num { font-variant-numeric: tabular-nums lining-nums; }
 
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.8125rem;
-  font-weight: 750;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-}
-.eyebrow::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--teal);
-  flex: none;
-}
-.dark .eyebrow::before { background: var(--teal-bright); }
+/* No label chips above headings (the old dot + capitals "eyebrow"). */
+.eyebrow { display: none; }
 
-.link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  color: var(--ink);
-}
-.link svg { transition: transform 0.25s var(--ease); }
-.link:hover svg { transform: translateX(4px); }
-a.underline, .prose a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 
 /* ---------- Buttons ---------- */
 
-.btn {
+/* Main action (after AutoScale's Sign In): on hover the pill draws back from
+   the right and a separate bubble pops out with the icon, the label slides
+   left to make room, and the button itself stays put. */
+.goo {
+  --h: 54px;
+  --gap: 14px;
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  min-height: 52px;
-  padding: 0 26px;
-  border-radius: 999px;
-  border: 1px solid transparent;
+  height: var(--h);
+  min-width: 204px;
+  padding: 0 28px;
+  color: var(--white);
   font-size: 1rem;
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
-  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+  isolation: isolate;
 }
-.btn svg { flex: none; }
-.btn-teal { background: var(--teal); color: var(--white); }
-.btn-teal:hover { background: var(--teal-hover); }
-.btn-line { border-color: var(--line-strong); color: var(--ink); }
-.btn-line:hover { border-color: var(--ink); }
-.btn-white { background: var(--white); color: var(--black); }
-.btn-white:hover { background: #e8e8e8; }
-.btn-sm { min-height: 42px; padding: 0 18px; font-size: 0.9375rem; }
-.btn-icon { width: 46px; min-height: 46px; padding: 0; }
-.btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.goo-sm { --h: 42px; --gap: 10px; min-width: 160px; padding: 0 20px; font-size: 0.9375rem; }
+.goo-shape { position: absolute; inset: 0; z-index: -1; filter: url('#goo'); }
+.goo-pill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-radius: 999px;
+  background: var(--teal);
+  transition: width 0.45s var(--spring), background-color 0.2s var(--ease);
+}
+.goo-bubble {
+  position: absolute;
+  top: 0;
+  left: calc(100% - var(--h));
+  width: var(--h);
+  height: var(--h);
+  border-radius: 50%;
+  background: var(--teal);
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: transform 0.45s var(--spring), opacity 0.3s var(--ease), background-color 0.2s var(--ease);
+}
+.goo-label { transition: transform 0.45s var(--spring); }
+.goo-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: var(--h);
+  height: var(--h);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+.goo:hover .goo-pill, .goo:focus-visible .goo-pill { width: calc(100% - var(--h) - var(--gap)); background: var(--teal-hover); }
+.goo:hover .goo-bubble, .goo:focus-visible .goo-bubble { opacity: 1; transform: translateX(0); background: var(--teal-hover); }
+.goo:hover .goo-label, .goo:focus-visible .goo-label { transform: translateX(calc((var(--h) + var(--gap)) / -2)); }
+.goo:hover .goo-icon, .goo:focus-visible .goo-icon { opacity: 1; transition-delay: 0.15s; }
+.goo:active { transform: scale(0.985); }
+
+/* Second action: an outline pill that fills from the bottom. */
+.fill {
+  --h: 54px;
+  --fg: var(--ink);
+  --fill-on: var(--bg);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--h);
+  padding: 0 calc(var(--h) * 0.56);
+  overflow: hidden;
+  border: 1.5px solid var(--fg);
+  border-radius: 999px;
+  color: var(--fg);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  isolation: isolate;
+  transition: color 0.3s var(--ease), background-color 0s var(--ease);
+}
+.fill-sm { --h: 42px; font-size: 0.9375rem; }
+.fill::before, .fill::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: var(--fg);
+  transform: translate3d(0, 200%, 0);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fill::after { opacity: 0.22; }
+.fill:hover, .fill:focus-visible { color: var(--fill-on); background-color: var(--fg); transition: color 0.3s var(--ease), background-color 0.3s 0.2s var(--ease); }
+.fill:hover::after, .fill:focus-visible::after { transform: translate3d(0, 100%, 0); }
+.fill:hover::before, .fill:focus-visible::before { transform: translate3d(0, 100%, 0); transition-delay: 0.16s; }
+.fill:active { transform: scale(0.97); }
+.dark .fill { --fg: var(--white); --fill-on: var(--black); }
+
+.btn-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
 .wa { color: var(--whatsapp); }
-.dark .wa { color: #3ccf73; }
+
+/* Text links end in an iOS chevron that nudges on hover. */
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.link svg { transition: transform 0.25s var(--ease); }
+.link:hover svg, a:hover > .link svg { transform: translateX(3px); }
+a.underline, .prose a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 
 .sample-tag {
   display: inline-flex;

@@ -8,7 +8,7 @@ status: soon
 tagline: Jobs and hiring across Pakistan, with a match score on every application.
 headline: Find Work. Hire the Right Person.
 line: BizCare's own jobs app for Pakistan. Job seekers see how well they fit each job, and employers get applicants ranked by fit.
-platforms: [Android]
+platforms: [Android, iPhone]
 links:
   site: https://usmanghanics.github.io/BizCareers/
 features:
@@ -24,6 +24,7 @@ features:
   - icon: users
     title: One Account, Both Sides
     line: Look for work and hire from the same account by switching profiles.
+appIcon: ../../assets/apps/bizcareers/icon.png
 screens:
   - src: ../../assets/apps/bizcareers/seeker-home.png
     alt: The BizCareers home screen for a job seeker, with best matches and their match scores
